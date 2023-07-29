@@ -17,3 +17,4 @@ rootProject.name = "TutorsSchedule"
 include(":app")
 include(":core")
 include(":auth")
+include(":firebase")
