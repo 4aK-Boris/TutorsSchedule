@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TutorsSchedule</string>
+    <string name="web_client_id">99277636920-9jqg3jue6fqhtrl9nkap1lpdor1jm9n1.apps.googleusercontent.com</string>
+    <string name="avatar_content_description">Аватар пользователя</string>
+    <string name="main_image">Иконка приложения</string>
+    <string name="hello">Добро пожаловать!</string>
+    <string name="email">Почта</string>
+    <string name="password">Пароль</string>
+</resources>

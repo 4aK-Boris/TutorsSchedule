@@ -70,7 +70,7 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
 
     implementation(project(mapOf("path" to ":core")))
-    //implementation(project(mapOf("path" to ":firebase")))
+    implementation(project(mapOf("path" to ":firebase")))
 
     testImplementation(libs.junit)
 
