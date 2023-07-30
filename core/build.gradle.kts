@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "dmitriy.losev.core"
-    compileSdk = 34
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 24
@@ -55,8 +55,6 @@ dependencies {
 
     implementation(libs.koin.androidx.compose)
     implementation(libs.androidx.datastore.preferences)
-
-    implementation(project(":exception"))
 
     testImplementation(libs.junit)
 

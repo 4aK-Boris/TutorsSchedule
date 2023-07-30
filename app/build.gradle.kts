@@ -1,17 +1,17 @@
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.gms)
 }
 
 android {
     namespace = "dmitriy.losev.tutorsschedule"
-    compileSdk = 34
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "dmitriy.losev.tutorsschedule"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -31,17 +31,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "1.8"
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
+        kotlinCompilerExtensionVersion = "1.4.3"
     }
     packaging {
         resources {
@@ -55,43 +55,16 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-
+    implementation(platform(libs.compose.bom))
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
-
-    implementation(libs.play.services.auth)
-
-    implementation(libs.coil.compose)
-
-    implementation(libs.accompanist.swiperefresh)
-
-    implementation(libs.firebase.database.ktx)
-    implementation(libs.firebase.storage.ktx)
-    implementation(libs.firebase.auth.ktx)
-
-    implementation(libs.firebase.ui.auth)
-    implementation(libs.firebase.ui.database)
-
-    implementation(libs.koin.androidx.compose)
-    implementation(libs.koin.androidx.compose.navigation)
-
-    implementation(project(":auth"))
-    implementation(project(":core"))
-    implementation(project(":firebase"))
-    implementation(project(":network"))
-    implementation(project(":exception"))
-
     testImplementation(libs.junit)
-
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
-
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }

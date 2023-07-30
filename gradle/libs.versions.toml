@@ -8,20 +8,19 @@ firebase-auth-ktx = "22.1.0"
 firebase-database-ktx = "20.2.2"
 firebase-storage-ktx = "20.2.1"
 firebase-ui-auth = "8.0.2"
+kotlinxSerializationJson = "1.5.1"
 ksp = "1.8.21-1.0.11"
 kotlin = "1.8.21"
 lifecycleRuntimeCompose = "2.6.1"
 materialIconsExtended = "1.4.3"
 play-services-auth = "20.6.0"
-koin = "3.4.3"
+koin = "3.4.1"
 koinCompose = "3.4.5"
 gms = "4.3.15"
 datastore-preferences = "1.1.0-alpha04"
 navigation-common-ktx = "2.6.0"
 navigation-runtime-ktx = "2.6.0"
 compose-bom = "2023.06.01"
-org-jetbrains-kotlin-jvm = "1.8.21"
-ktor = "2.3.2"
 
 [libraries]
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimation" }
@@ -41,6 +40,7 @@ firebase-ui-database = { module = "com.firebaseui:firebase-ui-database", version
 junit = { group = "junit", name = "junit", version = "4.13.2" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version = "1.1.5" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version = "3.5.1" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.6.1" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.7.2" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "play-services-auth" }
@@ -57,25 +57,15 @@ androidx-room-runtime = { group = "androidx.room", name = "room-runtime", versio
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version = "2.5.2" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version = "2.5.2" }
 androidx-room-compiler-processing = { group = "androidx.room", name = "room-compiler-processing", version = "2.5.2" }
-koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinCompose" }
 koin-androidx-compose-navigation = { group = "io.insert-koin", name = "koin-androidx-compose-navigation", version.ref = "koinCompose" }
-koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
 koin-android-test = { group = "io.insert-koin", name = "koin-android-test", version.ref = "koin" }
 androidx-runner = { group = "androidx.test", name = "runner", version = "1.5.2" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore-preferences" }
 androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version.ref = "navigation-common-ktx" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigation-runtime-ktx" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
-ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
-ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
-ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
-ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = "1.7.1" }
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.5.1" }
-
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -84,7 +74,6 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 gms = { id = "com.google.gms.google-services", version.ref = "gms" }
-org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
 
 [bundles]
 

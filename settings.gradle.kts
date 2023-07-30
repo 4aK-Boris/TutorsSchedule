@@ -16,7 +16,3 @@ dependencyResolutionManagement {
 rootProject.name = "TutorsSchedule"
 include(":app")
 include(":core")
-include(":auth")
-include(":firebase")
-include(":network")
-include(":exception")
