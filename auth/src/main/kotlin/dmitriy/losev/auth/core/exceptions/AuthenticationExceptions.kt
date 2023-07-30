@@ -1,6 +1,6 @@
 package dmitriy.losev.auth.core.exceptions
 
-import dmitriy.losev.core.exception.BaseException
+import dmitriy.losev.exception.BaseException
 
 class EmptyPasswordException : BaseException(extraErrorCode = EMPTY_PASSWORD_EXCEPTION_CODE)
 

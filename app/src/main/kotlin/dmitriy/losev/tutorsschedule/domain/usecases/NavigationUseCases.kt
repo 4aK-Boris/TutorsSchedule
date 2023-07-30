@@ -3,7 +3,7 @@ package dmitriy.losev.tutorsschedule.domain.usecases
 import androidx.navigation.NavController
 import dmitriy.losev.core.core.result.Result
 import dmitriy.losev.core.core.switchOnMain
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import dmitriy.losev.tutorsschedule.core.AppBaseUseCase
 import dmitriy.losev.tutorsschedule.presentation.navigation.Screens
 

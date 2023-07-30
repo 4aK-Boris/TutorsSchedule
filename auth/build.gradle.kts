@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "dmitriy.losev.auth"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -69,8 +69,9 @@ dependencies {
     implementation(libs.firebase.storage.ktx)
     implementation(libs.firebase.auth.ktx)
 
-    implementation(project(mapOf("path" to ":core")))
-    implementation(project(mapOf("path" to ":firebase")))
+    implementation(project(":core"))
+    implementation(project(":firebase"))
+    implementation(project(":exception"))
 
     testImplementation(libs.junit)
 

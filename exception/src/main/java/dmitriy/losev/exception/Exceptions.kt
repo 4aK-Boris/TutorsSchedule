@@ -1,4 +1,4 @@
-package dmitriy.losev.core.exception
+package dmitriy.losev.exception
 
 class SafeCallFail : BaseException(extraErrorCode = SAFE_CALL_FAIL)
 

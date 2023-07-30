@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import dmitriy.losev.core.core.result.Result
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import dmitriy.losev.firebase.R
 import dmitriy.losev.firebase.core.FirebaseBaseUseCase
 import dmitriy.losev.firebase.core.exception.EmptyUserData

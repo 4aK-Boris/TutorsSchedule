@@ -8,7 +8,7 @@ import dmitriy.losev.auth.core.exceptions.FIREBASE_TOO_MANY_REQUESTS_EXCEPTION
 import dmitriy.losev.auth.core.exceptions.INVALID_EMAIL_EXCEPTION_CODE
 import dmitriy.losev.auth.domain.usecases.screens.EmailLoginScreenUseCases
 import dmitriy.losev.core.core.BaseViewModel
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

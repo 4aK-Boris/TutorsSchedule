@@ -8,7 +8,7 @@ import androidx.navigation.NavController
 import com.google.android.gms.auth.api.identity.SignInClient
 import dmitriy.losev.auth.core.AuthenticationBaseUseCase
 import dmitriy.losev.auth.domain.usecases.AuthenticationNavigationUseCases
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import dmitriy.losev.firebase.domain.usecases.FirebaseAuthUseCases
 
 class StartScreenUseCases(

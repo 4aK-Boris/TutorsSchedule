@@ -5,7 +5,7 @@ import dmitriy.losev.auth.core.exceptions.EMPTY_EMAIL_EXCEPTION_CODE
 import dmitriy.losev.auth.core.exceptions.INVALID_EMAIL_EXCEPTION_CODE
 import dmitriy.losev.auth.domain.usecases.screens.PasswordResetScreenUseCases
 import dmitriy.losev.core.core.BaseViewModel
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import dmitriy.losev.auth.domain.usecases.AuthenticationNavigationUseCases
 import dmitriy.losev.core.core.result.Result
 import dmitriy.losev.core.core.switchOnMain
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 
 class AuthenticationNavigationUseCasesImpl(
     errorHandler: ErrorHandler,

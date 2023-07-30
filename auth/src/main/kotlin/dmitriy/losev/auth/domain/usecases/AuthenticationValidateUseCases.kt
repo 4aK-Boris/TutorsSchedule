@@ -12,7 +12,7 @@ import dmitriy.losev.auth.core.exceptions.MaxLengthPasswordException
 import dmitriy.losev.auth.core.exceptions.MinLengthPasswordException
 import dmitriy.losev.auth.core.exceptions.UpperCaseLetterException
 import dmitriy.losev.auth.domain.repository.AuthenticationValidateRepository
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 
 class AuthenticationValidateUseCases(
     errorHandler: ErrorHandler,

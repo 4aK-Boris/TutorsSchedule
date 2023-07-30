@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import dmitriy.losev.core.core.BaseUseCase
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import dmitriy.losev.firebase.core.exception.FIREBASE_AUTH_INVALID_CREDENTIALS_EXCEPTION
 import dmitriy.losev.firebase.core.exception.FIREBASE_AUTH_INVALID_USER_EXCEPTION
 import dmitriy.losev.firebase.core.exception.FIREBASE_AUTH_USER_COLLISION_EXCEPTION_CODE

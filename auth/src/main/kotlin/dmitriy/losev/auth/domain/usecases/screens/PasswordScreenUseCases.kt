@@ -5,7 +5,7 @@ import com.google.firebase.auth.FirebaseUser
 import dmitriy.losev.auth.core.AuthenticationBaseUseCase
 import dmitriy.losev.auth.domain.usecases.AuthenticationNavigationUseCases
 import dmitriy.losev.auth.domain.usecases.AuthenticationValidateUseCases
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import dmitriy.losev.firebase.domain.models.UserDescription
 import dmitriy.losev.firebase.domain.usecases.FirebaseAuthUseCases
 

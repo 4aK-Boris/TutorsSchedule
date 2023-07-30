@@ -10,7 +10,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import dmitriy.losev.auth.core.exceptions.AnonymousAuthIsNotSuccess
 import dmitriy.losev.auth.core.exceptions.EmailAuthIsNotSuccess
 import dmitriy.losev.auth.core.exceptions.GoogleAuthIsNotSuccess
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import dmitriy.losev.firebase.domain.models.UserData
 import dmitriy.losev.tutorsschedule.R
 import dmitriy.losev.tutorsschedule.core.AppBaseUseCase

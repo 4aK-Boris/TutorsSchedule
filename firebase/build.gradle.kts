@@ -51,7 +51,8 @@ dependencies {
     implementation(libs.firebase.storage.ktx)
     implementation(libs.firebase.auth.ktx)
 
-    implementation(project(mapOf("path" to ":core")))
+    implementation(project(":core"))
+    implementation(project(":exception"))
 
     testImplementation(libs.junit)
 

@@ -11,7 +11,7 @@ import dmitriy.losev.auth.core.exceptions.FIREBASE_AUTH_USER_COLLISION_EXCEPTION
 import dmitriy.losev.auth.core.exceptions.FIREBASE_TOO_MANY_REQUESTS_EXCEPTION
 import dmitriy.losev.auth.core.exceptions.UNSUPPORTED_API_CALL_EXCEPTION
 import dmitriy.losev.core.core.BaseUseCase
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import kotlin.reflect.KClass
 
 abstract class AuthenticationBaseUseCase(errorHandler: ErrorHandler) :

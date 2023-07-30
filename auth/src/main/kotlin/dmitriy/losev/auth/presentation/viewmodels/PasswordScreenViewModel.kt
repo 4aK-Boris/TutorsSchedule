@@ -10,7 +10,7 @@ import dmitriy.losev.auth.core.exceptions.PASSWORD_LOWER_CASE_LETTER_EXCEPTION_C
 import dmitriy.losev.auth.core.exceptions.PASSWORD_UPPER_CASE_LETTER_EXCEPTION_CODE
 import dmitriy.losev.auth.domain.usecases.screens.PasswordScreenUseCases
 import dmitriy.losev.core.core.BaseViewModel
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import dmitriy.losev.firebase.domain.models.UserDescription
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

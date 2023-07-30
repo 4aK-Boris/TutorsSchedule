@@ -1,7 +1,7 @@
 package dmitriy.losev.core.core.result
 
-import dmitriy.losev.core.exception.RESULT_MAP_EXCEPTION_CODE
-import dmitriy.losev.core.exception.ResultMapException
+import dmitriy.losev.exception.RESULT_MAP_EXCEPTION_CODE
+import dmitriy.losev.exception.ResultMapException
 
 val resultMapException =
     Result.Error(throwable = ResultMapException(), extraErrorCode = RESULT_MAP_EXCEPTION_CODE)

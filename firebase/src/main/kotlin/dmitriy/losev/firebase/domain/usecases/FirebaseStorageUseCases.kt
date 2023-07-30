@@ -4,7 +4,7 @@ import android.app.Application
 import android.net.Uri
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import dmitriy.losev.firebase.core.FirebaseBaseUseCase
 import dmitriy.losev.firebase.core.exception.UploadAvatarException
 import kotlinx.coroutines.tasks.await

@@ -2,7 +2,7 @@ package dmitriy.losev.tutorsschedule.presentation.viewmodels
 
 import androidx.navigation.NavController
 import dmitriy.losev.core.core.BaseViewModel
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import dmitriy.losev.firebase.domain.models.UserData
 import dmitriy.losev.tutorsschedule.domain.usecases.FirebaseUseCases
 import dmitriy.losev.tutorsschedule.domain.usecases.NavigationUseCases

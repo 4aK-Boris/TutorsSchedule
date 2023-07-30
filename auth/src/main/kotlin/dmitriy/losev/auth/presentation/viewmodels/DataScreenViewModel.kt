@@ -8,7 +8,7 @@ import dmitriy.losev.auth.core.exceptions.MAX_LENGTH_FIRST_NAME_EXCEPTION_CODE
 import dmitriy.losev.auth.core.exceptions.MAX_LENGTH_LAST_NAME_EXCEPTION_CODE
 import dmitriy.losev.auth.domain.usecases.screens.DataScreenUseCases
 import dmitriy.losev.core.core.BaseViewModel
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import dmitriy.losev.firebase.domain.models.UserDescription
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

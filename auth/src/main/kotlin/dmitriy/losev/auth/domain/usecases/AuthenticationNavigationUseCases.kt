@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import dmitriy.losev.auth.core.AuthenticationBaseUseCase
 import dmitriy.losev.core.core.result.Result
 import dmitriy.losev.core.core.switchOnMain
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import dmitriy.losev.firebase.domain.models.UserDescription
 import ru.mpei.authentication.presentation.navigation.AuthenticationScreens
 

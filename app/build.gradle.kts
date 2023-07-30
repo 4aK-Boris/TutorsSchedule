@@ -80,9 +80,11 @@ dependencies {
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.androidx.compose.navigation)
 
-    implementation(project(mapOf("path" to ":auth")))
-    implementation(project(mapOf("path" to ":core")))
-    implementation(project(mapOf("path" to ":firebase")))
+    implementation(project(":auth"))
+    implementation(project(":core"))
+    implementation(project(":firebase"))
+    implementation(project(":network"))
+    implementation(project(":exception"))
 
     testImplementation(libs.junit)
 

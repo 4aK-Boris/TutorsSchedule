@@ -10,7 +10,7 @@ import dmitriy.losev.auth.core.exceptions.UNSUPPORTED_API_CALL_EXCEPTION
 import dmitriy.losev.auth.domain.usecases.screens.StartScreenUseCases
 import dmitriy.losev.core.core.BaseViewModel
 import dmitriy.losev.core.core.runOnBackground
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 
 class StartScreenViewModel(
     errorHandler: ErrorHandler,
