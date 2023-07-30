@@ -3,7 +3,7 @@ package dmitriy.losev.core.core
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dmitriy.losev.core.core.result.Result
-import dmitriy.losev.core.exception.ErrorHandler
+import dmitriy.losev.exception.ErrorHandler
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
