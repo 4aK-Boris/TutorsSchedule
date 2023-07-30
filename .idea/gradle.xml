@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/exception" />
             <option value="$PROJECT_DIR$/firebase" />
             <option value="$PROJECT_DIR$/network" />
+            <option value="$PROJECT_DIR$/yandex" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

@@ -2,8 +2,9 @@ package dmitriy.losev.tutorsschedule.core
 
 import dmitriy.losev.auth.core.authenticationModule
 import dmitriy.losev.core.core.di.coreModule
+import dmitriy.losev.exception.exceptionModule
 import dmitriy.losev.firebase.core.firebaseModule
-import dmitriy.losev.network.core.networkModule
+import dmitriy.losev.network.networkModule
 import dmitriy.losev.tutorsschedule.domain.di.useCaseModule
 import dmitriy.losev.tutorsschedule.presentation.di.viewModelModule
 import org.koin.dsl.module
@@ -17,6 +18,7 @@ val appModule = module {
         authenticationModule,
         firebaseModule,
         useCaseModule,
-        networkModule
+        networkModule,
+        exceptionModule
     )
 }

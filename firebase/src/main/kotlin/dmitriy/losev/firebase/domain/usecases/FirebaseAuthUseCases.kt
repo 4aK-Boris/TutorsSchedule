@@ -21,13 +21,15 @@ import dmitriy.losev.firebase.core.exception.EmptyUserData
 import dmitriy.losev.firebase.core.exception.GoogleAuthIsNotSuccess
 import dmitriy.losev.firebase.domain.models.UserData
 import dmitriy.losev.firebase.domain.models.UserDescription
+import dmitriy.losev.yandex.domain.usecases.YandexAuthenticationUseCases
 import kotlinx.coroutines.tasks.await
 
 class FirebaseAuthUseCases(
     errorHandler: ErrorHandler,
     private val application: Application,
     private val auth: FirebaseAuth,
-    private val firebaseStorageUseCases: FirebaseStorageUseCases
+    private val firebaseStorageUseCases: FirebaseStorageUseCases,
+    private val yandexAuthenticationUseCases: YandexAuthenticationUseCases
 ) : FirebaseBaseUseCase(errorHandler = errorHandler) {
 
     val user: FirebaseUser?
@@ -66,6 +68,14 @@ class FirebaseAuthUseCases(
 
     suspend fun authWithEmail(email: String, password: String): Result<Unit> = safeCall {
         auth.signInWithEmailAndPassword(email, password).await()
+    }
+
+    suspend fun authWithYandex(launcher: ManagedActivityResultLauncher<Intent, ActivityResult>) = safeReturnCall {
+        yandexAuthenticationUseCases.authWithYandex(launcher = launcher)
+    }
+
+    suspend fun authWithYandexIntent(resultCode: Int, intent: Intent?) = safeReturnCall {
+        yandexAuthenticationUseCases.authWithYandexIntent(resultCode = resultCode, intent = intent)
     }
 
     suspend fun registrationWithEmail(email: String, password: String) = safeCall {

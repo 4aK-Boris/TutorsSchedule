@@ -50,4 +50,12 @@ class StartScreenUseCases(
                 }
             }
     }
+
+    suspend fun authWithYandex(launcher: ManagedActivityResultLauncher<Intent, ActivityResult>) = safeReturnCall {
+       firebaseAuthUseCases.authWithYandex(launcher = launcher)
+    }
+
+    suspend fun authWithYandexIntent(resultCode: Int, intent: Intent?) = safeReturnCall {
+        firebaseAuthUseCases.authWithYandexIntent(resultCode = resultCode, intent = intent)
+    }
 }
