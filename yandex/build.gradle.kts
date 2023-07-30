@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "dmitriy.losev.firebase"
+    namespace = "dmitriy.losev.yandex"
     compileSdk = 34
 
     defaultConfig {
@@ -41,22 +41,17 @@ dependencies {
 
     implementation(libs.activity.compose)
 
-    implementation(libs.koin.core)
-
-    implementation(libs.play.services.auth)
-
     implementation(libs.kotlinx.serialization.json)
 
-    implementation(libs.firebase.database.ktx)
-    implementation(libs.firebase.storage.ktx)
-    implementation(libs.firebase.auth.ktx)
+    implementation(libs.koin.core)
+
+    implementation(libs.yandex.auth.sdk)
 
     implementation(project(":core"))
     implementation(project(":exception"))
-    implementation(project(":yandex"))
+    implementation(project(":network"))
 
     testImplementation(libs.junit)
 
     androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
 }
