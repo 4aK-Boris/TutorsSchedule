@@ -27,5 +27,6 @@ class YandexDataRepositoryImpl(
     }
 
     companion object {
+        private const val CLIENT_SECRET = "cfda7f7a1023416e946f554d1912e229"
     }
 }

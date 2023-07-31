@@ -11,6 +11,9 @@ import dmitriy.losev.auth.domain.usecases.AuthenticationNavigationUseCases
 import dmitriy.losev.core.core.result.Result
 import dmitriy.losev.exception.ErrorHandler
 import dmitriy.losev.firebase.domain.usecases.FirebaseAuthUseCases
+import okio.internal.commonAsUtf8ToByteArray
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 class StartScreenUseCases(
     errorHandler: ErrorHandler,
