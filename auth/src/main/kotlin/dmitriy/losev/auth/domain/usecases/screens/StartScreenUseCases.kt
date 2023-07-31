@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import com.google.android.gms.auth.api.identity.SignInClient
 import dmitriy.losev.auth.core.AuthenticationBaseUseCase
 import dmitriy.losev.auth.domain.usecases.AuthenticationNavigationUseCases
+import dmitriy.losev.core.core.result.Result
 import dmitriy.losev.exception.ErrorHandler
 import dmitriy.losev.firebase.domain.usecases.FirebaseAuthUseCases
 
@@ -55,7 +56,12 @@ class StartScreenUseCases(
        firebaseAuthUseCases.authWithYandex(launcher = launcher)
     }
 
-    suspend fun authWithYandexIntent(resultCode: Int, intent: Intent?) = safeReturnCall {
-        firebaseAuthUseCases.authWithYandexIntent(resultCode = resultCode, intent = intent)
+    suspend fun authWithYandexIntent(resultCode: Int, intent: Intent?, navController: NavController) = safeReturnCall {
+        firebaseAuthUseCases.authWithYandexIntent(resultCode = resultCode, intent = intent).processingResult { token ->
+            firebaseAuthUseCases.authWithToken(token = token).processingResult {
+                println(it.user)
+                Result.Success(data = "dwadwa")
+            }
+        }
     }
 }

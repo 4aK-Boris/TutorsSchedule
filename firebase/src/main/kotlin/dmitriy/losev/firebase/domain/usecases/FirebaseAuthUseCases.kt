@@ -22,14 +22,17 @@ import dmitriy.losev.firebase.core.exception.GoogleAuthIsNotSuccess
 import dmitriy.losev.firebase.domain.models.UserData
 import dmitriy.losev.firebase.domain.models.UserDescription
 import dmitriy.losev.yandex.domain.usecases.YandexAuthenticationUseCases
+import dmitriy.losev.yandex.domain.usecases.YandexDataUseCases
 import kotlinx.coroutines.tasks.await
+
 
 class FirebaseAuthUseCases(
     errorHandler: ErrorHandler,
     private val application: Application,
     private val auth: FirebaseAuth,
     private val firebaseStorageUseCases: FirebaseStorageUseCases,
-    private val yandexAuthenticationUseCases: YandexAuthenticationUseCases
+    private val yandexAuthenticationUseCases: YandexAuthenticationUseCases,
+    private val yandexDataUseCases: YandexDataUseCases
 ) : FirebaseBaseUseCase(errorHandler = errorHandler) {
 
     val user: FirebaseUser?
@@ -70,12 +73,26 @@ class FirebaseAuthUseCases(
         auth.signInWithEmailAndPassword(email, password).await()
     }
 
-    suspend fun authWithYandex(launcher: ManagedActivityResultLauncher<Intent, ActivityResult>) = safeReturnCall {
-        yandexAuthenticationUseCases.authWithYandex(launcher = launcher)
-    }
+    suspend fun authWithYandex(launcher: ManagedActivityResultLauncher<Intent, ActivityResult>) =
+        safeReturnCall {
+            yandexAuthenticationUseCases.authWithYandex(launcher = launcher)
+        }
 
     suspend fun authWithYandexIntent(resultCode: Int, intent: Intent?) = safeReturnCall {
         yandexAuthenticationUseCases.authWithYandexIntent(resultCode = resultCode, intent = intent)
+    }
+
+    suspend fun getYandexUserData(token: String) = safeReturnCall {
+        yandexDataUseCases.verifyToken(token = token).processingResult {
+            yandexDataUseCases.getUserData(token = token)
+        }
+    }
+
+    suspend fun authWithToken(token: String) = safeCall {
+        println(token)
+        val customToken = yandexDataUseCases.createToken()
+        val newToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2OTA3NjUyMDAsInN1YiI6ImRtaXRyaXlsb3Nldnh4eEBnbWFpbC5jb20iLCJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImV4cCI6MTY5MDc2NTkwMCwiaXNzIjoibG9naW4ueWFuZGV4LnJ1IiwidWlkIjoxNDU5NDYxMzQyfQ.s2YT4T8LQ5CjvSKTtH2a-twxGR9xFyd_zJ7hCS05n6Z0hKyYlFDsYdZRijQqSVF6vG8FYCyz8AIGeoQK20JIrq0K2YHxpx_MGNWoxwcRQUTYTVMPnlL3XNr4stCh2yFKaDxoPbwHBqwDowra3zsUHAj9tkmVK0oCNEtXLhZQil-pTMAdv08lwYSNJhRCGXMo5AQgTmvTWMok8Dk5fuadapsMmZEJ5CLrTPtENRDjafcqWAkiIvkOQiDoUVuNhx1KSlRw9ebS6ekJ1ePX_lnO1Cp8ddFLaW1bxAkW8RCnYafleP23FuVZOxqgW2Sm_oFMnVGOOinpHE6VHVwPHJnhIQ"
+        auth.signInWithCustomToken(customToken).await()
     }
 
     suspend fun registrationWithEmail(email: String, password: String) = safeCall {

@@ -7,7 +7,7 @@ import com.yandex.authsdk.YandexAuthLoginOptions
 import com.yandex.authsdk.YandexAuthSdk
 import dmitriy.losev.exception.ErrorHandler
 import dmitriy.losev.yandex.core.YandexBaseUseCase
-import dmitriy.losev.yandex.core.exception.YandexNullToken
+import dmitriy.losev.yandex.core.exception.YandexNullTokenException
 
 class YandexAuthenticationUseCases(
     errorHandler: ErrorHandler,
@@ -24,6 +24,6 @@ class YandexAuthenticationUseCases(
         val yandexAuthToken = yandexAuthSDK.extractToken(resultCode, intent)
         yandexAuthToken?.let {
             yandexAuthSDK.getJwt(it)
-        } ?: throw YandexNullToken()
+        } ?: throw YandexNullTokenException()
     }
 }

@@ -52,6 +52,8 @@ dependencies {
     implementation(project(":network"))
 
     testImplementation(libs.junit)
+    testImplementation(libs.koin.test)
+    testImplementation(libs.koin.junit4)
 
     androidTestImplementation(libs.androidx.test.ext.junit)
 }

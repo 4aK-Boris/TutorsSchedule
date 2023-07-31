@@ -1,3 +1,7 @@
 package dmitriy.losev.yandex.core.exception
 
-const val YANDEX_NULL_TOKEN = 20000
+const val YANDEX_NULL_TOKEN_EXCEPTION_CODE = 20000
+
+const val YANDEX_DECODE_TOKEN_EXCEPTION_CODE = 20001
+
+const val YANDEX_VERIFY_TOKEN_EXCEPTION_CODE = 20002
