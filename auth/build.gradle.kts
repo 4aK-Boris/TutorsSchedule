@@ -71,6 +71,7 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":firebase"))
+    implementation(project(":yandex"))
     implementation(project(":exception"))
 
     testImplementation(libs.junit)

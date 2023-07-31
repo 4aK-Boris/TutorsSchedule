@@ -1,6 +1,7 @@
 package dmitriy.losev.auth.presentation.viewmodels
 
 import android.app.Activity
+import android.content.Intent
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.IntentSenderRequest
@@ -33,6 +34,20 @@ class StartScreenViewModel(
                 ).processing()
             }
         }
+
+    fun authWithYandex(launcher: ManagedActivityResultLauncher<Intent, ActivityResult>) = processing {
+        startScreenUseCases.authWithYandex(launcher = launcher)
+    }
+
+    fun authWithYandexIntent(result: ActivityResult, navController: NavController) = runOnBackground {
+        if (result.resultCode == Activity.RESULT_OK) {
+            startScreenUseCases.authWithYandexIntent(
+                resultCode = result.resultCode,
+                intent = result.data,
+                navController = navController
+            ).processing()
+        }
+    }
 
     fun navigateToLoginScreen(navController: NavController) = processing {
         startScreenUseCases.navigateToLoginScreen(navController = navController)

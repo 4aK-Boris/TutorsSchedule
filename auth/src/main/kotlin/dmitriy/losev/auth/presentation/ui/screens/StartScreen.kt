@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,12 +40,21 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun StartScreen(navController: NavController, client: SignInClient, viewModel: StartScreenViewModel = koinViewModel()) {
 
-    val launcher = rememberLauncherForActivityResult(
+    val googleLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
         viewModel.authWithGoogleIntent(
             result = result,
             client = client,
+            navController = navController
+        )
+    }
+
+    val yandexLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        viewModel.authWithYandexIntent(
+            result = result,
             navController = navController
         )
     }
@@ -135,7 +145,14 @@ fun StartScreen(navController: NavController, client: SignInClient, viewModel: S
         Spacer(modifier = Modifier.height(height = 16.dp))
 
         AuthenticationGoogleButton(text = "Вход через Google") {
-            viewModel.authWithGoogle(client = client, launcher = launcher)
+            viewModel.authWithGoogle(client = client, launcher = googleLauncher)
+        }
+
+        Button(
+            onClick = { viewModel.authWithYandex(launcher = yandexLauncher) },
+            modifier = Modifier.padding(vertical = 32.dp)
+        ) {
+            Text(text = "Yandex")
         }
 
         Spacer(modifier = Modifier.height(height = 32.dp))
