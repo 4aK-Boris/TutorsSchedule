@@ -41,9 +41,11 @@ class StartScreenViewModel(
 
     fun authWithYandexIntent(result: ActivityResult, navController: NavController) = runOnBackground {
         if (result.resultCode == Activity.RESULT_OK) {
-            startScreenUseCases.authWithYandexIntent(resultCode = result.resultCode, intent = result.data).processing {
-                println(it)
-            }
+            startScreenUseCases.authWithYandexIntent(
+                resultCode = result.resultCode,
+                intent = result.data,
+                navController = navController
+            ).processing()
         }
     }
 

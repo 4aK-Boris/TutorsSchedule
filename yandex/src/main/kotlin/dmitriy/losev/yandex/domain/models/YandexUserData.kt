@@ -4,6 +4,5 @@ data class YandexUserData(
     val firstName: String,
     val lastName: String,
     val email: String,
-    val isAvatarEmpty: Boolean,
-    val avatarId: Int
+    val avatarId: Int?
 )

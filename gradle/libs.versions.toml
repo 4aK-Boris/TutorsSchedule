@@ -8,13 +8,14 @@ firebase-auth-ktx = "22.1.0"
 firebase-database-ktx = "20.2.2"
 firebase-storage-ktx = "20.2.1"
 firebase-ui-auth = "8.0.2"
+firebaseAdmin = "9.2.0"
 ksp = "1.8.21-1.0.11"
 kotlin = "1.8.21"
 lifecycleRuntimeCompose = "2.6.1"
 materialIconsExtended = "1.4.3"
 play-services-auth = "20.6.0"
 koin = "3.4.3"
-koinCompose = "3.4.5"
+koinCompose = "3.4.6"
 gms = "4.3.15"
 datastore-preferences = "1.1.0-alpha04"
 navigation-common-ktx = "2.6.0"
@@ -62,6 +63,7 @@ koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = 
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinCompose" }
 koin-androidx-compose-navigation = { group = "io.insert-koin", name = "koin-androidx-compose-navigation", version.ref = "koinCompose" }
 koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
+koin-junit4 = { group = "io.insert-koin", name = "koin-test-junit4", version.ref = "koin" }
 koin-android-test = { group = "io.insert-koin", name = "koin-android-test", version.ref = "koin" }
 androidx-runner = { group = "androidx.test", name = "runner", version = "1.5.2" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore-preferences" }
