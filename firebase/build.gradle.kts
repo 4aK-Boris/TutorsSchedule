@@ -54,6 +54,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":exception"))
     implementation(project(":yandex"))
+    implementation(project(":firebase:vk"))
 
     testImplementation(libs.junit)
 

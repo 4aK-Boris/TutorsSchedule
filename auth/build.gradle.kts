@@ -35,7 +35,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
 }
 
@@ -64,6 +64,9 @@ dependencies {
     implementation(libs.koin.androidx.compose.navigation)
 
     implementation(libs.play.services.auth)
+
+    implementation(libs.vk.auth.oauth)
+    implementation(libs.vk.auth.pub)
 
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.storage.ktx)
