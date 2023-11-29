@@ -5,6 +5,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import dmitriy.losev.firebase.domain.di.firebaseUseCaseModule
+import dmitriy.losev.vk.core.vkModule
+import dmitriy.losev.yandex.core.yandexModule
 import org.koin.dsl.module
 
 val firebaseModule = module {
@@ -21,5 +23,5 @@ val firebaseModule = module {
         get<FirebaseStorage>().reference
     }
 
-    includes(firebaseUseCaseModule)
+    includes(firebaseUseCaseModule, yandexModule, vkModule)
 }

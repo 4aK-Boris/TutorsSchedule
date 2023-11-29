@@ -1,5 +1,6 @@
 package dmitriy.losev.auth.presentation.ui.screens
 
+import android.view.ViewGroup
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -16,9 +17,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -27,8 +31,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.google.android.gms.auth.api.identity.SignInClient
+import com.vk.auth.api.models.AuthResult
+import com.vk.auth.main.VkClientAuthCallback
+import com.vk.auth.main.VkClientAuthLib
+import com.vk.auth.ui.fastloginbutton.VkFastLoginButton
 import dmitriy.losev.auth.R
 import dmitriy.losev.auth.presentation.ui.views.AuthenticationButton
 import dmitriy.losev.auth.presentation.ui.views.AuthenticationGoogleButton
@@ -36,10 +45,20 @@ import dmitriy.losev.auth.presentation.viewmodels.StartScreenViewModel
 import dmitriy.losev.core.theme.TutorsScheduleTheme
 import org.koin.androidx.compose.koinViewModel
 
-@Composable
-fun StartScreen(navController: NavController, client: SignInClient, viewModel: StartScreenViewModel = koinViewModel()) {
+private val vkAuthCallback = object : VkClientAuthCallback {
+    override fun onAuth(authResult: AuthResult) {
+        println("dwadwa")
+    }
+}
 
-    val launcher = rememberLauncherForActivityResult(
+@Composable
+fun StartScreen(
+    navController: NavController,
+    client: SignInClient,
+    viewModel: StartScreenViewModel = koinViewModel()
+) {
+
+    val googleLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
         viewModel.authWithGoogleIntent(
@@ -49,7 +68,26 @@ fun StartScreen(navController: NavController, client: SignInClient, viewModel: S
         )
     }
 
+    val yandexLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        viewModel.authWithYandexIntent(
+            result = result,
+            navController = navController
+        )
+    }
+
     val scrollState = rememberScrollState()
+
+    LaunchedEffect(key1 = Unit) {
+        VkClientAuthLib.addAuthCallback(vkAuthCallback)
+    }
+
+    DisposableEffect(key1 = Unit) {
+        onDispose {
+            VkClientAuthLib.removeAuthCallback(vkAuthCallback)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -135,8 +173,30 @@ fun StartScreen(navController: NavController, client: SignInClient, viewModel: S
         Spacer(modifier = Modifier.height(height = 16.dp))
 
         AuthenticationGoogleButton(text = "Вход через Google") {
-            viewModel.authWithGoogle(client = client, launcher = launcher)
+            viewModel.authWithGoogle(client = client, launcher = googleLauncher)
         }
+
+        Spacer(modifier = Modifier.height(height = 16.dp))
+
+        Button(
+            onClick = { viewModel.authWithYandex(launcher = yandexLauncher) },
+            modifier = Modifier.padding(vertical = 32.dp)
+        ) {
+            Text(text = "Yandex")
+        }
+
+        Spacer(modifier = Modifier.height(height = 16.dp))
+
+        AndroidView(
+            factory = { context ->
+                VkFastLoginButton(context).apply {
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                }
+            }
+        )
 
         Spacer(modifier = Modifier.height(height = 32.dp))
     }

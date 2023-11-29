@@ -41,7 +41,7 @@ dependencies {
 
     implementation(libs.activity.compose)
 
-    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.core)
 
     implementation(libs.play.services.auth)
 
@@ -53,6 +53,8 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":exception"))
+    implementation(project(":yandex"))
+    implementation(project(":firebase:vk"))
 
     testImplementation(libs.junit)
 

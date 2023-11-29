@@ -1,0 +1,2 @@
+package dmitriy.losev.vk
+
