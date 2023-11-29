@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -30,6 +31,12 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompiler.get()
+    }
 }
 
 dependencies {
@@ -37,16 +44,28 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
-
     implementation(libs.activity.compose)
 
-    implementation(libs.koin.core)
+    implementation(libs.ui)
+    implementation(libs.ui.graphics)
+    implementation(libs.ui.tooling.preview)
+    implementation(libs.material.material3)
+    implementation(libs.constraintlayout)
+
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.vk.auth.oauth)
     implementation(libs.vk.auth.pub)
 
-    testImplementation(libs.junit)
+    implementation(libs.firebase.auth.ktx)
 
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    implementation(libs.koin.androidx.compose)
+
+    implementation(project(":core"))
+    implementation(project(":exception"))
+    implementation(project(":network"))
+    implementation(project(":firebase"))
+
+    testImplementation(libs.junit.junit5)
 }
