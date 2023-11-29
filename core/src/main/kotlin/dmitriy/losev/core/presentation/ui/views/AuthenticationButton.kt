@@ -1,4 +1,4 @@
-package dmitriy.losev.auth.presentation.ui.views
+package dmitriy.losev.core.presentation.ui.views
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -19,38 +19,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import dmitriy.losev.auth.R
 import dmitriy.losev.core.theme.PurpleGrey40
 import dmitriy.losev.core.theme.TutorsScheduleTheme
 
 @Composable
-fun AuthenticationButton(text: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        modifier = modifier
-            .height(height = 48.dp)
-            .width(width = 256.dp)
-            .shadow(
-                elevation = TutorsScheduleTheme.elevation.buttonShadow,
-                ambientColor = TutorsScheduleTheme.colors.buttonShadow,
-                spotColor = TutorsScheduleTheme.colors.buttonShadow,
-                shape = TutorsScheduleTheme.shapes.button
-            ),
-        colors = ButtonDefaults.buttonColors(containerColor = TutorsScheduleTheme.colors.button),
-        shape = TutorsScheduleTheme.shapes.button
-    ) {
-        Text(
-            text = text,
-            style = TutorsScheduleTheme.typography.button,
-            color = TutorsScheduleTheme.colors.buttonText
-        )
-    }
-}
-
-@Composable
-fun AuthenticationGoogleButton(text: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun AuthenticationButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    painter: Painter,
+    onClick: () -> Unit
+) {
 
     Row(
         modifier = modifier
@@ -84,8 +64,8 @@ fun AuthenticationGoogleButton(text: String, modifier: Modifier = Modifier, onCl
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.google_icon),
-                    contentDescription = "Вход с помощью гугл",
+                    painter = painter,
+                    contentDescription = text,
                     modifier = Modifier.size(size = 36.dp),
                     tint = Color.Unspecified
                 )

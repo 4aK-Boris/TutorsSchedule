@@ -10,6 +10,7 @@ val LocalTutorsScheduleColors = staticCompositionLocalOf {
     TutorsScheduleColors(
         backgroundPrimary = Color.Unspecified,
         backgroundSecondary = Color.Unspecified,
+        topBar = Color.Unspecified,
         button = Color.Unspecified,
         detachedText = Color.Unspecified,
         buttonShadow = Color.Unspecified,
@@ -17,17 +18,27 @@ val LocalTutorsScheduleColors = staticCompositionLocalOf {
         hints = Color.Unspecified,
         textField = Color.Unspecified,
         textFiledText = Color.Unspecified,
-        textFieldPlaceholder = Color.Unspecified
+        textFieldPlaceholder = Color.Unspecified,
+        transparent = Color.Unspecified,
+        iconBorder = Color.Unspecified,
+        studentsListPrimary = Color.Unspecified,
+        studentsListSecondary = Color.Unspecified,
+        floatingButton = Color.Unspecified
     )
 }
 
 val LocalTutorsScheduleTypography = staticCompositionLocalOf {
     TutorsScheduleTypography(
         mainTitle = TextStyle.Default,
+        dialogTitle = TextStyle.Default,
+        dialogText = TextStyle.Default,
+        dialogButtonText = TextStyle.Default,
         button = TextStyle.Default,
         textFieldText = TextStyle.Default,
         textFieldPlaceholder = TextStyle.Default,
-        hints = TextStyle.Default
+        hints = TextStyle.Default,
+        studentsListPrimary = TextStyle.Default,
+        studentsListSecondary = TextStyle.Default
     )
 }
 
@@ -40,7 +51,9 @@ val LocalTutorsScheduleElevation = staticCompositionLocalOf {
 val LocalTutorsScheduleShapes = staticCompositionLocalOf {
     TutorsScheduleShapes(
         button = RectangleShape,
-        textField = RectangleShape
+        textField = RectangleShape,
+        studentsList = RectangleShape,
+        floatingButton = RectangleShape
     )
 }
 

@@ -20,6 +20,24 @@ val tutorsScheduleTypography = TutorsScheduleTypography(
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
+    dialogTitle = TextStyle(
+        fontFamily = tutorsScheduleFontFamily,
+        fontWeight = FontWeight.W600,
+        fontSize = 24.sp,
+        lineHeight = 24.sp
+    ),
+    dialogText = TextStyle(
+        fontFamily = tutorsScheduleFontFamily,
+        fontWeight = FontWeight.W300,
+        fontSize = 16.sp,
+        lineHeight = 24.sp
+    ),
+    dialogButtonText = TextStyle(
+        fontFamily = tutorsScheduleFontFamily,
+        fontWeight = FontWeight.W400,
+        fontSize = 18.sp,
+        lineHeight = 24.sp
+    ),
     button = TextStyle(
         fontFamily = tutorsScheduleFontFamily,
         fontWeight = FontWeight.Normal,
@@ -40,7 +58,19 @@ val tutorsScheduleTypography = TutorsScheduleTypography(
     ),
     hints = TextStyle(
         fontFamily = tutorsScheduleFontFamily,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.W300,
         fontSize = 14.sp,
+    ),
+    studentsListPrimary = TextStyle(
+        fontFamily = tutorsScheduleFontFamily,
+        fontWeight = FontWeight.W600,
+        fontSize = 18.sp,
+        lineHeight = 24.sp
+    ),
+    studentsListSecondary = TextStyle(
+        fontFamily = tutorsScheduleFontFamily,
+        fontWeight = FontWeight.W400,
+        fontSize = 16.sp,
+        lineHeight = 20.sp
     ),
 )
