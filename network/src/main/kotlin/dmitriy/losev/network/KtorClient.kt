@@ -2,7 +2,7 @@ package dmitriy.losev.network
 
 import dmitriy.losev.network.exception.BadRequest
 import dmitriy.losev.network.exception.InternalServerError
-import dmitriy.losev.network.exception.NoInternet
+import dmitriy.losev.network.exception.NoInternetException
 import dmitriy.losev.network.exception.NotFound
 import dmitriy.losev.network.exception.UnknownNetworkException
 import io.ktor.client.HttpClient
@@ -28,9 +28,9 @@ class KtorClient(private val client: HttpClient) {
         }
         response.body()
     } catch (ex: UnresolvedAddressException) {
-        throw NoInternet()
+        throw NoInternetException()
     } catch (e: UnknownNetworkException) {
-        throw NoInternet()
+        throw NoInternetException()
     }
 
     suspend fun postRequest(
@@ -92,10 +92,5 @@ class KtorClient(private val client: HttpClient) {
             HttpStatusCode.NotFound -> throw NotFound()
             else -> throw UnknownNetworkException()
         }
-    }
-
-    companion object {
-
-        fun authHeader(token: String) = mapOf("Authorization" to "OAuth $token")
     }
 }

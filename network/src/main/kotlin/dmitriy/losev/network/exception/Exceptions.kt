@@ -1,10 +1,10 @@
 package dmitriy.losev.network.exception
 
-class BadRequest : NetworkException(extraErrorCode = BAD_REQUEST)
+class BadRequest : NetworkException(extraErrorCode = BAD_REQUEST_EXCEPTION_CODE)
 
 class InternalServerError : NetworkException(extraErrorCode = INTERNAL_SERVER_ERROR)
 
-class NoInternet : NetworkException(extraErrorCode = NO_INTERNET)
+class NoInternetException : NetworkException(extraErrorCode = NO_INTERNET_EXCEPTION_CODE)
 
 class UnknownNetworkException : NetworkException(extraErrorCode = NETWORK_CALL_FAIL)
 
