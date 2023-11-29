@@ -6,4 +6,33 @@
     <string name="hello">Добро пожаловать!</string>
     <string name="email">Почта</string>
     <string name="password">Пароль</string>
+    <string name="google_login">Вход через Google</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="send_message">Отправить письмо</string>
+    <string name="first_name">Имя</string>
+    <string name="last_name">Фамилия</string>
+    <string name="resume">Продолжить</string>
+    <string name="log_in">Авторизоваться</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="registration">Регистрация</string>
+    <string name="entrance">Вход</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="repeat_enter_password">Введите повторно пароль</string>
+
+    <!-- Сообщения об ошибках -->
+    <string name="api_exception_message">Войдите хотя бы в один аккаунт Google на устройстве!</string>
+    <string name="google_auth_is_not_success_exception_message">Не удалось ваойти через Google!</string>
+    <string name="empty_email_exception_message">Введите почту!</string>
+    <string name="email_validation_exception_message">Введённое значение не является почтой!</string>
+    <string name="user_available_exception_message">Введённая почта уже используется!</string>
+    <string name="user_absence_exception_message">Пользователь не найдён!</string>
+    <string name="firebase_auth_invalid_user_exception_message">Пользователь не найден!</string>
+    <string name="firebase_auth_invalid_credentials_exception_message">Указан неверный пароль!</string>
+    <string name="firebase_too_many_requests_exception_message">Слишком много попыток авторизации, попробуйте позже!</string>
+    <string name="empty_password_exception_message">Пароль не даолжен быть пустым!</string>
+    <string name="min_length_password_exception_message">Минимальная длина пароля должна быть больше 7 символов!</string>
+    <string name="max_length_password_exception_message">Максимальная длина пароля не должна превышать 64 символа!</string>
+    <string name="password_lower_case_letter_exception_message">Пароль должен содержать хотя бы одну строчную букву!</string>
+    <string name="password_upper_case_letter_exception_message">Пароль должен содержать хотя бы одну заглавную букву!</string>
+    <string name="different_password_exception_message">Введённые пароли различаются!</string>
 </resources>

@@ -1,4 +1,4 @@
-package ru.mpei.authentication.presentation.navigation
+package dmitriy.losev.auth.presentation.navigation
 
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
@@ -16,45 +16,49 @@ sealed interface AuthenticationScreens {
     val arguments: List<NamedNavArgument>
         get() = emptyList()
 
-    object StartScreen: AuthenticationScreens {
+    data object StartScreen: AuthenticationScreens {
 
         override val name = "start_screen"
 
         override val route = name
     }
 
-    object LoginScreen: AuthenticationScreens {
+    data object LoginScreen: AuthenticationScreens {
 
         override val name = "login_screen"
 
         override val route = name
     }
 
-    object DataScreen: AuthenticationScreens {
+    data object DataScreen: AuthenticationScreens {
 
         override val name = "data_screen"
 
         override val route = name
     }
 
-    object PasswordResetScreen: AuthenticationScreens {
+    data object PasswordResetScreen: AuthenticationScreens {
 
         const val EMAIL = "email"
 
         override val name = "password_reset_screen"
 
-        override val route = "$name/{$EMAIL}"
+        override val route = "$name?$EMAIL={$EMAIL}"
 
         override val arguments = listOf(
-            navArgument(name = EMAIL) { type = NavType.StringType }
+            navArgument(name = EMAIL) {
+                nullable = true
+                type = NavType.StringType
+                defaultValue = ""
+            }
         )
 
-        fun createRoute(email: String): String {
-            return "$name/$email"
+        fun createRoute(email: String?): String {
+            return "$name?${EMAIL}=$email"
         }
     }
 
-    object PasswordScreen: AuthenticationScreens {
+    data object PasswordScreen: AuthenticationScreens {
 
         const val USER_DESCRIPTION = "user_description"
 

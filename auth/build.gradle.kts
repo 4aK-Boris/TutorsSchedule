@@ -35,7 +35,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompiler.get()
     }
 }
 
@@ -46,11 +46,12 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.material.icons)
 
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
-    implementation(libs.material3)
+    implementation(libs.material.material3)
 
     implementation(libs.accompanist.navigation.animation)
 
@@ -65,20 +66,16 @@ dependencies {
 
     implementation(libs.play.services.auth)
 
-    implementation(libs.vk.auth.oauth)
-    implementation(libs.vk.auth.pub)
-
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.storage.ktx)
     implementation(libs.firebase.auth.ktx)
 
     implementation(project(":core"))
     implementation(project(":firebase"))
-    implementation(project(":yandex"))
     implementation(project(":exception"))
+    implementation(project(":network"))
+    implementation(project(":auth:yandex"))
+    implementation(project(":auth:vk"))
 
-    testImplementation(libs.junit)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    testImplementation(libs.junit.junit5)
 }

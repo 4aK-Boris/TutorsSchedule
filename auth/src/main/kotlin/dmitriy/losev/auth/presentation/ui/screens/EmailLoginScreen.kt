@@ -1,34 +1,40 @@
 package dmitriy.losev.auth.presentation.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import dmitriy.losev.auth.R
-import dmitriy.losev.auth.presentation.ui.views.AuthenticationButton
-import dmitriy.losev.auth.presentation.ui.views.AuthenticationTextField
+import dmitriy.losev.auth.core.AuthenticationNavigationListener
 import dmitriy.losev.auth.presentation.viewmodels.EmailLoginScreenViewModel
+import dmitriy.losev.core.presentation.ui.tutorsScheduleBackground
+import dmitriy.losev.core.presentation.ui.views.DefaultButton
+import dmitriy.losev.core.presentation.ui.views.DefaultPasswordTextField
+import dmitriy.losev.core.presentation.ui.views.DefaultTextField
 import dmitriy.losev.core.theme.TutorsScheduleTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun EmailLoginScreen(navController: NavController, viewModel: EmailLoginScreenViewModel = koinViewModel()) {
+fun EmailLoginScreen(authenticationNavigationListener: AuthenticationNavigationListener, viewModel: EmailLoginScreenViewModel = koinViewModel()) {
 
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
@@ -39,18 +45,11 @@ fun EmailLoginScreen(navController: NavController, viewModel: EmailLoginScreenVi
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(state = scrollState)
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        TutorsScheduleTheme.colors.backgroundPrimary,
-                        TutorsScheduleTheme.colors.backgroundSecondary,
-                    )
-                )
-            ),
+            .tutorsScheduleBackground(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(height = 64.dp))
+        Spacer(modifier = Modifier.height(height = 32.dp))
 
         Image(
             painter = painterResource(id = R.drawable.main_image),
@@ -58,32 +57,42 @@ fun EmailLoginScreen(navController: NavController, viewModel: EmailLoginScreenVi
             modifier = Modifier.size(size = 256.dp)
         )
 
-        Spacer(modifier = Modifier.height(height = 64.dp))
+        Spacer(modifier = Modifier.height(height = 32.dp))
 
-        AuthenticationTextField(
+        DefaultTextField(
             text = email,
             onTextChanged = viewModel::onEmailChanged,
-            placeHolder = stringResource(id = R.string.email)
+            placeHolder = stringResource(id = R.string.email),
+            keyboardType = KeyboardType.Email
         )
 
         Spacer(modifier = Modifier.height(height = 24.dp))
 
-        AuthenticationTextField(
-            text = password,
-            onTextChanged = viewModel::onPasswordChanged,
-            placeHolder = stringResource(id = R.string.password)
-        )
+        Column(
+            modifier = Modifier.wrapContentWidth(align = Alignment.End),
+            horizontalAlignment = Alignment.End
+        ) {
 
-        Spacer(modifier = Modifier.height(height = 24.dp))
+            DefaultPasswordTextField(
+                password = password,
+                onPasswordChanged = viewModel::onPasswordChanged,
+                placeHolder = stringResource(id = R.string.password)
+            )
 
-        AuthenticationButton(text = "Забыли пароль?") {
-            viewModel.navigateToPasswordResetScreen(navController = navController)
+            Text(
+                text = stringResource(id = R.string.forgot_password),
+                style = TutorsScheduleTheme.typography.hints,
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .clickable { viewModel.navigateToPasswordResetScreen(authenticationNavigationListener) }
+            )
         }
 
         Spacer(modifier = Modifier.height(height = 24.dp))
 
-        AuthenticationButton(text = "Авторизоваться") {
-            viewModel.authWithEmail(navController = navController)
+        DefaultButton(text = stringResource(id = R.string.log_in)) {
+            viewModel.authWithEmail(authenticationNavigationListener)
         }
     }
 }
