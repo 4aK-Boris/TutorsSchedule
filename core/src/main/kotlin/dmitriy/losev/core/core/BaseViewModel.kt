@@ -10,12 +10,10 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel(private val errorHandler: ErrorHandler) : ViewModel() {
 
-    open val errorMap: Map<Int, String> = emptyMap()
-
-    open val errorMap2: Map<Int, Int> = emptyMap()
+    open val errorMap: Map<Int, Int> = emptyMap()
 
     init {
-        errorHandler.setErrorActionsMap(errorsMap = errorMap2)
+        errorHandler.setErrorActionsMap(errorsMap = errorMap)
     }
 
     val errorMessage: StateFlow<String> = errorHandler.errorMessage

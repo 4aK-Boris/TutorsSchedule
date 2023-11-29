@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">TutorsSchedule</string>
-    <string name="vk_client_secret" translatable="false">ka2l9HlGviKyzpxwGjvY</string>
-    <string name="vk_account_manager_id" translatable="false">dmitriy.losev.tutorsschedule.account.vk</string>
-    <string name="vk_external_oauth_redirect_url" translatable="false">vk51718394://vk.com</string>
+    <string name="vk_client_secret" translatable="false">68Xwz8ryuvOCbxdYkUBc</string>
+    <string name="vk_account_manager_id" translatable="false">dmitriy.losev.tutorsschedule.account</string>
+    <string name="vk_external_oauth_redirect_url" translatable="false">vk51736424://vk.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

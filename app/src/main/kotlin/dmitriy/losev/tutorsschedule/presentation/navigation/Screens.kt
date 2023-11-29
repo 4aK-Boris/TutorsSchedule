@@ -1,8 +1,6 @@
 package dmitriy.losev.tutorsschedule.presentation.navigation
 
 import androidx.navigation.NamedNavArgument
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
 
 sealed interface Screens {
 
@@ -13,61 +11,38 @@ sealed interface Screens {
     val arguments: List<NamedNavArgument>
         get() = emptyList()
 
-    object AuthenticationScreen: Screens {
+    data object AuthenticationScreen: Screens {
 
-        override val name = "authentication"
-
-        override val route = name
-    }
-
-    object EmptyScreen: Screens {
-
-        override val name = "empty"
+        override val name = "authentication_screen"
 
         override val route = name
     }
 
-    object FileScreen: Screens {
+    data object CalendarScreen: Screens {
 
-        const val PATH = "path"
+        override val name = "calendar_screen"
 
-        const val STORAGE = "storage"
-
-        override val name = "file"
-
-        override val route = "$name?$PATH={$PATH}/{$STORAGE}"
-
-        override val arguments = listOf(
-            navArgument(name = PATH) {
-                type = NavType.StringType
-                                     } ,
-            navArgument(name = STORAGE) { type = NavType.StringType }
-        )
-
-        fun createRoute(storage: String, path: String): String {
-            return "$name?$PATH=$path/$storage"
-        }
+        override val route = name
     }
 
-    object ChooseFileScreen: Screens {
+    data object StudentsScreen: Screens {
 
-        const val PATH = "path"
+        override val name = "students_screen"
 
-        const val STORAGE = "storage"
+        override val route = name
+    }
 
-        override val name = "chooseFile"
+    data object FinanceScreen: Screens {
 
-        override val route = "$name?$PATH={$PATH}/{$STORAGE}"
+        override val name = "finance_screen"
 
-        override val arguments = listOf(
-            navArgument(name = PATH) {
-                type = NavType.StringType
-            } ,
-            navArgument(name = STORAGE) { type = NavType.StringType }
-        )
+        override val route = name
+    }
 
-        fun createRoute(storage: String, path: String): String {
-            return "$name?$PATH=$path/$storage"
-        }
+    data object ProfileScreen: Screens {
+
+        override val name = "profile_screen"
+
+        override val route = name
     }
 }

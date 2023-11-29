@@ -46,7 +46,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
     packaging {
         resources {
@@ -63,11 +63,13 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.ui.viewbinding)
+    implementation(libs.material.icons)
 
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
-    implementation(libs.material3)
+    implementation(libs.material.material3)
 
     implementation(libs.vk.auth.oauth)
     implementation(libs.vk.auth.pub)
@@ -89,16 +91,19 @@ dependencies {
     implementation(libs.koin.androidx.compose.navigation)
 
     implementation(project(":auth"))
+    implementation(project(":profile"))
+    implementation(project(":students"))
     implementation(project(":core"))
     implementation(project(":firebase"))
     implementation(project(":network"))
     implementation(project(":exception"))
-    implementation(project(":firebase:vk"))
+    implementation(project(":datastore"))
 
-    testImplementation(libs.junit)
+    implementation(libs.appcompat)
+    implementation(libs.material)
 
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    testImplementation(libs.junit.junit5)
+
     androidTestImplementation(libs.ui.test.junit4)
 
     debugImplementation(libs.ui.tooling)

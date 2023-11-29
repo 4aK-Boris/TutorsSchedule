@@ -1,24 +1,24 @@
 package dmitriy.losev.tutorsschedule.domain.usecases
 
 import androidx.navigation.NavController
-import dmitriy.losev.core.core.result.Result
 import dmitriy.losev.core.core.switchOnMain
-import dmitriy.losev.exception.ErrorHandler
-import dmitriy.losev.tutorsschedule.core.AppBaseUseCase
 import dmitriy.losev.tutorsschedule.presentation.navigation.Screens
 
-class NavigationUseCases(
-    errorHandler: ErrorHandler
-): AppBaseUseCase(errorHandler = errorHandler) {
-    suspend fun navigateEmptyScreen(navController: NavController): Result<Unit> = safeCall {
-        switchOnMain {
-            navController.navigate(route = Screens.EmptyScreen.route)
-        }
+class NavigationUseCases {
+    suspend fun navigateProfileScreen(navController: NavController) = switchOnMain {
+        navController.navigate(route = Screens.ProfileScreen.route)
     }
 
-    suspend fun navigateToAuthenticationsScreen(navController: NavController): Result<Unit> = safeCall {
-        switchOnMain {
-            navController.navigate(route = Screens.AuthenticationScreen.route)
-        }
+    suspend fun navigateToAuthenticationsScreen(navController: NavController) = switchOnMain {
+        navController.navigate(route = Screens.AuthenticationScreen.route)
     }
+
+    suspend fun navigateToDestination(navController: NavController, route: String) = switchOnMain {
+        navController.navigate(route = route)
+    }
+
+    suspend fun clearAuthenticationScreen(navController: NavController) = switchOnMain {
+        navController.clearBackStack(Screens.AuthenticationScreen.route)
+    }
+
 }
