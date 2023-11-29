@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="avatar_content_description">Аватар пользователя</string>
+    <string name="default_display_name">Пользователь</string>
+    <string name="default_email">Почта не указана</string>
+    <string name="verified_email">Подтвердить почту</string>
+    <string name="enter">Вход</string>
+    <string name="exit">Выйти из аккаунта</string>
+    <string name="profile">Профиль</string>
+    <string name="profile_edit">Редактирование</string>
+    <string name="save_changes">Созранить изменения</string>
+    <string name="settings">Настройки</string>
+    <string name="edit_user_data">Редактировать данные пользователя</string>
+    <string name="confirm_changed">Подтвердить изменения</string>
+    <string name="first_name">Имя</string>
+    <string name="last_name">Фамилия</string>
+    <string name="email">Электронная почта</string>
+    <string name="email_is_not_verified">Почта не подтверждена</string>
+    <string name="close">Закрыть</string>
+    <string name="send_message">Отправить письмо</string>
+    <string name="email_confirm_dialog_title">Подтвердите почту</string>
+    <string name="resend">Отправить повторно через </string>
+    <string name="email_confirm_dialog_text">Для изменения почты необходимо подтвердить старую почту, после подтверждения почты необходимо заново авторизоваться в приложении</string>
+    <string name="confirm_toast_text">Для изменения почты необходимо подтвердить старую почту, после подтверждения почты необходимо заново авторизоваться в приложении, все остальные изменения применены</string>
+    <string name="change_password">Изменить пароль</string>
+    <string name="delete_account">Удалить аккаунт</string>
+    <string name="delete_account_dialog_title">Удалить аккаунт</string>
+    <string name="delete_account_dialog_text">Все данные пользователя будут безвозвратно удалены</string>
+    <string name="delete_account_confirm_button_text">Удалить</string>
+    <string name="delete_account_refuse_button_text">Отмена</string>
+    <string name="chenge_password_title">Изменение пароля</string>
+    <string name="go_back">Вернуться назад</string>
+    <string name="main_image">Иконка приложения</string>
+    <string name="new_passord">Новый пароль</string>
+    <string name="repeat_new_passord">Повтор новго пароля</string>
+    <string name="save_changes_dialog_title">Сохранить изменения?</string>
+    <string name="save">Сохранить</string>
+    <string name="no_save">Не сохранять</string>
+    <string name="menu">Меню</string>
+    <string name="first_name_and_last_name">Имя и фамилия</string>
+    
+    <!-- Сообщения об ошибках -->
+    <string name="firebase_auth_exception_message_in_chenge_password_screen">Для изменения пароля необходима недавняя авторизация!</string>
+    <string name="firebase_auth_exception_message_in_edit_profile_screen">Для удаления аккаунта необходимо недавняя авторизация!</string>
+    <string name="empty_password_exception_message">Пароль не даолжен быть пустым!</string>
+    <string name="min_length_password_exception_message">Минимальная длина пароля должна быть больше 7 символов!</string>
+    <string name="max_length_password_exception_message">Максимальная длина пароля не должна превышать 64 символа!</string>
+    <string name="password_lower_case_letter_exception_message">Пароль должен содержать хотя бы одну строчную букву!</string>
+    <string name="password_upper_case_letter_exception_message">Пароль должен содержать хотя бы одну заглавную букву!</string>
+    <string name="different_password_exception_message">Введённые пароли различаются!</string>
+    <string name="empty_email_exception_message">Введите почту!</string>
+    <string name="email_validation_exception_message">Введённое значение не является почтой!</string>
+    <string name="user_available_exception">Введённая почта уже используется!</string>
+</resources>
