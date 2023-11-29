@@ -53,11 +53,6 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":exception"))
-    implementation(project(":yandex"))
-    implementation(project(":firebase:vk"))
 
-    testImplementation(libs.junit)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    testImplementation(libs.junit.junit5)
 }
