@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="password_visibility">Видимость пароля</string>
+    <string name="error_dialog_icon">Ошибка</string>
+    <string name="error_dialog_title">Ошибка</string>
+    <string name="error_dialog_confirm_button">Ок</string>
+</resources>

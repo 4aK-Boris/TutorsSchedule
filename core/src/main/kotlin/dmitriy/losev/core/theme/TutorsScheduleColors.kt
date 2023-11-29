@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 data class TutorsScheduleColors(
     val backgroundPrimary: Color,
     val backgroundSecondary: Color,
+    val topBar: Color,
     val button: Color,
     val detachedText: Color,
     val buttonShadow: Color,
@@ -14,5 +15,10 @@ data class TutorsScheduleColors(
     val hints: Color,
     val textField: Color,
     val textFiledText: Color,
-    val textFieldPlaceholder: Color
+    val textFieldPlaceholder: Color,
+    val transparent: Color,
+    val iconBorder: Color,
+    val studentsListPrimary: Color,
+    val studentsListSecondary: Color,
+    val floatingButton: Color
 )

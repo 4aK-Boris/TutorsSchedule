@@ -3,7 +3,6 @@ package dmitriy.losev.core.core
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dmitriy.losev.core.core.result.Result
-import dmitriy.losev.exception.ErrorHandler
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
@@ -13,8 +12,10 @@ abstract class BaseViewModel(private val errorHandler: ErrorHandler) : ViewModel
 
     open val errorMap: Map<Int, String> = emptyMap()
 
+    open val errorMap2: Map<Int, Int> = emptyMap()
+
     init {
-        errorHandler.setErrorActionsMap(errorsMap = errorMap)
+        errorHandler.setErrorActionsMap(errorsMap = errorMap2)
     }
 
     val errorMessage: StateFlow<String> = errorHandler.errorMessage
@@ -34,6 +35,7 @@ abstract class BaseViewModel(private val errorHandler: ErrorHandler) : ViewModel
             call().let { result ->
                 when (result) {
                     is Result.Success -> onSuccess(result.data)
+                    is Result.NullableSuccess -> Result.nullableExceptionResult
                     is Result.Error -> {
                         onError()
                         if (result.extraErrorCode !in exceptionsCode && errorVisible) {
@@ -53,6 +55,24 @@ abstract class BaseViewModel(private val errorHandler: ErrorHandler) : ViewModel
     ) {
         when (this) {
             is Result.Success -> onSuccess(data)
+            is Result.NullableSuccess -> Result.nullableExceptionResult
+            is Result.Error -> {
+                onError()
+                if (this.extraErrorCode !in exceptionsCode && errorVisible) {
+                    errorHandler.handleError(errorId = this.extraErrorCode)
+                }
+            }
+        }
+    }
+
+    suspend fun <T> Result<T>.processingNullable(
+        errorVisible: Boolean = true,
+        exceptionsCode: List<Int> = emptyList(),
+        onError: suspend () -> Unit = { },
+        onSuccess: suspend (T?) -> Unit = { }
+    ) {
+        when (this) {
+            is Result.Success, is Result.NullableSuccess -> onSuccess(getNullableData())
             is Result.Error -> {
                 onError()
                 if (this.extraErrorCode !in exceptionsCode && errorVisible) {

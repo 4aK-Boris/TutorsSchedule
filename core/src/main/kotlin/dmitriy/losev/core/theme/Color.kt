@@ -36,3 +36,13 @@ val Red100 = Color(0xFFFD6885)
 
 val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)
+
+val TransparentLight = Color(0x00000000)
+val TransparentDark = Color(0x00FFFFFF)
+
+val Gold = Color(0xFFFFD700)
+
+val Silver = Color(0xFFC0C0C0)
+val Green = Color(0xFF009900)
+val Red = Color(0xFFFF0000)
+val Gray = Color(0xFF808080)

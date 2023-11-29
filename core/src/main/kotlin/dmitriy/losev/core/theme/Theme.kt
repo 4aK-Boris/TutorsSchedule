@@ -12,6 +12,7 @@ import androidx.core.view.WindowCompat
 private val darkColors = TutorsScheduleColors(
     backgroundPrimary = Blue100,
     backgroundSecondary = Red100,
+    topBar = Green300,
     button = White,
     detachedText = White,
     buttonShadow = Black,
@@ -19,12 +20,18 @@ private val darkColors = TutorsScheduleColors(
     hints = PurpleGrey40,
     textField = White,
     textFiledText = Black,
-    textFieldPlaceholder = PurpleGrey40
+    textFieldPlaceholder = PurpleGrey40,
+    transparent = TransparentDark,
+    iconBorder = Gold,
+    studentsListPrimary = White,
+    studentsListSecondary = Blue800,
+    floatingButton = Blue800
 )
 
 private val lightColors = TutorsScheduleColors(
     backgroundPrimary = Blue100,
     backgroundSecondary = Red100,
+    topBar = Green300,
     button = White,
     detachedText = White,
     buttonShadow = Black,
@@ -32,7 +39,12 @@ private val lightColors = TutorsScheduleColors(
     hints = PurpleGrey40,
     textField = White,
     textFiledText = Black,
-    textFieldPlaceholder = PurpleGrey40
+    textFieldPlaceholder = PurpleGrey40,
+    transparent = TransparentLight,
+    iconBorder = Gold,
+    studentsListPrimary = White,
+    studentsListSecondary = Blue800,
+    floatingButton = Blue800
 )
 
 @Composable
@@ -48,7 +60,7 @@ fun TutorsScheduleTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colors.backgroundPrimary.toArgb()
+            window.statusBarColor = colors.topBar.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
