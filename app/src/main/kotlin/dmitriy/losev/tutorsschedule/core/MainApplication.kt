@@ -15,5 +15,7 @@ class MainApplication: Application() {
             androidContext(this@MainApplication)
             modules(appModule)
         }
+
+        VkDevUtils.initSuperAppKit(context = this)
     }
 }

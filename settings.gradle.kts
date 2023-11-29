@@ -2,8 +2,8 @@ pluginManagement {
     repositories {
         google()
         mavenCentral()
-        mavenLocal()
         gradlePluginPortal()
+        maven(url = "https://artifactory-external.vkpartner.ru/artifactory/superappkit-maven-public/")
     }
 }
 dependencyResolutionManagement {
@@ -11,7 +11,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        mavenLocal()
+        maven(url = "https://artifactory-external.vkpartner.ru/artifactory/superappkit-maven-public/")
     }
 }
 
@@ -23,3 +23,4 @@ include(":firebase")
 include(":network")
 include(":exception")
 include(":yandex")
+include(":firebase:vk")

@@ -40,13 +40,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dmitriy.losev.auth.R
 import dmitriy.losev.auth.presentation.ui.views.AuthenticationTextField
 import dmitriy.losev.auth.presentation.viewmodels.DataScreenViewModel
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun DataScreen(navController: NavController, viewModel: DataScreenViewModel = koinViewModel()) {
 

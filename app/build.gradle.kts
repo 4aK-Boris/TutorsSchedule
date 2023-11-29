@@ -17,6 +17,9 @@ android {
 
         manifestPlaceholders["YANDEX_CLIENT_ID"] = "406950dcb4dc40bc861689311d404b48"
 
+        manifestPlaceholders["VkExternalAuthRedirectScheme"] = "vk" + "51718394"
+        manifestPlaceholders["VkExternalAuthRedirectHost"] = "vk.com"
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -43,7 +46,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
         resources {
@@ -66,6 +69,9 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
 
+    implementation(libs.vk.auth.oauth)
+    implementation(libs.vk.auth.pub)
+
     implementation(libs.play.services.auth)
 
     implementation(libs.coil.compose)
@@ -87,6 +93,7 @@ dependencies {
     implementation(project(":firebase"))
     implementation(project(":network"))
     implementation(project(":exception"))
+    implementation(project(":firebase:vk"))
 
     testImplementation(libs.junit)
 
