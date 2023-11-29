@@ -1,5 +1,6 @@
 package dmitriy.losev.network
 
+import dmitriy.losev.network.plugins.configureDefaultRequest
 import dmitriy.losev.network.plugins.configureJson
 import dmitriy.losev.network.plugins.configureLogging
 import dmitriy.losev.network.plugins.configureTimeout
@@ -14,6 +15,7 @@ val networkModule = module {
             configureJson()
             configureLogging()
             configureTimeout()
+            configureDefaultRequest()
         }
     }
 
