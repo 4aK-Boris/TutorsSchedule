@@ -1,21 +1,24 @@
 package dmitriy.losev.auth.presentation.viewmodels
 
 import android.net.Uri
-import androidx.navigation.NavController
+import dmitriy.losev.auth.core.AuthenticationNavigationListener
+import dmitriy.losev.auth.core.exceptions.EMAIL_VALIDATION_EXCEPTION_CODE
 import dmitriy.losev.auth.core.exceptions.EMPTY_EMAIL_EXCEPTION_CODE
-import dmitriy.losev.auth.core.exceptions.INVALID_EMAIL_EXCEPTION_CODE
-import dmitriy.losev.auth.core.exceptions.MAX_LENGTH_FIRST_NAME_EXCEPTION_CODE
-import dmitriy.losev.auth.core.exceptions.MAX_LENGTH_LAST_NAME_EXCEPTION_CODE
-import dmitriy.losev.auth.domain.usecases.screens.DataScreenUseCases
+import dmitriy.losev.auth.core.exceptions.USER_AVAILABLE_EXCEPTION_CODE
+import dmitriy.losev.auth.domain.usecases.AuthenticationEmailUseCase
+import dmitriy.losev.auth.domain.usecases.AuthenticationNavigationUseCases
 import dmitriy.losev.core.core.BaseViewModel
-import dmitriy.losev.exception.ErrorHandler
+import dmitriy.losev.core.core.ErrorHandler
+import dmitriy.losev.core.core.runOnBackground
 import dmitriy.losev.firebase.domain.models.UserDescription
+import dmitriy.losev.auth.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class DataScreenViewModel(
     errorHandler: ErrorHandler,
-    private val dataScreenUseCases: DataScreenUseCases
+    private val authenticationNavigationUseCases: AuthenticationNavigationUseCases,
+    private val authenticationEmailUseCase: AuthenticationEmailUseCase
 ) : BaseViewModel(errorHandler = errorHandler) {
 
 
@@ -45,24 +48,17 @@ class DataScreenViewModel(
         _lastName.value = lastName
     }
 
-    fun onNextButtonClick(navController: NavController) = processing {
-        val userDescription = UserDescription(
-            firstName = _firstName.value,
-            lastName = _lastName.value,
-            email = _email.value,
-            imageUri = _uri.value
-        )
-        dataScreenUseCases.navigateToPasswordScreen(
-            userDescription = userDescription,
-            navController = navController
-        )
+    fun onNextButtonClick(authenticationNavigationListener: AuthenticationNavigationListener) = runOnBackground {
+        val userDescription = UserDescription(firstName = _firstName.value, lastName = _lastName.value, email = _email.value, imageUri = _uri.value)
+        authenticationEmailUseCase.checkEmailValidationForRegistration(email = userDescription.email).processing {
+            authenticationNavigationUseCases.navigateToPasswordScreen(authenticationNavigationListener, userDescription).processing()
+        }
     }
 
-    override val errorMap: Map<Int, String>
+    override val errorMap: Map<Int, Int>
         get() = mapOf(
-            EMPTY_EMAIL_EXCEPTION_CODE to "Введите почту!",
-            INVALID_EMAIL_EXCEPTION_CODE to "Введённое значение не является почтой!",
-            MAX_LENGTH_FIRST_NAME_EXCEPTION_CODE to "Максимальная длина имени 30 символов!",
-            MAX_LENGTH_LAST_NAME_EXCEPTION_CODE to "Максимальная длина фамилии 30 символов!"
+            EMPTY_EMAIL_EXCEPTION_CODE to R.string.empty_email_exception_message,
+            EMAIL_VALIDATION_EXCEPTION_CODE to R.string.email_validation_exception_message,
+            USER_AVAILABLE_EXCEPTION_CODE to R.string.user_available_exception_message
         )
 }

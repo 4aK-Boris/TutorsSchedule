@@ -1,25 +1,31 @@
 package dmitriy.losev.auth.domain.di
 
-import dmitriy.losev.auth.domain.usecases.AuthenticationValidateUseCases
-import dmitriy.losev.auth.domain.usecases.screens.DataScreenUseCases
-import dmitriy.losev.auth.domain.usecases.screens.EmailLoginScreenUseCases
-import dmitriy.losev.auth.domain.usecases.screens.PasswordResetScreenUseCases
-import dmitriy.losev.auth.domain.usecases.screens.PasswordScreenUseCases
-import dmitriy.losev.auth.domain.usecases.screens.StartScreenUseCases
+import dmitriy.losev.auth.domain.usecases.AuthenticationEmailUseCase
+import dmitriy.losev.auth.domain.usecases.AuthenticationGoogleUseCase
+import dmitriy.losev.auth.domain.usecases.AuthenticationListenerUseCase
+import dmitriy.losev.auth.domain.usecases.AuthenticationNavigationUseCases
+import dmitriy.losev.auth.domain.usecases.AuthenticationPasswordResetUseCase
+import dmitriy.losev.auth.domain.usecases.AuthenticationPasswordUseCase
+import dmitriy.losev.auth.domain.usecases.AuthenticationRegistrationUseCase
+import dmitriy.losev.auth.domain.usecases.AuthenticationUpdateInformationUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 val authenticationUseCaseModule = module {
 
-    factoryOf(::AuthenticationValidateUseCases)
+    factoryOf(::AuthenticationEmailUseCase)
 
-    factoryOf(::DataScreenUseCases)
+    factoryOf(::AuthenticationGoogleUseCase)
 
-    factoryOf(::EmailLoginScreenUseCases)
+    factoryOf(::AuthenticationListenerUseCase)
 
-    factoryOf(::StartScreenUseCases)
+    factoryOf(::AuthenticationNavigationUseCases)
 
-    factoryOf(::PasswordScreenUseCases)
+    factoryOf(::AuthenticationPasswordResetUseCase)
 
-    factoryOf(::PasswordResetScreenUseCases)
+    factoryOf(::AuthenticationPasswordUseCase)
+
+    factoryOf(::AuthenticationRegistrationUseCase)
+
+    factoryOf(::AuthenticationUpdateInformationUseCase)
 }
