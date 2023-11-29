@@ -11,12 +11,16 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/auth" />
+            <option value="$PROJECT_DIR$/auth/vk" />
+            <option value="$PROJECT_DIR$/auth/yandex" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/datastore" />
             <option value="$PROJECT_DIR$/exception" />
             <option value="$PROJECT_DIR$/firebase" />
             <option value="$PROJECT_DIR$/firebase/vk" />
             <option value="$PROJECT_DIR$/network" />
-            <option value="$PROJECT_DIR$/yandex" />
+            <option value="$PROJECT_DIR$/profile" />
+            <option value="$PROJECT_DIR$/students" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

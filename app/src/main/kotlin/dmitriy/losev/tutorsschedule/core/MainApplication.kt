@@ -18,4 +18,5 @@ class MainApplication: Application() {
 
         VkDevUtils.initSuperAppKit(context = this)
     }
+
 }

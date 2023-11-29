@@ -30,7 +30,6 @@ class MainActivity : BaseActivity() {
         val client = Identity.getSignInClient(this)
 
         MainScreen(modifier = modifier, client = client)
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,5 +43,6 @@ class MainActivity : BaseActivity() {
 
         super.onDestroy()
     }
+
 }
 
