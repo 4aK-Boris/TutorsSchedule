@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">TutorsSchedule</string>
-    <string name="vk_client_secret">e5b36e77e5b36e77e5b36e772be6a6468dee5b3e5b36e7781747ad88b2ba1d9344f44bf</string>
-    <string name="vk_account_manager_id" translatable="false">dmitriy.losev.vk.account</string>
-</resources>

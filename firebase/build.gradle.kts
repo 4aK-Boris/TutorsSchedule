@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.junit.junit5)
 }
 
 android {
@@ -9,7 +10,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -18,12 +19,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -33,6 +32,7 @@ android {
     }
 }
 
+
 dependencies {
 
     implementation(libs.core.ktx)
@@ -41,7 +41,7 @@ dependencies {
 
     implementation(libs.activity.compose)
 
-    implementation(libs.koin.core)
+    implementation(libs.koin.android)
 
     implementation(libs.play.services.auth)
 
@@ -54,5 +54,18 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":exception"))
 
-    testImplementation(libs.junit.junit5)
+    testImplementation(libs.koin.junit5)
+
+    testImplementation(libs.mockk.android)
+    testImplementation(libs.mockk.agent)
+
+    testImplementation(libs.junit.junit5.api)
+    testImplementation(libs.junit.junit5.params)
+
+    androidTestImplementation(libs.koin.junit4)
+    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+
+    testRuntimeOnly(libs.junit.junit5.engine)
 }
