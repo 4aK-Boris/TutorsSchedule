@@ -11,14 +11,14 @@ abstract class BaseStudentLessonsUseCaseTest : BaseUseCaseTest() {
 
     private val reference by inject<DatabaseReference>()
 
-    private val studentLessonsReference by lazy { reference.child(STUDENTS).child(LESSONS) }
+    private val lessonsReference by lazy { reference.child(STUDENTS).child(STUDENT_ID).child(LESSONS) }
 
     protected suspend fun addLesson() {
         addLesson(id = LESSON_ID)
     }
 
     private suspend fun addLesson(id: String) {
-        studentLessonsReference.child(STUDENT_ID).child(id).setValue(true).await()
+        lessonsReference.child(id).setValue(true).await()
     }
 
     protected suspend fun addLessons(count: Int) {
@@ -28,7 +28,7 @@ abstract class BaseStudentLessonsUseCaseTest : BaseUseCaseTest() {
     }
 
     protected suspend fun deleteLessons() {
-        studentLessonsReference.child(STUDENT_ID).removeValue().await()
+        lessonsReference.removeValue().await()
     }
 
     protected suspend fun getLesson(): String? {
@@ -36,22 +36,22 @@ abstract class BaseStudentLessonsUseCaseTest : BaseUseCaseTest() {
     }
 
     private suspend fun getLesson(key: String): String? {
-        val hasLessonInStudent = studentLessonsReference.child(STUDENT_ID).child(key).get().await().getValue(Boolean::class.java)
+        val hasLessonInStudent = lessonsReference.child(key).get().await().getValue(Boolean::class.java)
         return if (hasLessonInStudent == true) {
-            studentLessonsReference.child(STUDENT_ID).child(key).key
+            lessonsReference.child(key).key
         } else {
             null
         }
     }
 
     protected suspend fun hasLesson(): Boolean {
-        return studentLessonsReference.child(STUDENT_ID).get().await().children.find { dataSnapshot ->
+        return lessonsReference.get().await().children.find { dataSnapshot ->
             dataSnapshot.key == LESSON_ID && dataSnapshot.getValue(Boolean::class.java) == true
         } != null
     }
 
     protected suspend fun hasLessons(): Boolean {
-        return studentLessonsReference.child(STUDENT_ID).get().await().children.toList().isNotEmpty()
+        return lessonsReference.get().await().children.toList().isNotEmpty()
     }
 
     companion object {

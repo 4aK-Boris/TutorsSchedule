@@ -20,7 +20,7 @@ class FirebaseLessonTasksRepositoryTest : BaseRepositoryTest() {
 
     private val reference by inject<DatabaseReference>()
 
-    private val lessonTasksReference by lazy { reference.child(LESSONS).child(TASKS) }
+    private val tasksReference by lazy { reference.child(LESSONS).child(LESSON_ID).child(TASKS) }
 
     private val firebaseLessonTasksRepository by inject<FirebaseLessonTasksRepository>()
 
@@ -98,7 +98,7 @@ class FirebaseLessonTasksRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun addTask(id: String) {
-        lessonTasksReference.child(LESSON_ID).child(id).setValue(true).await()
+        tasksReference.child(id).setValue(true).await()
     }
 
     private suspend fun addTasks(count: Int) {
@@ -108,7 +108,7 @@ class FirebaseLessonTasksRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun deleteTasks() {
-        lessonTasksReference.child(LESSON_ID).removeValue().await()
+        tasksReference.removeValue().await()
     }
 
     private suspend fun getTask(): String? {
@@ -116,22 +116,22 @@ class FirebaseLessonTasksRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun getTask(key: String): String? {
-        val hasTaskInLesson = lessonTasksReference.child(LESSON_ID).child(key).get().await().getValue(Boolean::class.java)
+        val hasTaskInLesson = tasksReference.child(key).get().await().getValue(Boolean::class.java)
         return if (hasTaskInLesson == true) {
-            lessonTasksReference.child(LESSON_ID).child(key).key
+            tasksReference.child(key).key
         } else {
             null
         }
     }
 
     private suspend fun hasTask(): Boolean {
-        return lessonTasksReference.child(LESSON_ID).get().await().children.find { dataSnapshot ->
+        return tasksReference.get().await().children.find { dataSnapshot ->
             dataSnapshot.key == TASK_ID && dataSnapshot.getValue(Boolean::class.java) == true
         } != null
     }
 
     private suspend fun hasTasks(): Boolean {
-        return lessonTasksReference.child(LESSON_ID).get().await().children.toList().isNotEmpty()
+        return tasksReference.get().await().children.toList().isNotEmpty()
     }
 
     companion object {

@@ -1,6 +1,7 @@
 package dmitriy.losev.firebase.domain.di
 
 import dmitriy.losev.firebase.domain.usecases.lessons.FirebaseAddLessonUseCase
+import dmitriy.losev.firebase.domain.usecases.lessons.FirebaseDeleteFullLessonUseCase
 import dmitriy.losev.firebase.domain.usecases.lessons.FirebaseDeleteLessonUseCase
 import dmitriy.losev.firebase.domain.usecases.lessons.FirebaseGetLessonUseCase
 import dmitriy.losev.firebase.domain.usecases.lessons.FirebaseGetLessonsUseCase
@@ -29,6 +30,8 @@ val firebaseLessonsUseCaseModule = module {
     factoryOf(::FirebaseGetLessonUseCase)
 
     factoryOf(::FirebaseUpdateLessonUseCase)
+
+    factoryOf(::FirebaseDeleteFullLessonUseCase)
     
     //tasks
 

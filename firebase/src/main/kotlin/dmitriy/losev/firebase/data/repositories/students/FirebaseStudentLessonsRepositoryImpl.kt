@@ -8,22 +8,28 @@ import kotlinx.coroutines.tasks.await
 
 class FirebaseStudentLessonsRepositoryImpl(reference: DatabaseReference): FirebaseStudentLessonsRepository {
 
-    private val studentsLessons by lazy { reference.child(STUDENTS).child(LESSONS) }
+    private val students by lazy { reference.child(STUDENTS) }
     override suspend fun getAllLessons(studentId: String): List<String> {
-        return studentsLessons.child(studentId).get().await().children
+        return students.child(studentId).child(LESSONS).get().await().children
+            .filter { dataSnapshot -> dataSnapshot.getValue(Boolean::class.java) == true }
+            .mapNotNull { dataSnapshot -> dataSnapshot.key }
+    }
+
+    override suspend fun getLimitLessons(studentId: String, count: Int): List<String> {
+        return students.child(studentId).child(LESSONS).limitToFirst(count).get().await().children
             .filter { dataSnapshot -> dataSnapshot.getValue(Boolean::class.java) == true }
             .mapNotNull { dataSnapshot -> dataSnapshot.key }
     }
 
     override suspend fun addLesson(studentId: String, lessonId: String) {
-        studentsLessons.child(studentId).child(lessonId).setValue(true)
+        students.child(studentId).child(LESSONS).child(lessonId).setValue(true)
     }
 
     override suspend fun removeLesson(studentId: String, lessonId: String) {
-        studentsLessons.child(studentId).child(lessonId).removeValue()
+        students.child(studentId).child(LESSONS).child(lessonId).removeValue()
     }
 
     override suspend fun removeAllLessons(studentId: String) {
-        studentsLessons.child(studentId).removeValue()
+        students.child(studentId).child(LESSONS).removeValue()
     }
 }

@@ -20,7 +20,7 @@ class FirebaseGroupStudentsRepositoryTest : BaseRepositoryTest() {
 
     private val reference by inject<DatabaseReference>()
 
-    private val groupStudentsReference by lazy { reference.child(GROUPS).child(STUDENTS) }
+    private val studentsReference by lazy { reference.child(GROUPS).child(GROUP_ID).child(STUDENTS) }
 
     private val firebaseGroupStudentsRepository by inject<FirebaseGroupStudentsRepository>()
 
@@ -98,7 +98,7 @@ class FirebaseGroupStudentsRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun addStudent(id: String) {
-        groupStudentsReference.child(GROUP_ID).child(id).setValue(true).await()
+        studentsReference.child(id).setValue(true).await()
     }
 
     private suspend fun addStudents(count: Int) {
@@ -108,7 +108,7 @@ class FirebaseGroupStudentsRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun deleteStudents() {
-        groupStudentsReference.child(GROUP_ID).removeValue().await()
+        studentsReference.removeValue().await()
     }
 
     private suspend fun getStudent(): String? {
@@ -116,22 +116,22 @@ class FirebaseGroupStudentsRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun getStudent(key: String): String? {
-        val hasStudentInGroup = groupStudentsReference.child(GROUP_ID).child(key).get().await().getValue(Boolean::class.java)
+        val hasStudentInGroup = studentsReference.child(key).get().await().getValue(Boolean::class.java)
         return if (hasStudentInGroup == true) {
-            groupStudentsReference.child(GROUP_ID).child(key).key
+            studentsReference.child(key).key
         } else {
             null
         }
     }
 
     private suspend fun hasStudent(): Boolean {
-        return groupStudentsReference.child(GROUP_ID).get().await().children.find { dataSnapshot ->
+        return studentsReference.get().await().children.find { dataSnapshot ->
             dataSnapshot.key == STUDENT_ID && dataSnapshot.getValue(Boolean::class.java) == true
         } != null
     }
 
     private suspend fun hasStudents(): Boolean {
-        return groupStudentsReference.child(GROUP_ID).get().await().children.toList().isNotEmpty()
+        return studentsReference.get().await().children.toList().isNotEmpty()
     }
 
     companion object {

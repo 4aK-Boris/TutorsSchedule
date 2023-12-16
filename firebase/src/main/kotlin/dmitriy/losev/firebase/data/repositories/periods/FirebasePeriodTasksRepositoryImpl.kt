@@ -8,23 +8,23 @@ import kotlinx.coroutines.tasks.await
 
 class FirebasePeriodTasksRepositoryImpl(reference: DatabaseReference): FirebasePeriodTasksRepository {
 
-    private val periodTasks by lazy { reference.child(PERIODS).child(TASKS) }
+    private val periods by lazy { reference.child(PERIODS) }
 
     override suspend fun getAllTasks(periodId: String): List<String> {
-        return periodTasks.child(periodId).get().await().children
+        return periods.child(periodId).child(TASKS).get().await().children
             .filter { dataSnapshot -> dataSnapshot.getValue(Boolean::class.java) == true }
             .mapNotNull { dataSnapshot -> dataSnapshot.key }
     }
 
     override suspend fun addTask(periodId: String, taskId: String) {
-        periodTasks.child(periodId).child(taskId).setValue(true)
+        periods.child(periodId).child(TASKS).child(taskId).setValue(true)
     }
 
     override suspend fun removeTask(periodId: String, taskId: String) {
-        periodTasks.child(periodId).child(taskId).removeValue()
+        periods.child(periodId).child(TASKS).child(taskId).removeValue()
     }
 
     override suspend fun removeAllTasks(periodId: String) {
-        periodTasks.child(periodId).removeValue()
+        periods.child(periodId).child(TASKS).removeValue()
     }
 }

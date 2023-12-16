@@ -20,7 +20,7 @@ class FirebaseGroupTasksRepositoryTest : BaseRepositoryTest() {
 
     private val reference by inject<DatabaseReference>()
 
-    private val groupTasksReference by lazy { reference.child(GROUPS).child(TASKS) }
+    private val groupsReference by lazy { reference.child(GROUPS).child(GROUP_ID).child(TASKS) }
 
     private val firebaseGroupTasksRepository by inject<FirebaseGroupTasksRepository>()
 
@@ -98,7 +98,7 @@ class FirebaseGroupTasksRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun addTask(id: String) {
-        groupTasksReference.child(GROUP_ID).child(id).setValue(true).await()
+        groupsReference.child(id).setValue(true).await()
     }
 
     private suspend fun addTasks(count: Int) {
@@ -108,7 +108,7 @@ class FirebaseGroupTasksRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun deleteTasks() {
-        groupTasksReference.child(GROUP_ID).removeValue().await()
+        groupsReference.removeValue().await()
     }
 
     private suspend fun getTask(): String? {
@@ -116,22 +116,22 @@ class FirebaseGroupTasksRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun getTask(key: String): String? {
-        val hasTaskInGroup = groupTasksReference.child(GROUP_ID).child(key).get().await().getValue(Boolean::class.java)
+        val hasTaskInGroup = groupsReference.child(key).get().await().getValue(Boolean::class.java)
         return if (hasTaskInGroup == true) {
-            groupTasksReference.child(GROUP_ID).child(key).key
+            groupsReference.child(key).key
         } else {
             null
         }
     }
 
     private suspend fun hasTask(): Boolean {
-        return groupTasksReference.child(GROUP_ID).get().await().children.find { dataSnapshot ->
+        return groupsReference.get().await().children.find { dataSnapshot ->
             dataSnapshot.key == TASK_ID && dataSnapshot.getValue(Boolean::class.java) == true
         } != null
     }
 
     private suspend fun hasTasks(): Boolean {
-        return groupTasksReference.child(GROUP_ID).get().await().children.toList().isNotEmpty()
+        return groupsReference.get().await().children.toList().isNotEmpty()
     }
 
     companion object {

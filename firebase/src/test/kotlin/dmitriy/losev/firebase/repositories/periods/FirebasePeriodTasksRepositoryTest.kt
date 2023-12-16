@@ -20,9 +20,10 @@ import kotlin.test.assertEquals
 
 class FirebasePeriodTasksRepositoryTest {
 
-    private val periodTasksReference = mockk<DatabaseReference>()
+    private val periodsReference = mockk<DatabaseReference>()
     private val periodReference = mockk<DatabaseReference>()
-    private val taskReference = mockk<DatabaseReference>(relaxed = true)
+    private val tasksReference = mockk<DatabaseReference>()
+    private val taskReference = mockk<DatabaseReference>()
     private val result = mockk<Void>()
     private val dataSnapshotResult = mockk<DataSnapshot>()
 
@@ -35,8 +36,10 @@ class FirebasePeriodTasksRepositoryTest {
 
     @BeforeEach
     fun setUp() {
-        every { reference.child(PERIODS).child(TASKS) } returns periodTasksReference
-        every { periodTasksReference.child(PERIOD_ID) } returns periodReference
+        every { reference.child(PERIODS) } returns periodsReference
+        every { periodsReference.child(PERIOD_ID) } returns periodReference
+        every { periodReference.child(TASKS) } returns tasksReference
+        every { tasksReference.child(TASK_ID) } returns taskReference
     }
 
     @AfterEach
@@ -49,7 +52,7 @@ class FirebasePeriodTasksRepositoryTest {
 
         val listSnapshots = listOf(dataSnapshotResult, dataSnapshotResult, dataSnapshotResult)
 
-        every { periodReference.get() } returns dataSnapshotTask
+        every { tasksReference.get() } returns dataSnapshotTask
         every { dataSnapshotResult.children } returns listSnapshots
         every { dataSnapshotResult.getValue(Boolean::class.java) } returns true
         every { dataSnapshotResult.key } returns TASK_ID
@@ -57,9 +60,10 @@ class FirebasePeriodTasksRepositoryTest {
         val actualResult = firebasePeriodTaskRepository.getAllTasks(PERIOD_ID)
 
         verifyOrder {
-            reference.child(PERIODS).child(TASKS)
-            periodTasksReference.child(PERIOD_ID)
-            periodReference.get()
+            reference.child(PERIODS)
+            periodsReference.child(PERIOD_ID)
+            periodReference.child(TASKS)
+            tasksReference.get()
             dataSnapshotResult.children
             dataSnapshotResult.getValue(Boolean::class.java)
             dataSnapshotResult.key
@@ -78,15 +82,15 @@ class FirebasePeriodTasksRepositoryTest {
     @Test
     fun testAddTask(): Unit = runBlocking {
 
-        every { periodReference.child(TASK_ID) } returns taskReference
         every { taskReference.setValue(true) } returns task
 
         firebasePeriodTaskRepository.addTask(PERIOD_ID, TASK_ID)
 
         verifySequence {
-            reference.child(PERIODS).child(TASKS)
-            periodTasksReference.child(PERIOD_ID)
-            periodReference.child(TASK_ID)
+            reference.child(PERIODS)
+            periodsReference.child(PERIOD_ID)
+            periodReference.child(TASKS)
+            tasksReference.child(TASK_ID)
             taskReference.setValue(true)
         }
     }
@@ -94,15 +98,15 @@ class FirebasePeriodTasksRepositoryTest {
     @Test
     fun testRemoveTask(): Unit = runBlocking {
 
-        every { periodReference.child(TASK_ID) } returns taskReference
         every { taskReference.removeValue() } returns task
 
         firebasePeriodTaskRepository.removeTask(PERIOD_ID, TASK_ID)
 
         verifySequence {
-            reference.child(PERIODS).child(TASKS)
-            periodTasksReference.child(PERIOD_ID)
-            periodReference.child(TASK_ID)
+            reference.child(PERIODS)
+            periodsReference.child(PERIOD_ID)
+            periodReference.child(TASKS)
+            tasksReference.child(TASK_ID)
             taskReference.removeValue()
         }
     }
@@ -110,14 +114,15 @@ class FirebasePeriodTasksRepositoryTest {
     @Test
     fun removeAllTasks(): Unit = runBlocking {
 
-        every { periodReference.removeValue() } returns task
+        every { tasksReference.removeValue() } returns task
 
         firebasePeriodTaskRepository.removeAllTasks(PERIOD_ID)
 
         verifySequence {
-            reference.child(PERIODS).child(TASKS)
-            periodTasksReference.child(PERIOD_ID)
-            periodReference.removeValue()
+            reference.child(PERIODS)
+            periodsReference.child(PERIOD_ID)
+            periodReference.child(TASKS)
+            tasksReference.removeValue()
         }
     }
 

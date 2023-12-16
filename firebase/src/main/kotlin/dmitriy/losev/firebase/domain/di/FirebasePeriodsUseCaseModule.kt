@@ -1,6 +1,7 @@
 package dmitriy.losev.firebase.domain.di
 
 import dmitriy.losev.firebase.domain.usecases.periods.FirebaseAddPeriodUseCase
+import dmitriy.losev.firebase.domain.usecases.periods.FirebaseDeleteFullPeriodUseCase
 import dmitriy.losev.firebase.domain.usecases.periods.FirebaseDeletePeriodUseCase
 import dmitriy.losev.firebase.domain.usecases.periods.FirebaseGetPeriodUseCase
 import dmitriy.losev.firebase.domain.usecases.periods.FirebaseUpdatePeriodUseCase
@@ -22,6 +23,8 @@ val firebasePeriodsUseCaseModule = module {
     factoryOf(::FirebaseGetPeriodUseCase)
 
     factoryOf(::FirebaseUpdatePeriodUseCase)
+
+    factoryOf(::FirebaseDeleteFullPeriodUseCase)
     
     //tasks
 

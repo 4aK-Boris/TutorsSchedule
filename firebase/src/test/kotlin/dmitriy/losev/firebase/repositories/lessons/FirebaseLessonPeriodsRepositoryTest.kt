@@ -20,9 +20,10 @@ import kotlin.test.assertEquals
 
 class FirebaseLessonPeriodsRepositoryTest {
 
-    private val lessonPeriodsReference = mockk<DatabaseReference>()
+    private val lessonsReference = mockk<DatabaseReference>()
     private val lessonReference = mockk<DatabaseReference>()
-    private val periodReference = mockk<DatabaseReference>(relaxed = true)
+    private val periodsReference = mockk<DatabaseReference>()
+    private val periodReference = mockk<DatabaseReference>()
     private val result = mockk<Void>()
     private val dataSnapshotResult = mockk<DataSnapshot>()
 
@@ -35,8 +36,10 @@ class FirebaseLessonPeriodsRepositoryTest {
 
     @BeforeEach
     fun setUp() {
-        every { reference.child(LESSONS).child(PERIODS) } returns lessonPeriodsReference
-        every { lessonPeriodsReference.child(LESSON_ID) } returns lessonReference
+        every { reference.child(LESSONS) } returns lessonsReference
+        every { lessonsReference.child(LESSON_ID) } returns lessonReference
+        every { lessonReference.child(PERIODS) } returns periodsReference
+        every { periodsReference.child(PERIOD_ID) } returns periodReference
     }
 
     @AfterEach
@@ -49,7 +52,7 @@ class FirebaseLessonPeriodsRepositoryTest {
 
         val listSnapshots = listOf(dataSnapshotResult, dataSnapshotResult, dataSnapshotResult)
 
-        every { lessonReference.get() } returns dataSnapshotPeriod
+        every { periodsReference.get() } returns dataSnapshotPeriod
         every { dataSnapshotResult.children } returns listSnapshots
         every { dataSnapshotResult.getValue(Boolean::class.java) } returns true
         every { dataSnapshotResult.key } returns PERIOD_ID
@@ -57,9 +60,10 @@ class FirebaseLessonPeriodsRepositoryTest {
         val actualResult = firebaseLessonPeriodRepository.getAllPeriods(LESSON_ID)
 
         verifyOrder {
-            reference.child(LESSONS).child(PERIODS)
-            lessonPeriodsReference.child(LESSON_ID)
-            lessonReference.get()
+            reference.child(LESSONS)
+            lessonsReference.child(LESSON_ID)
+            lessonReference.child(PERIODS)
+            periodsReference.get()
             dataSnapshotResult.children
             dataSnapshotResult.getValue(Boolean::class.java)
             dataSnapshotResult.key
@@ -78,15 +82,15 @@ class FirebaseLessonPeriodsRepositoryTest {
     @Test
     fun testAddPeriod(): Unit = runBlocking {
 
-        every { lessonReference.child(PERIOD_ID) } returns periodReference
         every { periodReference.setValue(true) } returns period
 
         firebaseLessonPeriodRepository.addPeriod(LESSON_ID, PERIOD_ID)
 
         verifySequence {
-            reference.child(LESSONS).child(PERIODS)
-            lessonPeriodsReference.child(LESSON_ID)
-            lessonReference.child(PERIOD_ID)
+            reference.child(LESSONS)
+            lessonsReference.child(LESSON_ID)
+            lessonReference.child(PERIODS)
+            periodsReference.child(PERIOD_ID)
             periodReference.setValue(true)
         }
     }
@@ -94,15 +98,15 @@ class FirebaseLessonPeriodsRepositoryTest {
     @Test
     fun testRemovePeriod(): Unit = runBlocking {
 
-        every { lessonReference.child(PERIOD_ID) } returns periodReference
         every { periodReference.removeValue() } returns period
 
         firebaseLessonPeriodRepository.removePeriod(LESSON_ID, PERIOD_ID)
 
         verifySequence {
-            reference.child(LESSONS).child(PERIODS)
-            lessonPeriodsReference.child(LESSON_ID)
-            lessonReference.child(PERIOD_ID)
+            reference.child(LESSONS)
+            lessonsReference.child(LESSON_ID)
+            lessonReference.child(PERIODS)
+            periodsReference.child(PERIOD_ID)
             periodReference.removeValue()
         }
     }
@@ -110,14 +114,15 @@ class FirebaseLessonPeriodsRepositoryTest {
     @Test
     fun removeAllPeriods(): Unit = runBlocking {
 
-        every { lessonReference.removeValue() } returns period
+        every { periodsReference.removeValue() } returns period
 
         firebaseLessonPeriodRepository.removeAllPeriods(LESSON_ID)
 
         verifySequence {
-            reference.child(LESSONS).child(PERIODS)
-            lessonPeriodsReference.child(LESSON_ID)
-            lessonReference.removeValue()
+            reference.child(LESSONS)
+            lessonsReference.child(LESSON_ID)
+            lessonReference.child(PERIODS)
+            periodsReference.removeValue()
         }
     }
 

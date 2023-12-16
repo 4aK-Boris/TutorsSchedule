@@ -11,14 +11,14 @@ abstract class BaseLessonPeriodsUseCaseTest : BaseUseCaseTest() {
 
     private val reference by inject<DatabaseReference>()
 
-    private val lessonPeriodsReference by lazy { reference.child(LESSONS).child(PERIODS) }
+    private val periodsReference by lazy { reference.child(LESSONS).child(LESSON_ID).child(PERIODS) }
 
     protected suspend fun addPeriod() {
         addPeriod(id = PERIOD_ID)
     }
 
     protected suspend fun addPeriod(id: String) {
-        lessonPeriodsReference.child(LESSON_ID).child(id).setValue(true).await()
+        periodsReference.child(id).setValue(true).await()
     }
 
     protected suspend fun addPeriods(count: Int) {
@@ -28,7 +28,7 @@ abstract class BaseLessonPeriodsUseCaseTest : BaseUseCaseTest() {
     }
 
     protected suspend fun deletePeriods() {
-        lessonPeriodsReference.child(LESSON_ID).removeValue().await()
+        periodsReference.removeValue().await()
     }
 
     protected suspend fun getPeriod(): String? {
@@ -36,22 +36,22 @@ abstract class BaseLessonPeriodsUseCaseTest : BaseUseCaseTest() {
     }
 
     protected suspend fun getPeriod(key: String): String? {
-        val hasPeriodInLesson = lessonPeriodsReference.child(LESSON_ID).child(key).get().await().getValue(Boolean::class.java)
+        val hasPeriodInLesson = periodsReference.child(key).get().await().getValue(Boolean::class.java)
         return if (hasPeriodInLesson == true) {
-            lessonPeriodsReference.child(LESSON_ID).child(key).key
+            periodsReference.child(key).key
         } else {
             null
         }
     }
 
     protected suspend fun hasPeriod(): Boolean {
-        return lessonPeriodsReference.child(LESSON_ID).get().await().children.find { dataSnapshot ->
+        return periodsReference.get().await().children.find { dataSnapshot ->
             dataSnapshot.key == PERIOD_ID && dataSnapshot.getValue(Boolean::class.java) == true
         } != null
     }
 
     protected suspend fun hasPeriods(): Boolean {
-        return lessonPeriodsReference.child(LESSON_ID).get().await().children.toList().isNotEmpty()
+        return periodsReference.get().await().children.toList().isNotEmpty()
     }
 
     companion object {

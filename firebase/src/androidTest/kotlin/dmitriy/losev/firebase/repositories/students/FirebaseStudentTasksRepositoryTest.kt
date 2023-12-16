@@ -20,7 +20,7 @@ class FirebaseStudentTasksRepositoryTest : BaseRepositoryTest() {
 
     private val reference by inject<DatabaseReference>()
 
-    private val studentTasksReference by lazy { reference.child(STUDENTS).child(TASKS) }
+    private val tasksReference by lazy { reference.child(STUDENTS).child(STUDENT_ID).child(TASKS) }
 
     private val firebaseStudentTasksRepository by inject<FirebaseStudentTasksRepository>()
 
@@ -42,6 +42,32 @@ class FirebaseStudentTasksRepositoryTest : BaseRepositoryTest() {
         actualResult.forEachIndexed { index, studentId ->
             assertEquals("${TASK_ID}-$index", studentId)
         }
+    }
+
+    @Test
+    fun testGetLimitTasksWithNotEnoughTasks(): Unit = runBlocking {
+
+        val count = 10
+        val countTasks = 5
+
+        addTasks(count = countTasks)
+
+        val actualResult = firebaseStudentTasksRepository.getLimitTasks(STUDENT_ID, count)
+
+        assertEquals(countTasks, actualResult.size)
+    }
+
+    @Test
+    fun testGetLimitTasksWithEnoughTasks(): Unit = runBlocking {
+
+        val count = 10
+        val countTasks = 20
+
+        addTasks(count = countTasks)
+
+        val actualResult = firebaseStudentTasksRepository.getLimitTasks(STUDENT_ID, count)
+
+        assertEquals(count, actualResult.size)
     }
 
     @Test
@@ -98,7 +124,7 @@ class FirebaseStudentTasksRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun addTask(id: String) {
-        studentTasksReference.child(STUDENT_ID).child(id).setValue(true).await()
+        tasksReference.child(id).setValue(true).await()
     }
 
     private suspend fun addTasks(count: Int) {
@@ -108,7 +134,7 @@ class FirebaseStudentTasksRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun deleteTasks() {
-        studentTasksReference.child(STUDENT_ID).removeValue().await()
+        tasksReference.removeValue().await()
     }
 
     private suspend fun getTask(): String? {
@@ -116,22 +142,22 @@ class FirebaseStudentTasksRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun getTask(key: String): String? {
-        val hasTask = studentTasksReference.child(STUDENT_ID).child(key).get().await().getValue(Boolean::class.java)
+        val hasTask = tasksReference.child(key).get().await().getValue(Boolean::class.java)
         return if (hasTask == true) {
-            studentTasksReference.child(STUDENT_ID).child(key).key
+            tasksReference.child(key).key
         } else {
             null
         }
     }
 
     private suspend fun hasTask(): Boolean {
-        return studentTasksReference.child(STUDENT_ID).get().await().children.find { dataSnapshot ->
+        return tasksReference.get().await().children.find { dataSnapshot ->
             dataSnapshot.key == TASK_ID && dataSnapshot.getValue(Boolean::class.java) == true
         } != null
     }
 
     private suspend fun hasTasks(): Boolean {
-        return studentTasksReference.child(STUDENT_ID).get().await().children.toList().isNotEmpty()
+        return tasksReference.get().await().children.toList().isNotEmpty()
     }
 
     companion object {

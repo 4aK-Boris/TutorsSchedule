@@ -20,7 +20,7 @@ class FirebaseStudentGroupsRepositoryTest : BaseRepositoryTest() {
 
     private val reference by inject<DatabaseReference>()
 
-    private val studentGroupsReference by lazy { reference.child(STUDENTS).child(GROUPS) }
+    private val groupsReference by lazy { reference.child(STUDENTS).child(STUDENT_ID).child(GROUPS) }
 
     private val firebaseStudentGroupsRepository by inject<FirebaseStudentGroupsRepository>()
 
@@ -42,6 +42,32 @@ class FirebaseStudentGroupsRepositoryTest : BaseRepositoryTest() {
         actualResult.forEachIndexed { index, studentId ->
             assertEquals("${GROUP_ID}-$index", studentId)
         }
+    }
+
+    @Test
+    fun testGetLimitGroupsWithNotEnoughGroups(): Unit = runBlocking {
+
+        val count = 10
+        val countGroups = 5
+
+        addGroups(count = countGroups)
+
+        val actualResult = firebaseStudentGroupsRepository.getLimitGroups(STUDENT_ID, count)
+
+        assertEquals(countGroups, actualResult.size)
+    }
+
+    @Test
+    fun testGetLimitGroupsWithEnoughGroups(): Unit = runBlocking {
+
+        val count = 10
+        val countGroups = 20
+
+        addGroups(count = countGroups)
+
+        val actualResult = firebaseStudentGroupsRepository.getLimitGroups(STUDENT_ID, count)
+
+        assertEquals(count, actualResult.size)
     }
 
     @Test
@@ -98,7 +124,7 @@ class FirebaseStudentGroupsRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun addGroup(id: String) {
-        studentGroupsReference.child(STUDENT_ID).child(id).setValue(true).await()
+        groupsReference.child(id).setValue(true).await()
     }
 
     private suspend fun addGroups(count: Int) {
@@ -108,7 +134,7 @@ class FirebaseStudentGroupsRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun deleteGroups() {
-        studentGroupsReference.child(STUDENT_ID).removeValue().await()
+        groupsReference.removeValue().await()
     }
 
     private suspend fun getGroup(): String? {
@@ -116,27 +142,27 @@ class FirebaseStudentGroupsRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun getGroup(key: String): String? {
-        val hasGroup = studentGroupsReference.child(STUDENT_ID).child(key).get().await().getValue(Boolean::class.java)
+        val hasGroup = groupsReference.child(key).get().await().getValue(Boolean::class.java)
         return if (hasGroup == true) {
-            studentGroupsReference.child(STUDENT_ID).child(key).key
+            groupsReference.child(key).key
         } else {
             null
         }
     }
 
     private suspend fun hasGroup(): Boolean {
-        return studentGroupsReference.child(STUDENT_ID).get().await().children.find { dataSnapshot ->
+        return groupsReference.get().await().children.find { dataSnapshot ->
             dataSnapshot.key == GROUP_ID && dataSnapshot.getValue(Boolean::class.java) == true
         } != null
     }
 
     private suspend fun hasGroups(): Boolean {
-        return studentGroupsReference.child(STUDENT_ID).get().await().children.toList().isNotEmpty()
+        return groupsReference.get().await().children.toList().isNotEmpty()
     }
 
     companion object {
 
-        private const val STUDENT_ID = "d9c4983m24382c7432m748320-432"
+        private const val STUDENT_ID = "24n724097832489703208473892074"
         private const val GROUP_ID = "4324324324324234v8324324324v32"
     }
 }

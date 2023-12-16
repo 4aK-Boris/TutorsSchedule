@@ -8,6 +8,8 @@ data class Task(
     val id: String?,
     val lessonId: String,
     val periodId: String,
+    val studentOrGroupId: String,
+    val subjectId: String,
     val dateTime: ZonedDateTime,
     val status: LessonStatus,
     val paidStatus: PaidStatus

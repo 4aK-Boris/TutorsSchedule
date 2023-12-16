@@ -4,6 +4,8 @@ interface FirebaseStudentTasksRepository {
 
     suspend fun getAllTasks(studentId: String): List<String>
 
+    suspend fun getLimitTasks(studentId: String, count: Int): List<String>
+
     suspend fun addTask(studentId: String, taskId: String)
 
     suspend fun removeTask(studentId: String, taskId: String)

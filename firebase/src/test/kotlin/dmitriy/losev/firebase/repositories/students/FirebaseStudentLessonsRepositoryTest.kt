@@ -20,9 +20,10 @@ import kotlin.test.assertEquals
 
 class FirebaseStudentLessonsRepositoryTest {
 
-    private val studentLessonsReference = mockk<DatabaseReference>()
+    private val studentsReference = mockk<DatabaseReference>()
     private val studentReference = mockk<DatabaseReference>()
-    private val lessonReference = mockk<DatabaseReference>(relaxed = true)
+    private val lessonsReference = mockk<DatabaseReference>()
+    private val lessonReference = mockk<DatabaseReference>()
     private val result = mockk<Void>()
     private val dataSnapshotResult = mockk<DataSnapshot>()
 
@@ -35,8 +36,10 @@ class FirebaseStudentLessonsRepositoryTest {
 
     @BeforeEach
     fun setUp() {
-        every { reference.child(STUDENTS).child(LESSONS) } returns studentLessonsReference
-        every { studentLessonsReference.child(STUDENT_ID) } returns studentReference
+        every { reference.child(STUDENTS) } returns studentsReference
+        every { studentsReference.child(STUDENT_ID) } returns studentReference
+        every { studentReference.child(LESSONS) } returns lessonsReference
+        every { lessonsReference.child(LESSON_ID) } returns lessonReference
     }
 
     @AfterEach
@@ -49,7 +52,7 @@ class FirebaseStudentLessonsRepositoryTest {
 
         val listSnapshots = listOf(dataSnapshotResult, dataSnapshotResult, dataSnapshotResult)
 
-        every { studentReference.get() } returns dataSnapshotTask
+        every { lessonsReference.get() } returns dataSnapshotTask
         every { dataSnapshotResult.children } returns listSnapshots
         every { dataSnapshotResult.getValue(Boolean::class.java) } returns true
         every { dataSnapshotResult.key } returns LESSON_ID
@@ -57,9 +60,46 @@ class FirebaseStudentLessonsRepositoryTest {
         val actualResult = firebaseStudentLessonRepository.getAllLessons(STUDENT_ID)
 
         verifyOrder {
-            reference.child(STUDENTS).child(LESSONS)
-            studentLessonsReference.child(STUDENT_ID)
-            studentReference.get()
+            reference.child(STUDENTS)
+            studentsReference.child(STUDENT_ID)
+            studentReference.child(LESSONS)
+            lessonsReference.get()
+            dataSnapshotResult.children
+            dataSnapshotResult.getValue(Boolean::class.java)
+            dataSnapshotResult.key
+        }
+
+        verify(exactly = listSnapshots.size) { dataSnapshotResult.getValue(Boolean::class.java) }
+        verify(exactly = listSnapshots.size) { dataSnapshotResult.key }
+
+        assertEquals(listSnapshots.size, actualResult.size)
+
+        actualResult.forEach { lessonId ->
+            assertEquals(LESSON_ID, lessonId)
+        }
+    }
+
+    @Test
+    fun testGetLimitLessons(): Unit = runBlocking {
+
+        val count = 3
+
+        val listSnapshots = listOf(dataSnapshotResult, dataSnapshotResult, dataSnapshotResult)
+
+        every { lessonsReference.limitToFirst(count) } returns lessonsReference
+        every { lessonsReference.get() } returns dataSnapshotTask
+        every { dataSnapshotResult.children } returns listSnapshots
+        every { dataSnapshotResult.getValue(Boolean::class.java) } returns true
+        every { dataSnapshotResult.key } returns LESSON_ID
+
+        val actualResult = firebaseStudentLessonRepository.getLimitLessons(STUDENT_ID, count)
+
+        verifyOrder {
+            reference.child(STUDENTS)
+            studentsReference.child(STUDENT_ID)
+            studentReference.child(LESSONS)
+            lessonsReference.limitToFirst(count)
+            lessonsReference.get()
             dataSnapshotResult.children
             dataSnapshotResult.getValue(Boolean::class.java)
             dataSnapshotResult.key
@@ -78,15 +118,15 @@ class FirebaseStudentLessonsRepositoryTest {
     @Test
     fun testAddLesson(): Unit = runBlocking {
 
-        every { studentReference.child(LESSON_ID) } returns lessonReference
         every { lessonReference.setValue(true) } returns task
 
         firebaseStudentLessonRepository.addLesson(STUDENT_ID, LESSON_ID)
 
         verifySequence {
-            reference.child(STUDENTS).child(LESSONS)
-            studentLessonsReference.child(STUDENT_ID)
-            studentReference.child(LESSON_ID)
+            reference.child(STUDENTS)
+            studentsReference.child(STUDENT_ID)
+            studentReference.child(LESSONS)
+            lessonsReference.child(LESSON_ID)
             lessonReference.setValue(true)
         }
     }
@@ -94,15 +134,15 @@ class FirebaseStudentLessonsRepositoryTest {
     @Test
     fun testRemoveLesson(): Unit = runBlocking {
 
-        every { studentReference.child(LESSON_ID) } returns lessonReference
         every { lessonReference.removeValue() } returns task
 
         firebaseStudentLessonRepository.removeLesson(STUDENT_ID, LESSON_ID)
 
         verifySequence {
-            reference.child(STUDENTS).child(LESSONS)
-            studentLessonsReference.child(STUDENT_ID)
-            studentReference.child(LESSON_ID)
+            reference.child(STUDENTS)
+            studentsReference.child(STUDENT_ID)
+            studentReference.child(LESSONS)
+            lessonsReference.child(LESSON_ID)
             lessonReference.removeValue()
         }
     }
@@ -110,14 +150,15 @@ class FirebaseStudentLessonsRepositoryTest {
     @Test
     fun removeAllLessons(): Unit = runBlocking {
 
-        every { studentReference.removeValue() } returns task
+        every { lessonsReference.removeValue() } returns task
 
         firebaseStudentLessonRepository.removeAllLessons(STUDENT_ID)
 
         verifySequence {
-            reference.child(STUDENTS).child(LESSONS)
-            studentLessonsReference.child(STUDENT_ID)
-            studentReference.removeValue()
+            reference.child(STUDENTS)
+            studentsReference.child(STUDENT_ID)
+            studentReference.child(LESSONS)
+            lessonsReference.removeValue()
         }
     }
 

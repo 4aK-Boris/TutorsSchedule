@@ -11,14 +11,14 @@ abstract class BaseStudentGroupsUseCaseTest : BaseUseCaseTest() {
 
     private val reference by inject<DatabaseReference>()
 
-    private val studentGroupsReference by lazy { reference.child(STUDENTS).child(GROUPS) }
+    private val groupsReference by lazy { reference.child(STUDENTS).child(STUDENT_ID).child(GROUPS) }
 
     protected suspend fun addGroup() {
         addGroup(id = GROUP_ID)
     }
 
     protected suspend fun addGroup(id: String) {
-        studentGroupsReference.child(STUDENT_ID).child(id).setValue(true).await()
+        groupsReference.child(id).setValue(true).await()
     }
 
     protected suspend fun addGroups(count: Int) {
@@ -28,7 +28,7 @@ abstract class BaseStudentGroupsUseCaseTest : BaseUseCaseTest() {
     }
 
     protected suspend fun deleteGroups() {
-        studentGroupsReference.child(STUDENT_ID).removeValue().await()
+        groupsReference.removeValue().await()
     }
 
     protected suspend fun getGroup(): String? {
@@ -36,22 +36,22 @@ abstract class BaseStudentGroupsUseCaseTest : BaseUseCaseTest() {
     }
 
     protected suspend fun getGroup(key: String): String? {
-        val hasGroupInStudent = studentGroupsReference.child(STUDENT_ID).child(key).get().await().getValue(Boolean::class.java)
+        val hasGroupInStudent = groupsReference.child(key).get().await().getValue(Boolean::class.java)
         return if (hasGroupInStudent == true) {
-            studentGroupsReference.child(STUDENT_ID).child(key).key
+            groupsReference.child(key).key
         } else {
             null
         }
     }
 
     protected suspend fun hasGroup(): Boolean {
-        return studentGroupsReference.child(STUDENT_ID).get().await().children.find { dataSnapshot ->
+        return groupsReference.get().await().children.find { dataSnapshot ->
             dataSnapshot.key == GROUP_ID && dataSnapshot.getValue(Boolean::class.java) == true
         } != null
     }
 
     protected suspend fun hasGroups(): Boolean {
-        return studentGroupsReference.child(STUDENT_ID).get().await().children.toList().isNotEmpty()
+        return groupsReference.get().await().children.toList().isNotEmpty()
     }
 
     companion object {

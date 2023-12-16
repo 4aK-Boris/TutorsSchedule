@@ -8,22 +8,29 @@ import kotlinx.coroutines.tasks.await
 
 class FirebaseStudentGroupsRepositoryImpl(reference: DatabaseReference) : FirebaseStudentGroupsRepository {
 
-    private val studentsGroups by lazy { reference.child(STUDENTS).child(GROUPS) }
+    private val students by lazy { reference.child(STUDENTS) }
     override suspend fun getAllGroups(studentId: String): List<String> {
-        return studentsGroups.child(studentId).get().await().children
+        return students.child(studentId).child(GROUPS).get().await().children
+            .filter { dataSnapshot -> dataSnapshot.getValue(Boolean::class.java) == true }
+            .mapNotNull { dataSnapshot -> dataSnapshot.key }
+
+    }
+
+    override suspend fun getLimitGroups(studentId: String, count: Int): List<String> {
+        return students.child(studentId).child(GROUPS).limitToFirst(count).get().await().children
             .filter { dataSnapshot -> dataSnapshot.getValue(Boolean::class.java) == true }
             .mapNotNull { dataSnapshot -> dataSnapshot.key }
     }
 
     override suspend fun addGroup(studentId: String, groupId: String) {
-        studentsGroups.child(studentId).child(groupId).setValue(true)
+        students.child(studentId).child(GROUPS).child(groupId).setValue(true)
     }
 
     override suspend fun removeGroup(studentId: String, groupId: String) {
-        studentsGroups.child(studentId).child(groupId).removeValue()
+        students.child(studentId).child(GROUPS).child(groupId).removeValue()
     }
 
     override suspend fun removeAllGroups(studentId: String) {
-        studentsGroups.child(studentId).removeValue()
+        students.child(studentId).child(GROUPS).removeValue()
     }
 }

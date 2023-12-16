@@ -2,9 +2,9 @@ package dmitriy.losev.firebase.mappers
 
 import dmitriy.losev.firebase.data.dto.TaskDTO
 import dmitriy.losev.firebase.data.mappers.TaskMapper
+import dmitriy.losev.firebase.domain.models.Task
 import dmitriy.losev.firebase.domain.models.types.LessonStatus
 import dmitriy.losev.firebase.domain.models.types.PaidStatus
-import dmitriy.losev.firebase.domain.models.Task
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -52,6 +52,8 @@ class TaskMapperTest {
         private const val TASK_ID = "task_id"
         private const val LESSON_ID = "lesson_id"
         private const val PERIOD_ID = "period_id"
+        private const val STUDENT_OR_GROUP_ID = "student_or_group_id"
+        private const val SUBJECT_ID = "subject_id"
 
         private val dateTime = ZonedDateTime.now()
         private val dateTimeOfLong = dateTime.toEpochSecond()
@@ -64,6 +66,8 @@ class TaskMapperTest {
                     id = null,
                     lessonId = "",
                     periodId = "",
+                    studentOrGroupId = "",
+                    subjectId = "",
                     dateTime = dateTime,
                     status = LessonStatus.PLANNED,
                     paidStatus = PaidStatus.NO_PAID
@@ -72,6 +76,8 @@ class TaskMapperTest {
                     id = null,
                     lessonId = null,
                     periodId = null,
+                    studentOrGroupId = null,
+                    subjectId = null,
                     dateTime = dateTimeOfLong,
                     zoneId = zoneId,
                     status = LessonStatus.PLANNED.name,
@@ -83,6 +89,8 @@ class TaskMapperTest {
                     id = TASK_ID,
                     lessonId = LESSON_ID,
                     periodId = PERIOD_ID,
+                    studentOrGroupId = STUDENT_OR_GROUP_ID,
+                    subjectId = SUBJECT_ID,
                     dateTime = dateTime,
                     status = LessonStatus.MOVED,
                     paidStatus = PaidStatus.PAID
@@ -91,6 +99,8 @@ class TaskMapperTest {
                     id = TASK_ID,
                     lessonId = LESSON_ID,
                     periodId = PERIOD_ID,
+                    studentOrGroupId = STUDENT_OR_GROUP_ID,
+                    subjectId = SUBJECT_ID,
                     dateTime = dateTimeOfLong,
                     zoneId = zoneId,
                     status = LessonStatus.MOVED.name,
@@ -106,6 +116,8 @@ class TaskMapperTest {
                     id = null,
                     lessonId = null,
                     periodId = null,
+                    studentOrGroupId = null,
+                    subjectId = null,
                     dateTime = dateTimeOfLong,
                     zoneId = zoneId,
                     status = LessonStatus.PLANNED.name,
@@ -115,6 +127,8 @@ class TaskMapperTest {
                     id = null,
                     lessonId = "",
                     periodId = "",
+                    studentOrGroupId = "",
+                    subjectId = "",
                     dateTime = dateTime,
                     status = LessonStatus.PLANNED,
                     paidStatus = PaidStatus.NO_PAID
@@ -125,6 +139,8 @@ class TaskMapperTest {
                     id = TASK_ID,
                     lessonId = LESSON_ID,
                     periodId = PERIOD_ID,
+                    studentOrGroupId = STUDENT_OR_GROUP_ID,
+                    subjectId = SUBJECT_ID,
                     dateTime = dateTimeOfLong,
                     zoneId = zoneId,
                     status = LessonStatus.MOVED.name,
@@ -134,6 +150,8 @@ class TaskMapperTest {
                     id = TASK_ID,
                     lessonId = LESSON_ID,
                     periodId = PERIOD_ID,
+                    studentOrGroupId = STUDENT_OR_GROUP_ID,
+                    subjectId = SUBJECT_ID,
                     dateTime = dateTime,
                     status = LessonStatus.MOVED,
                     paidStatus = PaidStatus.PAID

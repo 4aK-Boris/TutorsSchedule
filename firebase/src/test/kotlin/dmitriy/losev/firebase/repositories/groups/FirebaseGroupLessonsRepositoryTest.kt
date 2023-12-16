@@ -20,9 +20,10 @@ import kotlin.test.assertEquals
 
 class FirebaseGroupLessonsRepositoryTest {
 
-    private val groupLessonsReference = mockk<DatabaseReference>()
+    private val groupsReference = mockk<DatabaseReference>()
     private val groupReference = mockk<DatabaseReference>()
-    private val lessonReference = mockk<DatabaseReference>(relaxed = true)
+    private val lessonsReference = mockk<DatabaseReference>()
+    private val lessonReference = mockk<DatabaseReference>()
     private val result = mockk<Void>()
     private val dataSnapshotResult = mockk<DataSnapshot>()
 
@@ -35,8 +36,10 @@ class FirebaseGroupLessonsRepositoryTest {
 
     @BeforeEach
     fun setUp() {
-        every { reference.child(GROUPS).child(LESSONS) } returns groupLessonsReference
-        every { groupLessonsReference.child(GROUP_ID) } returns groupReference
+        every { reference.child(GROUPS) } returns groupsReference
+        every { groupsReference.child(GROUP_ID) } returns groupReference
+        every { groupReference.child(LESSONS) } returns lessonsReference
+        every { lessonsReference.child(LESSON_ID) } returns lessonReference
     }
 
     @AfterEach
@@ -49,7 +52,7 @@ class FirebaseGroupLessonsRepositoryTest {
 
         val listSnapshots = listOf(dataSnapshotResult, dataSnapshotResult, dataSnapshotResult)
 
-        every { groupReference.get() } returns dataSnapshotTask
+        every { lessonsReference.get() } returns dataSnapshotTask
         every { dataSnapshotResult.children } returns listSnapshots
         every { dataSnapshotResult.getValue(Boolean::class.java) } returns true
         every { dataSnapshotResult.key } returns LESSON_ID
@@ -57,9 +60,10 @@ class FirebaseGroupLessonsRepositoryTest {
         val actualResult = firebaseGroupLessonRepository.getAllLessons(GROUP_ID)
 
         verifyOrder {
-            reference.child(GROUPS).child(LESSONS)
-            groupLessonsReference.child(GROUP_ID)
-            groupReference.get()
+            reference.child(GROUPS)
+            groupsReference.child(GROUP_ID)
+            groupReference.child(LESSONS)
+            lessonsReference.get()
             dataSnapshotResult.children
             dataSnapshotResult.getValue(Boolean::class.java)
             dataSnapshotResult.key
@@ -78,15 +82,15 @@ class FirebaseGroupLessonsRepositoryTest {
     @Test
     fun testAddLesson(): Unit = runBlocking {
 
-        every { groupReference.child(LESSON_ID) } returns lessonReference
         every { lessonReference.setValue(true) } returns task
 
         firebaseGroupLessonRepository.addLesson(GROUP_ID, LESSON_ID)
 
         verifySequence {
-            reference.child(GROUPS).child(LESSONS)
-            groupLessonsReference.child(GROUP_ID)
-            groupReference.child(LESSON_ID)
+            reference.child(GROUPS)
+            groupsReference.child(GROUP_ID)
+            groupReference.child(LESSONS)
+            lessonsReference.child(LESSON_ID)
             lessonReference.setValue(true)
         }
     }
@@ -94,15 +98,15 @@ class FirebaseGroupLessonsRepositoryTest {
     @Test
     fun testRemoveLesson(): Unit = runBlocking {
 
-        every { groupReference.child(LESSON_ID) } returns lessonReference
         every { lessonReference.removeValue() } returns task
 
         firebaseGroupLessonRepository.removeLesson(GROUP_ID, LESSON_ID)
 
         verifySequence {
-            reference.child(GROUPS).child(LESSONS)
-            groupLessonsReference.child(GROUP_ID)
-            groupReference.child(LESSON_ID)
+            reference.child(GROUPS)
+            groupsReference.child(GROUP_ID)
+            groupReference.child(LESSONS)
+            lessonsReference.child(LESSON_ID)
             lessonReference.removeValue()
         }
     }
@@ -110,14 +114,15 @@ class FirebaseGroupLessonsRepositoryTest {
     @Test
     fun removeAllLessons(): Unit = runBlocking {
 
-        every { groupReference.removeValue() } returns task
+        every { lessonsReference.removeValue() } returns task
 
         firebaseGroupLessonRepository.removeAllLessons(GROUP_ID)
 
         verifySequence {
-            reference.child(GROUPS).child(LESSONS)
-            groupLessonsReference.child(GROUP_ID)
-            groupReference.removeValue()
+            reference.child(GROUPS)
+            groupsReference.child(GROUP_ID)
+            groupReference.child(LESSONS)
+            lessonsReference.removeValue()
         }
     }
 

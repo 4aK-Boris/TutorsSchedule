@@ -11,14 +11,14 @@ abstract class BaseGroupLessonsUseCaseTest : BaseUseCaseTest() {
 
     private val reference by inject<DatabaseReference>()
 
-    private val groupLessonsReference by lazy { reference.child(GROUPS).child(LESSONS) }
+    private val tasksReference by lazy { reference.child(GROUPS).child(GROUP_ID).child(LESSONS) }
 
     protected suspend fun addLesson() {
         addLesson(id = LESSON_ID)
     }
 
     private suspend fun addLesson(id: String) {
-        groupLessonsReference.child(GROUP_ID).child(id).setValue(true).await()
+        tasksReference.child(id).setValue(true).await()
     }
 
     protected suspend fun addLessons(count: Int) {
@@ -28,7 +28,7 @@ abstract class BaseGroupLessonsUseCaseTest : BaseUseCaseTest() {
     }
 
     protected suspend fun deleteLessons() {
-        groupLessonsReference.child(GROUP_ID).removeValue().await()
+        tasksReference.removeValue().await()
     }
 
     protected suspend fun getLesson(): String? {
@@ -36,22 +36,22 @@ abstract class BaseGroupLessonsUseCaseTest : BaseUseCaseTest() {
     }
 
     private suspend fun getLesson(key: String): String? {
-        val hasLessonInGroup = groupLessonsReference.child(GROUP_ID).child(key).get().await().getValue(Boolean::class.java)
+        val hasLessonInGroup = tasksReference.child(key).get().await().getValue(Boolean::class.java)
         return if (hasLessonInGroup == true) {
-            groupLessonsReference.child(GROUP_ID).child(key).key
+            tasksReference.child(key).key
         } else {
             null
         }
     }
 
     protected suspend fun hasLesson(): Boolean {
-        return groupLessonsReference.child(GROUP_ID).get().await().children.find { dataSnapshot ->
+        return tasksReference.get().await().children.find { dataSnapshot ->
             dataSnapshot.key == LESSON_ID && dataSnapshot.getValue(Boolean::class.java) == true
         } != null
     }
 
     protected suspend fun hasLessons(): Boolean {
-        return groupLessonsReference.child(GROUP_ID).get().await().children.toList().isNotEmpty()
+        return tasksReference.get().await().children.toList().isNotEmpty()
     }
 
     companion object {

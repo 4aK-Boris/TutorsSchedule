@@ -8,23 +8,23 @@ import kotlinx.coroutines.tasks.await
 
 class FirebaseLessonTasksRepositoryImpl(reference: DatabaseReference): FirebaseLessonTasksRepository {
 
-    private val lessonTasks by lazy { reference.child(LESSONS).child(TASKS) }
+    private val tasks by lazy { reference.child(LESSONS) }
 
     override suspend fun getAllTasks(lessonId: String): List<String> {
-        return lessonTasks.child(lessonId).get().await().children
+        return tasks.child(lessonId).child(TASKS).get().await().children
             .filter { dataSnapshot -> dataSnapshot.getValue(Boolean::class.java) == true }
             .mapNotNull { dataSnapshot -> dataSnapshot.key }
     }
 
     override suspend fun addTask(lessonId: String, taskId: String) {
-        lessonTasks.child(lessonId).child(taskId).setValue(true)
+        tasks.child(lessonId).child(TASKS).child(taskId).setValue(true)
     }
 
     override suspend fun removeTask(lessonId: String, taskId: String) {
-        lessonTasks.child(lessonId).child(taskId).removeValue()
+        tasks.child(lessonId).child(TASKS).child(taskId).removeValue()
     }
 
     override suspend fun removeAllTasks(lessonId: String) {
-        lessonTasks.child(lessonId).removeValue()
+        tasks.child(lessonId).child(TASKS).removeValue()
     }
 }

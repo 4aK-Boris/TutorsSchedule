@@ -13,4 +13,8 @@ interface FirebaseTasksRepository {
     suspend fun deleteTask(teacherId: String, taskId: String)
 
     suspend fun getTasks(teacherId: String): List<Task>
+
+    suspend fun getTasksAfterTime(teacherId: String, time: Double): List<Task>
+
+    suspend fun getLimitTasksAfterTime(teacherId: String, count: Int, time: Double): List<Task>
 }

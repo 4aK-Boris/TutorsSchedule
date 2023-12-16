@@ -56,6 +56,8 @@ abstract class BaseTasksUseCaseTest : BaseUseCaseTest() {
     protected fun equalsTasks(expectedTask: Task, actualTask: Task?) {
         assertEquals(expectedTask.id, actualTask?.id)
         assertEquals(expectedTask.lessonId, actualTask?.lessonId)
+        assertEquals(expectedTask.studentOrGroupId, actualTask?.studentOrGroupId)
+        assertEquals(expectedTask.subjectId, actualTask?.subjectId)
         assertEquals(expectedTask.status, actualTask?.status)
         assertEquals(expectedTask.paidStatus, actualTask?.paidStatus)
 
@@ -72,12 +74,23 @@ abstract class BaseTasksUseCaseTest : BaseUseCaseTest() {
         const val TASK_ID = "702yn476f32478n632584c320496732c42"
         private const val LESSON_ID = "dwac2394083294-832904-83920432c8-0"
         private const val PERIOD_ID = "4827304928c382974mc8309274893278"
+        private const val STUDENT_OR_GROUP_ID = "v57489n57v3408957983457v843"
+        private const val SUBJECT_ID = "345v3425435435gsvvarverarwe"
 
         private val STATUS = LessonStatus.PLANNED
         private val PAID_STATUS = PaidStatus.PAID
 
         private val dateTime = ZonedDateTime.now()
 
-        val task = Task(id = TASK_ID, lessonId = LESSON_ID, periodId = PERIOD_ID, dateTime = dateTime, status = STATUS, paidStatus = PAID_STATUS)
+        val task = Task(
+            id = TASK_ID,
+            lessonId = LESSON_ID,
+            periodId = PERIOD_ID,
+            studentOrGroupId = STUDENT_OR_GROUP_ID,
+            subjectId = SUBJECT_ID,
+            dateTime = dateTime,
+            status = STATUS,
+            paidStatus = PAID_STATUS
+        )
     }
 }

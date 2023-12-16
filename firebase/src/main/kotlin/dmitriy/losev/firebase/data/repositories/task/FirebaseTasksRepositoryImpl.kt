@@ -38,8 +38,22 @@ class FirebaseTasksRepositoryImpl(
     }
 
     override suspend fun getTasks(teacherId: String): List<Task> {
-        return tasks.child(teacherId).get().await().children.mapNotNull { dataSnapshot ->
+        return tasks.child(teacherId).orderByChild(DATE_TIME_PATH).get().await().children.mapNotNull { dataSnapshot ->
             dataSnapshot.getValue(TaskDTO::class.java)?.let { taskDTO -> taskMapper.map(value = taskDTO) }
         }
+    }
+
+    override suspend fun getTasksAfterTime(teacherId: String, time: Double): List<Task> {
+        return tasks.child(teacherId).orderByChild(DATE_TIME_PATH).startAfter(time).get().await().children
+            .mapNotNull { dataSnapshot -> dataSnapshot.getValue(TaskDTO::class.java)?.let { taskDTO -> taskMapper.map(value = taskDTO) } }
+    }
+
+    override suspend fun getLimitTasksAfterTime(teacherId: String, count: Int, time: Double): List<Task> {
+        return tasks.child(teacherId).orderByChild(DATE_TIME_PATH).startAfter(time).limitToFirst(count).get().await().children
+            .mapNotNull { dataSnapshot -> dataSnapshot.getValue(TaskDTO::class.java)?.let { taskDTO -> taskMapper.map(value = taskDTO) } }
+    }
+
+    companion object {
+        private const val DATE_TIME_PATH = "/dateTime"
     }
 }

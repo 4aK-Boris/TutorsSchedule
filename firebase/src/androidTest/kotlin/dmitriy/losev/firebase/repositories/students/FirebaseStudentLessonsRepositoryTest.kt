@@ -20,7 +20,7 @@ class FirebaseStudentLessonsRepositoryTest : BaseRepositoryTest() {
 
     private val reference by inject<DatabaseReference>()
 
-    private val studentLessonsReference by lazy { reference.child(STUDENTS).child(LESSONS) }
+    private val lessonsReference by lazy { reference.child(STUDENTS).child(STUDENT_ID).child(LESSONS) }
 
     private val firebaseStudentLessonsRepository by inject<FirebaseStudentLessonsRepository>()
 
@@ -42,6 +42,32 @@ class FirebaseStudentLessonsRepositoryTest : BaseRepositoryTest() {
         actualResult.forEachIndexed { index, studentId ->
             assertEquals("${LESSON_ID}-$index", studentId)
         }
+    }
+
+    @Test
+    fun testGetLimitLessonsWithNotEnoughLessons(): Unit = runBlocking {
+
+        val count = 10
+        val countLessons = 5
+
+        addLessons(count = countLessons)
+
+        val actualResult = firebaseStudentLessonsRepository.getLimitLessons(STUDENT_ID, count)
+
+        assertEquals(countLessons, actualResult.size)
+    }
+
+    @Test
+    fun testGetLimitLessonsWithEnoughLessons(): Unit = runBlocking {
+
+        val count = 10
+        val countLessons = 20
+
+        addLessons(count = countLessons)
+
+        val actualResult = firebaseStudentLessonsRepository.getLimitLessons(STUDENT_ID, count)
+
+        assertEquals(count, actualResult.size)
     }
 
     @Test
@@ -98,7 +124,7 @@ class FirebaseStudentLessonsRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun addLesson(id: String) {
-        studentLessonsReference.child(STUDENT_ID).child(id).setValue(true).await()
+        lessonsReference.child(id).setValue(true).await()
     }
 
     private suspend fun addLessons(count: Int) {
@@ -108,7 +134,7 @@ class FirebaseStudentLessonsRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun deleteLessons() {
-        studentLessonsReference.child(STUDENT_ID).removeValue().await()
+        lessonsReference.removeValue().await()
     }
 
     private suspend fun getLesson(): String? {
@@ -116,22 +142,22 @@ class FirebaseStudentLessonsRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun getLesson(key: String): String? {
-        val hasLesson = studentLessonsReference.child(STUDENT_ID).child(key).get().await().getValue(Boolean::class.java)
+        val hasLesson = lessonsReference.child(key).get().await().getValue(Boolean::class.java)
         return if (hasLesson == true) {
-            studentLessonsReference.child(STUDENT_ID).child(key).key
+            lessonsReference.child(key).key
         } else {
             null
         }
     }
 
     private suspend fun hasLesson(): Boolean {
-        return studentLessonsReference.child(STUDENT_ID).get().await().children.find { dataSnapshot ->
+        return lessonsReference.get().await().children.find { dataSnapshot ->
             dataSnapshot.key == LESSON_ID && dataSnapshot.getValue(Boolean::class.java) == true
         } != null
     }
 
     private suspend fun hasLessons(): Boolean {
-        return studentLessonsReference.child(STUDENT_ID).get().await().children.toList().isNotEmpty()
+        return lessonsReference.get().await().children.toList().isNotEmpty()
     }
 
     companion object {

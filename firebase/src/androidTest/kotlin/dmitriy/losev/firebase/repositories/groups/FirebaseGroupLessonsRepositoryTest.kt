@@ -20,7 +20,7 @@ class FirebaseGroupLessonsRepositoryTest : BaseRepositoryTest() {
 
     private val reference by inject<DatabaseReference>()
 
-    private val groupLessonsReference by lazy { reference.child(GROUPS).child(LESSONS) }
+    private val lessonsReference by lazy { reference.child(GROUPS).child(GROUP_ID).child(LESSONS) }
 
     private val firebaseGroupLessonsRepository by inject<FirebaseGroupLessonsRepository>()
 
@@ -98,7 +98,7 @@ class FirebaseGroupLessonsRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun addLesson(id: String) {
-        groupLessonsReference.child(GROUP_ID).child(id).setValue(true).await()
+        lessonsReference.child(id).setValue(true).await()
     }
 
     private suspend fun addLessons(count: Int) {
@@ -108,7 +108,7 @@ class FirebaseGroupLessonsRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun deleteLessons() {
-        groupLessonsReference.child(GROUP_ID).removeValue().await()
+        lessonsReference.removeValue().await()
     }
 
     private suspend fun getLesson(): String? {
@@ -116,22 +116,22 @@ class FirebaseGroupLessonsRepositoryTest : BaseRepositoryTest() {
     }
 
     private suspend fun getLesson(key: String): String? {
-        val hasLessonInGroup = groupLessonsReference.child(GROUP_ID).child(key).get().await().getValue(Boolean::class.java)
+        val hasLessonInGroup = lessonsReference.child(key).get().await().getValue(Boolean::class.java)
         return if (hasLessonInGroup == true) {
-            groupLessonsReference.child(GROUP_ID).child(key).key
+            lessonsReference.child(key).key
         } else {
             null
         }
     }
 
     private suspend fun hasLesson(): Boolean {
-        return groupLessonsReference.child(GROUP_ID).get().await().children.find { dataSnapshot ->
+        return lessonsReference.get().await().children.find { dataSnapshot ->
             dataSnapshot.key == LESSON_ID && dataSnapshot.getValue(Boolean::class.java) == true
         } != null
     }
 
     private suspend fun hasLessons(): Boolean {
-        return groupLessonsReference.child(GROUP_ID).get().await().children.toList().isNotEmpty()
+        return lessonsReference.get().await().children.toList().isNotEmpty()
     }
 
     companion object {

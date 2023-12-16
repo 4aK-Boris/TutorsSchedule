@@ -11,14 +11,14 @@ abstract class BaseGroupTasksUseCaseTest : BaseUseCaseTest() {
 
     private val reference by inject<DatabaseReference>()
 
-    private val groupTasksReference by lazy { reference.child(GROUPS).child(TASKS) }
+    private val tasksReference by lazy { reference.child(GROUPS).child(GROUP_ID).child(TASKS) }
 
     protected suspend fun addTask() {
         addTask(id = TASK_ID)
     }
 
     protected suspend fun addTask(id: String) {
-        groupTasksReference.child(GROUP_ID).child(id).setValue(true).await()
+        tasksReference.child(id).setValue(true).await()
     }
 
     protected suspend fun addTasks(count: Int) {
@@ -28,7 +28,7 @@ abstract class BaseGroupTasksUseCaseTest : BaseUseCaseTest() {
     }
 
     protected suspend fun deleteTasks() {
-        groupTasksReference.child(GROUP_ID).removeValue().await()
+        tasksReference.removeValue().await()
     }
 
     protected suspend fun getTask(): String? {
@@ -36,22 +36,22 @@ abstract class BaseGroupTasksUseCaseTest : BaseUseCaseTest() {
     }
 
     protected suspend fun getTask(key: String): String? {
-        val hasTaskInGroup = groupTasksReference.child(GROUP_ID).child(key).get().await().getValue(Boolean::class.java)
+        val hasTaskInGroup = tasksReference.child(key).get().await().getValue(Boolean::class.java)
         return if (hasTaskInGroup == true) {
-            groupTasksReference.child(GROUP_ID).child(key).key
+            tasksReference.child(key).key
         } else {
             null
         }
     }
 
     protected suspend fun hasTask(): Boolean {
-        return groupTasksReference.child(GROUP_ID).get().await().children.find { dataSnapshot ->
+        return tasksReference.get().await().children.find { dataSnapshot ->
             dataSnapshot.key == TASK_ID && dataSnapshot.getValue(Boolean::class.java) == true
         } != null
     }
 
     protected suspend fun hasTasks(): Boolean {
-        return groupTasksReference.child(GROUP_ID).get().await().children.toList().isNotEmpty()
+        return tasksReference.get().await().children.toList().isNotEmpty()
     }
 
     companion object {

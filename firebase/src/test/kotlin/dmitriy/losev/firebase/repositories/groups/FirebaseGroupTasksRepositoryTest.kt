@@ -20,9 +20,10 @@ import kotlin.test.assertEquals
 
 class FirebaseGroupTasksRepositoryTest {
 
-    private val groupTasksReference = mockk<DatabaseReference>()
+    private val groupsReference = mockk<DatabaseReference>()
     private val groupReference = mockk<DatabaseReference>()
-    private val taskReference = mockk<DatabaseReference>(relaxed = true)
+    private val tasksReference = mockk<DatabaseReference>()
+    private val taskReference = mockk<DatabaseReference>()
     private val result = mockk<Void>()
     private val dataSnapshotResult = mockk<DataSnapshot>()
 
@@ -35,8 +36,10 @@ class FirebaseGroupTasksRepositoryTest {
 
     @BeforeEach
     fun setUp() {
-        every { reference.child(GROUPS).child(TASKS) } returns groupTasksReference
-        every { groupTasksReference.child(GROUP_ID) } returns groupReference
+        every { reference.child(GROUPS) } returns groupsReference
+        every { groupsReference.child(GROUP_ID) } returns groupReference
+        every { groupReference.child(TASKS) } returns tasksReference
+        every { tasksReference.child(TASK_ID) } returns taskReference
     }
 
     @AfterEach
@@ -49,7 +52,7 @@ class FirebaseGroupTasksRepositoryTest {
 
         val listSnapshots = listOf(dataSnapshotResult, dataSnapshotResult, dataSnapshotResult)
 
-        every { groupReference.get() } returns dataSnapshotTask
+        every { tasksReference.get() } returns dataSnapshotTask
         every { dataSnapshotResult.children } returns listSnapshots
         every { dataSnapshotResult.getValue(Boolean::class.java) } returns true
         every { dataSnapshotResult.key } returns TASK_ID
@@ -57,9 +60,10 @@ class FirebaseGroupTasksRepositoryTest {
         val actualResult = firebaseGroupTaskRepository.getAllTasks(GROUP_ID)
 
         verifyOrder {
-            reference.child(GROUPS).child(TASKS)
-            groupTasksReference.child(GROUP_ID)
-            groupReference.get()
+            reference.child(GROUPS)
+            groupsReference.child(GROUP_ID)
+            groupReference.child(TASKS)
+            tasksReference.get()
             dataSnapshotResult.children
             dataSnapshotResult.getValue(Boolean::class.java)
             dataSnapshotResult.key
@@ -78,15 +82,15 @@ class FirebaseGroupTasksRepositoryTest {
     @Test
     fun testAddTask(): Unit = runBlocking {
 
-        every { groupReference.child(TASK_ID) } returns taskReference
         every { taskReference.setValue(true) } returns task
 
         firebaseGroupTaskRepository.addTask(GROUP_ID, TASK_ID)
 
         verifySequence {
-            reference.child(GROUPS).child(TASKS)
-            groupTasksReference.child(GROUP_ID)
-            groupReference.child(TASK_ID)
+            reference.child(GROUPS)
+            groupsReference.child(GROUP_ID)
+            groupReference.child(TASKS)
+            tasksReference.child(TASK_ID)
             taskReference.setValue(true)
         }
     }
@@ -94,15 +98,15 @@ class FirebaseGroupTasksRepositoryTest {
     @Test
     fun testRemoveTask(): Unit = runBlocking {
 
-        every { groupReference.child(TASK_ID) } returns taskReference
         every { taskReference.removeValue() } returns task
 
         firebaseGroupTaskRepository.removeTask(GROUP_ID, TASK_ID)
 
         verifySequence {
-            reference.child(GROUPS).child(TASKS)
-            groupTasksReference.child(GROUP_ID)
-            groupReference.child(TASK_ID)
+            reference.child(GROUPS)
+            groupsReference.child(GROUP_ID)
+            groupReference.child(TASKS)
+            tasksReference.child(TASK_ID)
             taskReference.removeValue()
         }
     }
@@ -110,14 +114,15 @@ class FirebaseGroupTasksRepositoryTest {
     @Test
     fun removeAllTasks(): Unit = runBlocking {
 
-        every { groupReference.removeValue() } returns task
+        every { tasksReference.removeValue() } returns task
 
         firebaseGroupTaskRepository.removeAllTasks(GROUP_ID)
 
         verifySequence {
-            reference.child(GROUPS).child(TASKS)
-            groupTasksReference.child(GROUP_ID)
-            groupReference.removeValue()
+            reference.child(GROUPS)
+            groupsReference.child(GROUP_ID)
+            groupReference.child(TASKS)
+            tasksReference.removeValue()
         }
     }
 
