@@ -1,12 +1,15 @@
 package dmitriy.losev.network
 
 import dmitriy.losev.network.exception.BadRequest
+import dmitriy.losev.network.exception.ConnectionException
 import dmitriy.losev.network.exception.InternalServerError
 import dmitriy.losev.network.exception.NoInternetException
 import dmitriy.losev.network.exception.NotFound
+import dmitriy.losev.network.exception.TimeoutException
 import dmitriy.losev.network.exception.UnknownNetworkException
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.headers
@@ -18,6 +21,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.isSuccess
 import io.ktor.http.parameters
 import io.ktor.util.network.UnresolvedAddressException
+import java.net.ConnectException
 
 class KtorClient(private val client: HttpClient) {
 
@@ -31,6 +35,10 @@ class KtorClient(private val client: HttpClient) {
         throw NoInternetException()
     } catch (e: UnknownNetworkException) {
         throw NoInternetException()
+    } catch (e: ConnectException) {
+        throw ConnectionException()
+    } catch (e: HttpRequestTimeoutException) {
+        throw TimeoutException()
     }
 
     suspend fun postRequest(
