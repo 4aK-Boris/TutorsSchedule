@@ -1,8 +1,8 @@
 package dmitriy.losev.firebase.data.mappers
 
 import dmitriy.losev.firebase.data.dto.SimpleStudentDTO
-import dmitriy.losev.firebase.domain.models.SimpleStudent
-import dmitriy.losev.firebase.domain.models.types.StudentType
+import dmitriy.losev.core.models.SimpleStudent
+import dmitriy.losev.core.models.types.StudentType
 
 class SimpleStudentMapper(private val nameMapper: NameMapper) {
 
@@ -10,7 +10,7 @@ class SimpleStudentMapper(private val nameMapper: NameMapper) {
         return value.id?.let { id ->
             SimpleStudent(
                 id = id,
-                name = nameMapper.map(firstName = value.firstName, lastName = value.lastName, nickName = value.nickName),
+                name = nameMapper.getName(firstName = value.firstName, lastName = value.lastName, patronymic = value.patronymic),
                 studentType = StudentType.valueOf(value = value.studentType)
             )
         }

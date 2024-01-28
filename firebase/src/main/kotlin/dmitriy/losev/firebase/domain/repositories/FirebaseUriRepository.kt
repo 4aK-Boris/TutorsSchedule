@@ -4,5 +4,5 @@ import android.net.Uri
 
 interface FirebaseUriRepository {
 
-    fun convertUrlToUri(url: String): Uri
+    fun convertUrlToUri(url: String?): Uri
 }

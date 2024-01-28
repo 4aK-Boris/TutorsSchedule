@@ -32,7 +32,7 @@ class FirebaseUpdateStudentUseCaseTest: BaseStudentsUseCaseTest() {
         val newStudent = student.copy(
             firstName = FIRST_NAME,
             lastName = LAST_NAME,
-            nickName = NICK_NAME,
+            patronymic = NICK_NAME,
             name = NAME,
             phoneNumber = PHONE_NUMBER,
             address = ADDRESS,

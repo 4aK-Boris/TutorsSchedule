@@ -1,7 +1,7 @@
 package dmitriy.losev.firebase.data.mappers
 
-import dmitriy.losev.firebase.core.toNotNull
-import dmitriy.losev.firebase.core.toNullable
+import dmitriy.losev.core.toNotNull
+import dmitriy.losev.core.toNullable
 import dmitriy.losev.firebase.data.dto.GroupDTO
 import dmitriy.losev.firebase.domain.models.Group
 

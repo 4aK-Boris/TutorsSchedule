@@ -1,7 +1,7 @@
 package dmitriy.losev.firebase.domain.models
 
-import dmitriy.losev.firebase.domain.models.types.LessonStatus
-import dmitriy.losev.firebase.domain.models.types.PaidStatus
+import dmitriy.losev.core.models.types.LessonStatus
+import dmitriy.losev.core.models.types.PaidStatus
 import java.time.ZonedDateTime
 
 data class Task(

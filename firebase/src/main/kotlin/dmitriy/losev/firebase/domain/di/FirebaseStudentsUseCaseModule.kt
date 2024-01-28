@@ -3,7 +3,7 @@ package dmitriy.losev.firebase.domain.di
 import dmitriy.losev.firebase.domain.usecases.students.FirebaseAddStudentUseCase
 import dmitriy.losev.firebase.domain.usecases.students.FirebaseDeleteFullStudentUseCase
 import dmitriy.losev.firebase.domain.usecases.students.FirebaseDeleteStudentUseCase
-import dmitriy.losev.firebase.domain.usecases.students.FirebaseGetSimpleStudentsUseCase
+import dmitriy.losev.firebase.domain.usecases.students.FirebaseGetStudentsUseCase
 import dmitriy.losev.firebase.domain.usecases.students.FirebaseGetStudentUseCase
 import dmitriy.losev.firebase.domain.usecases.students.FirebaseUpdateStudentUseCase
 import dmitriy.losev.firebase.domain.usecases.students.groups.FirebaseAddStudentGroupUseCase
@@ -24,7 +24,7 @@ import dmitriy.losev.firebase.domain.usecases.students.tasks.FirebaseRemoveStude
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
-val firebaseGetSimpleStudentsUseCaseModule = module {
+val firebaseGetStudentsUseCaseModule = module {
 
     factoryOf(::FirebaseDeleteStudentUseCase)
 
@@ -34,7 +34,7 @@ val firebaseGetSimpleStudentsUseCaseModule = module {
 
     factoryOf(::FirebaseUpdateStudentUseCase)
 
-    factoryOf(::FirebaseGetSimpleStudentsUseCase)
+    factoryOf(::FirebaseGetStudentsUseCase)
 
     factoryOf(::FirebaseDeleteFullStudentUseCase)
 

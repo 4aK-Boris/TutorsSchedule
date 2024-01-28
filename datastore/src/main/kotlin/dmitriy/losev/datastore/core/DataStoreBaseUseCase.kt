@@ -1,6 +1,5 @@
 package dmitriy.losev.datastore.core
 
-import dmitriy.losev.core.core.BaseUseCase
-import dmitriy.losev.core.core.ErrorHandler
+import dmitriy.losev.core.BaseUseCase
 
-abstract class DataStoreBaseUseCase(errorHandler: ErrorHandler) : BaseUseCase(errorHandler)
+abstract class DataStoreBaseUseCase : BaseUseCase()

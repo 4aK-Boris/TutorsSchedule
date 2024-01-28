@@ -1,17 +1,17 @@
 package dmitriy.losev.firebase.domain.usecases.subjects
 
+import dmitriy.losev.core.models.Subject
 import dmitriy.losev.firebase.core.FirebaseBaseUseCase
-import dmitriy.losev.firebase.domain.models.Subject
 import dmitriy.losev.firebase.domain.repositories.subjects.FirebaseSubjectsRepository
-import dmitriy.losev.firebase.domain.usecases.user.FirebaseGetUserUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseGetUserIdUseCase
 
 class FirebaseUpdateSubjectUseCase(
     private val firebaseSubjectsRepository: FirebaseSubjectsRepository,
-    private val firebaseGetUserUseCase: FirebaseGetUserUseCase
+    private val firebaseGetUserIdUseCase: FirebaseGetUserIdUseCase
 ): FirebaseBaseUseCase() {
 
     suspend fun updateSubject(subjectId: String, subject: Subject) {
-        val user = firebaseGetUserUseCase.getUserWithException()
-        return firebaseSubjectsRepository.updateSubject(teacherId = user.uid, subjectId = subjectId, subject = subject)
+        val teacherId = firebaseGetUserIdUseCase.getUserIdWithException()
+        return firebaseSubjectsRepository.updateSubject(teacherId, subjectId, subject)
     }
 }

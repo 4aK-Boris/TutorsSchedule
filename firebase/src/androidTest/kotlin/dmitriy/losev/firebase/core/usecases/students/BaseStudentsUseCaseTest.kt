@@ -6,8 +6,8 @@ import dmitriy.losev.firebase.core.STUDENTS
 import dmitriy.losev.firebase.core.exception.UserNotAuthorizationException
 import dmitriy.losev.firebase.data.dto.StudentDTO
 import dmitriy.losev.firebase.data.mappers.StudentMapper
-import dmitriy.losev.firebase.domain.models.Student
-import dmitriy.losev.firebase.domain.models.types.StudentType
+import dmitriy.losev.core.models.Student
+import dmitriy.losev.core.models.types.StudentType
 import kotlinx.coroutines.tasks.await
 import org.koin.test.inject
 
@@ -71,7 +71,7 @@ abstract class BaseStudentsUseCaseTest : BaseUseCaseTest() {
             id = STUDENT_ID,
             firstName = FIRST_NAME,
             lastName = LAST_NAME,
-            nickName = NICK_NAME,
+            patronymic = NICK_NAME,
             name = NAME,
             phoneNumber = PHONE_NUMBER,
             email = EMAIl,

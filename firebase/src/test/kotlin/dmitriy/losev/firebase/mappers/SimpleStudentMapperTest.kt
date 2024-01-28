@@ -3,8 +3,8 @@ package dmitriy.losev.firebase.mappers
 import dmitriy.losev.firebase.data.dto.SimpleStudentDTO
 import dmitriy.losev.firebase.data.mappers.NameMapper
 import dmitriy.losev.firebase.data.mappers.SimpleStudentMapper
-import dmitriy.losev.firebase.domain.models.SimpleStudent
-import dmitriy.losev.firebase.domain.models.types.StudentType
+import dmitriy.losev.core.models.SimpleStudent
+import dmitriy.losev.core.models.types.StudentType
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -25,18 +25,18 @@ class SimpleStudentMapperTest {
         simpleStudentDTO: SimpleStudentDTO, simpleStudent: SimpleStudent?
     ) {
         simpleStudent?.let {
-            every { nameMapper.map(simpleStudentDTO.firstName, simpleStudentDTO.lastName, simpleStudentDTO.nickName) } returns simpleStudent.name
+            every { nameMapper.getName(simpleStudentDTO.firstName, simpleStudentDTO.lastName, simpleStudentDTO.patronymic) } returns simpleStudent.name
         }
 
         val actualResult = simpleStudentMapper.map(value = simpleStudentDTO)
 
         val count = if (simpleStudent == null) 0 else 1
 
-        verify(exactly = count) { nameMapper.map(simpleStudentDTO.firstName, simpleStudentDTO.lastName, simpleStudentDTO.nickName) }
+        verify(exactly = count) { nameMapper.getName(simpleStudentDTO.firstName, simpleStudentDTO.lastName, simpleStudentDTO.patronymic) }
 
         assertEquals(simpleStudent?.id, actualResult?.id)
         assertEquals(simpleStudent?.name, actualResult?.name)
-        assertEquals(simpleStudent?.studentType, actualResult?.studentType)
+        assertEquals(simpleStudent?.isNew, actualResult?.isNew)
     }
 
     companion object {
@@ -49,28 +49,28 @@ class SimpleStudentMapperTest {
         @JvmStatic
         fun args() = listOf(
             Arguments.of(
-                SimpleStudentDTO(id = null, firstName = null, lastName = null, nickName = null, studentType = StudentType.NEW.name),
+                SimpleStudentDTO(id = null, firstName = null, lastName = null, patronymic = null, studentType = StudentType.NEW.name),
                 null
             ),
             Arguments.of(
-                SimpleStudentDTO(id = null, firstName = FIRST_NAME, lastName = null, nickName = null, studentType = StudentType.NEW.name),
+                SimpleStudentDTO(id = null, firstName = FIRST_NAME, lastName = null, patronymic = null, studentType = StudentType.NEW.name),
                 null
             ),
             Arguments.of(
-                SimpleStudentDTO(id = null, firstName = null, lastName = LAST_NAME, nickName = null, studentType = StudentType.NEW.name),
+                SimpleStudentDTO(id = null, firstName = null, lastName = LAST_NAME, patronymic = null, studentType = StudentType.NEW.name),
                 null
             ),
             Arguments.of(
-                SimpleStudentDTO(id = ID, firstName = null, lastName = LAST_NAME, nickName = null, studentType = StudentType.NEW.name),
-                SimpleStudent(id = ID, name = LAST_NAME, studentType = StudentType.NEW)
+                SimpleStudentDTO(id = ID, firstName = null, lastName = LAST_NAME, patronymic = null, studentType = StudentType.NEW.name),
+                SimpleStudent(id = ID, name = LAST_NAME, isNew = StudentType.NEW)
             ),
             Arguments.of(
-                SimpleStudentDTO(id = ID, firstName = FIRST_NAME, lastName = LAST_NAME, nickName = null, studentType = StudentType.ACTIVE.name),
-                SimpleStudent(id = ID, name = "$FIRST_NAME $LAST_NAME", studentType = StudentType.ACTIVE)
+                SimpleStudentDTO(id = ID, firstName = FIRST_NAME, lastName = LAST_NAME, patronymic = null, studentType = StudentType.ACTIVE.name),
+                SimpleStudent(id = ID, name = "$FIRST_NAME $LAST_NAME", isNew = StudentType.ACTIVE)
             ),
             Arguments.of(
-                SimpleStudentDTO(id = ID, firstName = FIRST_NAME, lastName = LAST_NAME, nickName = NICK_NAME, studentType = StudentType.ARCHIVE.name),
-                SimpleStudent(id = ID, name = "$FIRST_NAME $LAST_NAME ($NICK_NAME)", studentType = StudentType.ARCHIVE)
+                SimpleStudentDTO(id = ID, firstName = FIRST_NAME, lastName = LAST_NAME, patronymic = NICK_NAME, studentType = StudentType.ARCHIVE.name),
+                SimpleStudent(id = ID, name = "$FIRST_NAME $LAST_NAME ($NICK_NAME)", isNew = StudentType.ARCHIVE)
             )
         )
     }

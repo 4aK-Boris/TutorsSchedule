@@ -1,18 +1,32 @@
 package dmitriy.losev.firebase.data.mappers
 
-import dmitriy.losev.firebase.core.toNotNull
+import dmitriy.losev.core.firstChar
+import dmitriy.losev.core.toNotNull
 
 class NameMapper {
 
-    fun map(firstName: String?, lastName: String?, nickName: String?): String {
+    fun getName(firstName: String?, lastName: String?, patronymic: String?): String {
         val firstNameNotNull = firstName.toNotNull()
         val lastNameNotNull = lastName.toNotNull()
-        val nickNameNotNull = nickName.toNotNull()
-        val name = "$firstNameNotNull $lastNameNotNull".trim()
-        return if (nickNameNotNull.isNotBlank()) {
-            "$name ($nickNameNotNull)".trim()
+        val patronymicNotNull = patronymic.toNotNull()
+        return "$lastNameNotNull $firstNameNotNull $patronymicNotNull".trim()
+    }
+
+    fun getMiddleName(firstName: String?, lastName: String?, patronymic: String?): String {
+        val firstNameNotNull = firstName.toNotNull()
+        val lastNameNotNull = lastName.toNotNull()
+        val patronymicNotNull = patronymic.toNotNull()
+        return "$lastNameNotNull $firstNameNotNull ${patronymicNotNull.firstChar()}".trim()
+    }
+
+    fun getShortName(firstName: String?, lastName: String?, patronymic: String?): String {
+        val firstNameNotNull = firstName.toNotNull()
+        val lastNameNotNull = lastName.toNotNull()
+        val patronymicNotNull = patronymic.toNotNull()
+        return if (firstNameNotNull.isBlank()) {
+            "$lastNameNotNull ${patronymicNotNull.firstChar()}".trim()
         } else {
-            name
+            "$firstNameNotNull ${lastNameNotNull.firstChar()}".trim()
         }
     }
 }

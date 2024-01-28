@@ -1,7 +1,7 @@
 package dmitriy.losev.firebase.data.dto
 
-import dmitriy.losev.firebase.domain.models.types.DayOfWeek
-import dmitriy.losev.firebase.domain.models.types.PeriodType
+import dmitriy.losev.core.models.types.DayOfWeek
+import dmitriy.losev.core.models.types.PeriodType
 import java.time.ZoneId
 
 data class PeriodDTO(

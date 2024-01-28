@@ -7,10 +7,10 @@ import dmitriy.losev.firebase.data.di.repositories.firebaseStudentsRepositoryMod
 import dmitriy.losev.firebase.data.di.repositories.firebaseSubjectsRepositoryModule
 import dmitriy.losev.firebase.data.di.repositories.firebaseTasksRepositoryModule
 import dmitriy.losev.firebase.data.repositories.FirebaseContactsRepositoryImpl
-import dmitriy.losev.firebase.data.repositories.FirebaseNameRepositoryImpl
+import dmitriy.losev.firebase.data.repositories.FirebaseUserDataRepositoryImpl
 import dmitriy.losev.firebase.data.repositories.FirebaseUriRepositoryImpl
 import dmitriy.losev.firebase.domain.repositories.FirebaseContactsRepository
-import dmitriy.losev.firebase.domain.repositories.FirebaseNameRepository
+import dmitriy.losev.firebase.domain.repositories.FirebaseUserDataRepository
 import dmitriy.losev.firebase.domain.repositories.FirebaseUriRepository
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
@@ -31,8 +31,8 @@ val firebaseRepositoryModule = module {
         bind<FirebaseContactsRepository>()
     }
 
-    factoryOf(::FirebaseNameRepositoryImpl) {
-        bind<FirebaseNameRepository>()
+    factoryOf(::FirebaseUserDataRepositoryImpl) {
+        bind<FirebaseUserDataRepository>()
     }
 
     factoryOf(::FirebaseUriRepositoryImpl) {

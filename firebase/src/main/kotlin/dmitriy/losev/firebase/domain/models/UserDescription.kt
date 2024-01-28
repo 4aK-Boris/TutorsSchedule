@@ -1,7 +1,7 @@
 package dmitriy.losev.firebase.domain.models
 
 import android.net.Uri
-import dmitriy.losev.core.core.serializers.UriSerializer
+import dmitriy.losev.core.serializers.UriSerializer
 import kotlinx.serialization.Serializable
 
 @Serializable

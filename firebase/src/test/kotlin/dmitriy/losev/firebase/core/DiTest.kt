@@ -5,7 +5,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import dmitriy.losev.core.core.ResourcesManager
+import dmitriy.losev.core.ResourcesManager
 import dmitriy.losev.firebase.data.di.firebaseMapperModule
 import dmitriy.losev.firebase.data.di.firebaseRepositoryModule
 import dmitriy.losev.firebase.domain.di.firebaseUseCaseModule

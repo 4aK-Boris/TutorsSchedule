@@ -9,8 +9,8 @@ import dmitriy.losev.firebase.data.dto.StudentDTO
 import dmitriy.losev.firebase.data.mappers.SimpleStudentMapper
 import dmitriy.losev.firebase.data.mappers.StudentMapper
 import dmitriy.losev.firebase.data.repositories.students.FirebaseStudentsRepositoryImpl
-import dmitriy.losev.firebase.domain.models.SimpleStudent
-import dmitriy.losev.firebase.domain.models.Student
+import dmitriy.losev.core.models.SimpleStudent
+import dmitriy.losev.core.models.Student
 import io.mockk.Called
 import io.mockk.coVerifySequence
 import io.mockk.every
@@ -162,7 +162,7 @@ class FirebaseStudentsRepositoryTest {
         every { dataSnapshotResult.getValue(SimpleStudentDTO::class.java) } returns simpleStudentDTO
         every { simpleStudentMapper.map(value = simpleStudentDTO) } returns simpleStudent
 
-        val actualResult = firebaseStudentsRepository.getSimpleStudents(TEACHER_ID)
+        val actualResult = firebaseStudentsRepository.getActiveStudents(TEACHER_ID)
 
         verifySequence {
             reference.child(STUDENTS)

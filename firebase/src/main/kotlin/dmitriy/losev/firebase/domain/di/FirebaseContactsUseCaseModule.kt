@@ -2,6 +2,7 @@ package dmitriy.losev.firebase.domain.di
 
 import dmitriy.losev.firebase.domain.usecases.contacts.FirebaseAddContactUseCase
 import dmitriy.losev.firebase.domain.usecases.contacts.FirebaseDeleteContactUseCase
+import dmitriy.losev.firebase.domain.usecases.contacts.FirebaseDeleteContactsUseCase
 import dmitriy.losev.firebase.domain.usecases.contacts.FirebaseGetContactUseCase
 import dmitriy.losev.firebase.domain.usecases.contacts.FirebaseGetContactsUseCase
 import dmitriy.losev.firebase.domain.usecases.contacts.FirebaseUpdateContactUseCase
@@ -19,4 +20,6 @@ val firebaseContactsUseCaseModule = module {
     factoryOf(::FirebaseDeleteContactUseCase)
 
     factoryOf(::FirebaseGetContactsUseCase)
+
+    factoryOf(::FirebaseDeleteContactsUseCase)
 }

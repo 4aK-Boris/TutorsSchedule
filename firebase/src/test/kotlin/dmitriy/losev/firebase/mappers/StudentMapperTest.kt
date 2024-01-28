@@ -4,8 +4,8 @@ import dmitriy.losev.firebase.core.EMPTY_STRING
 import dmitriy.losev.firebase.data.dto.StudentDTO
 import dmitriy.losev.firebase.data.mappers.NameMapper
 import dmitriy.losev.firebase.data.mappers.StudentMapper
-import dmitriy.losev.firebase.domain.models.Student
-import dmitriy.losev.firebase.domain.models.types.StudentType
+import dmitriy.losev.core.models.Student
+import dmitriy.losev.core.models.types.StudentType
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -31,12 +31,11 @@ class StudentMapperTest {
         assertEquals(studentDTO.id, actualResult.id)
         assertEquals(studentDTO.firstName, actualResult.firstName)
         assertEquals(studentDTO.lastName, actualResult.lastName)
-        assertEquals(studentDTO.nickName, actualResult.nickName)
+        assertEquals(studentDTO.patronymic, actualResult.patronymic)
         assertEquals(studentDTO.phoneNumber, actualResult.phoneNumber)
         assertEquals(studentDTO.email, actualResult.email)
         assertEquals(studentDTO.skype, actualResult.skype)
         assertEquals(studentDTO.discord, actualResult.discord)
-        assertEquals(studentDTO.address, actualResult.address)
         assertEquals(studentDTO.comment, actualResult.comment)
         assertEquals(studentDTO.studentType, actualResult.studentType)
     }
@@ -47,21 +46,20 @@ class StudentMapperTest {
         studentDTO: StudentDTO,
         student: Student
     ) {
-        every { nameMapper.map(studentDTO.firstName, studentDTO.lastName, studentDTO.nickName) } returns student.name
+        every { nameMapper.getName(studentDTO.firstName, studentDTO.lastName, studentDTO.patronymic) } returns student.name
 
         val actualResult = studentMapper.map(value = studentDTO)
 
-        verify { nameMapper.map(studentDTO.firstName, studentDTO.lastName, studentDTO.nickName) }
+        verify { nameMapper.getName(studentDTO.firstName, studentDTO.lastName, studentDTO.patronymic) }
 
         assertEquals(student.id, actualResult.id)
         assertEquals(student.firstName, actualResult.firstName)
         assertEquals(student.lastName, actualResult.lastName)
-        assertEquals(student.nickName, actualResult.nickName)
+        assertEquals(student.patronymic, actualResult.patronymic)
         assertEquals(student.phoneNumber, actualResult.phoneNumber)
         assertEquals(student.email, actualResult.email)
         assertEquals(student.skype, actualResult.skype)
         assertEquals(student.discord, actualResult.discord)
-        assertEquals(student.address, actualResult.address)
         assertEquals(student.comment, actualResult.comment)
         assertEquals(student.studentType, actualResult.studentType)
     }
@@ -71,13 +69,12 @@ class StudentMapperTest {
         private const val ID = "3421349812m4c8-327432v"
         private const val FIRST_NAME = "Анастасия"
         private const val LAST_NAME = "Маркова"
-        private const val NICK_NAME = "Морковка"
-        private const val NAME = "$FIRST_NAME $LAST_NAME ($NICK_NAME)"
+        private const val PATRONYMIC = "Юрьевна"
+        private const val NAME = "$LAST_NAME $FIRST_NAME $PATRONYMIC"
         private const val PHONE_NUMBER = "+79031466339"
         private const val EMAIL = "dmitriylosevxxx@gmail.com"
         private const val SKYPE = "2dima1028"
         private const val DISCORD = "4aK_Boris"
-        private const val ADDRESS = "Лыткарино, Московская область, 5-й микрорайон, 2-й квартал, д. 9, кв. 75, 140082"
         private const val COMMENT = "Настя"
 
         @JvmStatic
@@ -87,13 +84,12 @@ class StudentMapperTest {
                     id = null,
                     firstName = EMPTY_STRING,
                     lastName = EMPTY_STRING,
-                    nickName = EMPTY_STRING,
+                    patronymic = EMPTY_STRING,
                     name = EMPTY_STRING,
                     phoneNumber = EMPTY_STRING,
                     email = EMPTY_STRING,
                     skype = EMPTY_STRING,
                     discord = EMPTY_STRING,
-                    address = EMPTY_STRING,
                     comment = EMPTY_STRING,
                     studentType = StudentType.NEW
                 ),
@@ -101,12 +97,11 @@ class StudentMapperTest {
                     id = null,
                     firstName = null,
                     lastName = null,
-                    nickName = null,
+                    patronymic = null,
                     phoneNumber = null,
                     email = null,
                     skype = null,
                     discord = null,
-                    address = null,
                     comment = null,
                     studentType = StudentType.NEW.name,
                 )
@@ -116,13 +111,12 @@ class StudentMapperTest {
                     id = ID,
                     firstName = FIRST_NAME,
                     lastName = LAST_NAME,
-                    nickName = NICK_NAME,
+                    patronymic = PATRONYMIC,
                     name = NAME,
                     phoneNumber = PHONE_NUMBER,
                     email = EMAIL,
                     skype = SKYPE,
                     discord = DISCORD,
-                    address = ADDRESS,
                     comment = COMMENT,
                     studentType = StudentType.NEW
                 ),
@@ -130,12 +124,11 @@ class StudentMapperTest {
                     id = ID,
                     firstName = FIRST_NAME,
                     lastName = LAST_NAME,
-                    nickName = NICK_NAME,
+                    patronymic = PATRONYMIC,
                     phoneNumber = PHONE_NUMBER,
                     email = EMAIL,
                     skype = SKYPE,
                     discord = DISCORD,
-                    address = ADDRESS,
                     comment = COMMENT,
                     studentType = StudentType.NEW.name,
                 )
@@ -149,12 +142,11 @@ class StudentMapperTest {
                     id = null,
                     firstName = null,
                     lastName = null,
-                    nickName = null,
+                    patronymic = null,
                     phoneNumber = null,
                     email = null,
                     skype = null,
                     discord = null,
-                    address = null,
                     comment = null,
                     studentType = StudentType.NEW.name,
                 ),
@@ -162,13 +154,12 @@ class StudentMapperTest {
                     id = null,
                     firstName = EMPTY_STRING,
                     lastName = EMPTY_STRING,
-                    nickName = EMPTY_STRING,
+                    patronymic = EMPTY_STRING,
                     name = EMPTY_STRING,
                     phoneNumber = EMPTY_STRING,
                     email = EMPTY_STRING,
                     skype = EMPTY_STRING,
                     discord = EMPTY_STRING,
-                    address = EMPTY_STRING,
                     comment = EMPTY_STRING,
                     studentType = StudentType.NEW
                 )
@@ -178,12 +169,11 @@ class StudentMapperTest {
                     id = ID,
                     firstName = FIRST_NAME,
                     lastName = LAST_NAME,
-                    nickName = NICK_NAME,
+                    patronymic = PATRONYMIC,
                     phoneNumber = PHONE_NUMBER,
                     email = EMAIL,
                     skype = SKYPE,
                     discord = DISCORD,
-                    address = ADDRESS,
                     comment = COMMENT,
                     studentType = StudentType.NEW.name,
                 ),
@@ -191,13 +181,12 @@ class StudentMapperTest {
                     id = ID,
                     firstName = FIRST_NAME,
                     lastName = LAST_NAME,
-                    nickName = NICK_NAME,
+                    patronymic = PATRONYMIC,
                     name = NAME,
                     phoneNumber = PHONE_NUMBER,
                     email = EMAIL,
                     skype = SKYPE,
                     discord = DISCORD,
-                    address = ADDRESS,
                     comment = COMMENT,
                     studentType = StudentType.NEW
                 )

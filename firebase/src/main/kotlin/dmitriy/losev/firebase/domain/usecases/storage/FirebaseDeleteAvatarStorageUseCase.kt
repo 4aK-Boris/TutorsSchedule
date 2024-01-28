@@ -10,8 +10,12 @@ class FirebaseDeleteAvatarStorageUseCase(reference: StorageReference) : Firebase
     private val avatarReference by lazy { reference.child("avatars") }
 
     suspend fun deleteAvatar(imageUri: Uri?) {
-        imageUri?.lastPathSegment?.let { lastPathSegment ->
-            avatarReference.child(lastPathSegment).delete().await()
+        try {
+            imageUri?.lastPathSegment?.let { lastPathSegment ->
+                avatarReference.child(lastPathSegment).delete().await()
+            }
+        } catch (_: Exception) {
+
         }
     }
 }

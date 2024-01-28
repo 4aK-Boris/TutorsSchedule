@@ -2,7 +2,7 @@ package dmitriy.losev.firebase.mappers
 
 import dmitriy.losev.firebase.data.dto.ContactDTO
 import dmitriy.losev.firebase.data.mappers.ContactMapper
-import dmitriy.losev.firebase.domain.models.Contact
+import dmitriy.losev.core.models.Contact
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.params.ParameterizedTest
@@ -34,7 +34,7 @@ class ContactMapperTest {
         val actualResult = contactMapper.map(value = contact)
 
         assertEquals(expectedId, actualResult.id)
-        assertEquals(expectedName, actualResult.name)
+        assertEquals(expectedName, actualResult.firstName)
         assertEquals(expectedPhoneNumber, actualResult.phoneNumber)
     }
 
@@ -49,7 +49,7 @@ class ContactMapperTest {
         expectedPhoneNumber: String
     ) {
         every { contactDTO.id } returns id
-        every { contactDTO.name } returns name
+        every { contactDTO.firstName } returns name
         every { contactDTO.phoneNumber } returns phoneNumber
 
         val actualResult = contactMapper.map(value = contactDTO)

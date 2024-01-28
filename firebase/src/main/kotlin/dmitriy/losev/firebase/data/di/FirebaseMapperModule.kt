@@ -6,6 +6,7 @@ import dmitriy.losev.firebase.data.mappers.GroupMapper
 import dmitriy.losev.firebase.data.mappers.LessonMapper
 import dmitriy.losev.firebase.data.mappers.NameMapper
 import dmitriy.losev.firebase.data.mappers.PeriodMapper
+import dmitriy.losev.firebase.data.mappers.PhoneNumberMapper
 import dmitriy.losev.firebase.data.mappers.SimpleStudentMapper
 import dmitriy.losev.firebase.data.mappers.StudentMapper
 import dmitriy.losev.firebase.data.mappers.SubjectMapper
@@ -37,4 +38,6 @@ val firebaseMapperModule = module {
     factoryOf(::TaskMapper)
 
     factoryOf(::PeriodMapper)
+
+    factoryOf(::PhoneNumberMapper)
 }

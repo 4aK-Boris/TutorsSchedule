@@ -1,10 +1,10 @@
 package dmitriy.losev.firebase.data.mappers
 
-import dmitriy.losev.firebase.core.toNotNull
-import dmitriy.losev.firebase.core.toNullable
+import dmitriy.losev.core.models.types.LessonType
+import dmitriy.losev.core.toNotNull
+import dmitriy.losev.core.toNullable
 import dmitriy.losev.firebase.data.dto.LessonDTO
 import dmitriy.losev.firebase.domain.models.Lesson
-import dmitriy.losev.firebase.domain.models.types.LessonType
 
 class LessonMapper {
 

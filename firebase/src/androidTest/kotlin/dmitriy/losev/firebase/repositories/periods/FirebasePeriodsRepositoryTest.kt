@@ -7,8 +7,8 @@ import dmitriy.losev.firebase.core.PERIODS
 import dmitriy.losev.firebase.data.dto.PeriodDTO
 import dmitriy.losev.firebase.data.mappers.PeriodMapper
 import dmitriy.losev.firebase.domain.models.Period
-import dmitriy.losev.firebase.domain.models.types.DayOfWeek
-import dmitriy.losev.firebase.domain.models.types.PeriodType
+import dmitriy.losev.core.models.types.DayOfWeek
+import dmitriy.losev.core.models.types.PeriodType
 import dmitriy.losev.firebase.domain.repositories.periods.FirebasePeriodsRepository
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await

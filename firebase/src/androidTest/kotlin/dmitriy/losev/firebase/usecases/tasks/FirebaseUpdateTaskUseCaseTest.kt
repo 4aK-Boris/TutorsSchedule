@@ -1,8 +1,8 @@
 package dmitriy.losev.firebase.usecases.tasks
 
 import dmitriy.losev.firebase.core.usecases.tasks.BaseTasksUseCaseTest
-import dmitriy.losev.firebase.domain.models.types.LessonStatus
-import dmitriy.losev.firebase.domain.models.types.PaidStatus
+import dmitriy.losev.core.models.types.LessonStatus
+import dmitriy.losev.core.models.types.PaidStatus
 import dmitriy.losev.firebase.domain.usecases.tasks.FirebaseUpdateTaskUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

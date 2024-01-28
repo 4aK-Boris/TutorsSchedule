@@ -14,11 +14,11 @@ class FirebaseUpdateAvatarUseCase(
     private val firebaseUploadAvatarStorageUseCase: FirebaseUploadAvatarStorageUseCase
 ) : FirebaseBaseUseCase() {
 
-    suspend fun updateAvatar(imageUrl: String) {
+    suspend fun updateAvatar(imageUrl: String?) {
         updateAvatar(user = firebaseGetUserUseCase.getUserWithException(), imageUrl = imageUrl)
     }
 
-    suspend fun updateAvatar(user: FirebaseUser, imageUrl: String) {
+    suspend fun updateAvatar(user: FirebaseUser, imageUrl: String?) {
         val uri = firebaseUriUseCase.convertUrlToUri(imageUrl)
         val imageUri = firebaseUploadAvatarStorageUseCase.uploadAvatar(imageUri = uri)
         updateAvatar(user, imageUri)

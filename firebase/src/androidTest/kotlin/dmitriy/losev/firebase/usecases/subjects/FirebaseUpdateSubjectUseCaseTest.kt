@@ -29,7 +29,7 @@ class FirebaseUpdateSubjectUseCaseTest: BaseSubjectsUseCaseTest() {
 
         assertTrue(hasSubject)
 
-        val newSubject = subject.copy(name = NAME)
+        val newSubject = subject.copy(name = NAME, price = PRICE)
 
         firebaseUpdateSubjectUseCase.updateSubject(SUBJECT_ID, newSubject)
 
@@ -40,5 +40,6 @@ class FirebaseUpdateSubjectUseCaseTest: BaseSubjectsUseCaseTest() {
 
     companion object {
         private const val NAME = "Группа для Иры"
+        private const val PRICE = 5000
     }
 }

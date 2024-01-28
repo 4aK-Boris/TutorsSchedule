@@ -7,7 +7,7 @@ import dmitriy.losev.firebase.core.exception.UserNotAuthorizationException
 import dmitriy.losev.firebase.data.dto.LessonDTO
 import dmitriy.losev.firebase.data.mappers.LessonMapper
 import dmitriy.losev.firebase.domain.models.Lesson
-import dmitriy.losev.firebase.domain.models.types.LessonType
+import dmitriy.losev.core.models.types.LessonType
 import kotlinx.coroutines.tasks.await
 import org.koin.test.inject
 

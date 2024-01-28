@@ -1,7 +1,7 @@
 package dmitriy.losev.firebase.data.dto
 
 import com.google.firebase.database.IgnoreExtraProperties
-import dmitriy.losev.firebase.domain.models.types.LessonType
+import dmitriy.losev.core.models.types.LessonType
 
 @IgnoreExtraProperties
 data class LessonDTO(
