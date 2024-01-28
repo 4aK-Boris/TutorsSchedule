@@ -24,6 +24,11 @@ class EmailValidationRepositoryImpl(
         checkUserAvailable(email)
     }
 
+    override suspend fun checkEmailForLogin(email: String) {
+        checkEmailForEmpty(email)
+        checkEmailForValidation(email)
+    }
+
     private fun checkEmailForEmpty(email: String) {
         if (email.isBlank()) {
             throw EmptyEmailException()
@@ -37,13 +42,13 @@ class EmailValidationRepositoryImpl(
     }
 
     private suspend fun checkUserAvailable(email: String) {
-        if (!authenticationNetwork.checkUserAvailable(email).isUserAvailable) {
+        if (authenticationNetwork.checkUserAvailable(email).isUserAvailable) {
             throw UserAvailableException()
         }
     }
 
     private suspend fun checkUserAbsence(email: String) {
-        if (!authenticationNetwork.checkUserAbsence(email).isUserAbsence) {
+        if (authenticationNetwork.checkUserAbsence(email).isUserAbsence) {
             throw UserAbsenceException()
         }
     }

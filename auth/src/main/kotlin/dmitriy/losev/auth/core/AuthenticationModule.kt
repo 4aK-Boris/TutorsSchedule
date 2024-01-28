@@ -6,6 +6,7 @@ import dmitriy.losev.auth.data.di.authenticationRepositoryModule
 import dmitriy.losev.auth.domain.di.authenticationUseCaseModule
 import dmitriy.losev.auth.presentation.di.authenticationViewModelModule
 import dmitriy.losev.vk.core.vkModule
+//import dmitriy.losev.vk.core.vkModule
 import dmitriy.losev.yandex.core.yandexModule
 import org.koin.dsl.module
 

@@ -19,6 +19,10 @@ class PasswordValidationRepositoryImpl: PasswordValidationRepository {
         checkPasswordsForSimilarity(password1, password2)
     }
 
+    override suspend fun checkPassword(password: String) {
+        checkPasswordForEmptiness(password)
+    }
+
     private fun checkPasswordForEmptiness(password: String) {
         val result = password.isBlank()
         if (result) {

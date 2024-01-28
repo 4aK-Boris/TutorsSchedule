@@ -1,6 +1,5 @@
 package dmitriy.losev.vk.core
 
-import dmitriy.losev.core.core.BaseUseCase
-import dmitriy.losev.core.core.ErrorHandler
+import dmitriy.losev.core.BaseUseCase
 
-abstract class VkBaseUseCase(errorHandler: ErrorHandler) : BaseUseCase(errorHandler = errorHandler)
+abstract class VkBaseUseCase : BaseUseCase()

@@ -5,13 +5,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.google.android.gms.auth.api.identity.SignInClient
 import dmitriy.losev.auth.core.AuthenticationNavigationListener
-import dmitriy.losev.auth.presentation.ui.screens.DataScreen
-import dmitriy.losev.auth.presentation.ui.screens.EmailLoginScreen
+import dmitriy.losev.auth.presentation.ui.screens.LoginScreen
 import dmitriy.losev.auth.presentation.ui.screens.PasswordResetScreen
 import dmitriy.losev.auth.presentation.ui.screens.PasswordScreen
+import dmitriy.losev.auth.presentation.ui.screens.RegistrationScreen
 import dmitriy.losev.auth.presentation.ui.screens.StartScreen
-import dmitriy.losev.firebase.domain.models.UserDescription
-import kotlinx.serialization.json.Json
 
 fun NavGraphBuilder.authenticationNavigation(
     route: String,
@@ -27,29 +25,31 @@ fun NavGraphBuilder.authenticationNavigation(
         composable(
             route = AuthenticationScreens.StartScreen.route
         ) {
-            StartScreen(authenticationNavigationListener, client)
+            StartScreen(authenticationNavigationListener)
         }
 
         composable(
             route = AuthenticationScreens.LoginScreen.route
         ) {
-            EmailLoginScreen(authenticationNavigationListener)
+            LoginScreen(authenticationNavigationListener, client)
         }
 
         composable(
-            route = AuthenticationScreens.DataScreen.route
+            route = AuthenticationScreens.RegistrationScreen.route
         ) {
-            DataScreen(authenticationNavigationListener)
+            RegistrationScreen(authenticationNavigationListener)
         }
 
         composable(
             route = AuthenticationScreens.PasswordScreen.route,
             arguments = AuthenticationScreens.PasswordScreen.arguments
         ) { backStackEntry ->
-            val userDescription: UserDescription? = backStackEntry.arguments?.getString(AuthenticationScreens.PasswordScreen.USER_DESCRIPTION)?.let {
-                Json.decodeFromString(it) }
-            requireNotNull(userDescription) { "userDescription parameter wasn't found. Please make sure it's set!" }
-            PasswordScreen(authenticationNavigationListener, userDescription)
+            val firstName = backStackEntry.arguments?.getString(AuthenticationScreens.PasswordScreen.FIRST_NAME)
+            val lastName = backStackEntry.arguments?.getString(AuthenticationScreens.PasswordScreen.LAST_NAME)
+            val patronymic = backStackEntry.arguments?.getString(AuthenticationScreens.PasswordScreen.PATRONYMIC)
+            val email = backStackEntry.arguments?.getString(AuthenticationScreens.PasswordScreen.EMAIL)
+            requireNotNull(email) { "email parameter wasn't found. Please make sure it's set!" }
+            PasswordScreen(firstName, lastName, patronymic, email, authenticationNavigationListener)
         }
 
         composable(

@@ -1,12 +1,9 @@
 package dmitriy.losev.yandex.core
 
 
-import dmitriy.losev.core.core.BaseUseCase
-import dmitriy.losev.core.core.ErrorHandler
-import kotlin.reflect.KClass
+import dmitriy.losev.core.BaseUseCase
 
-abstract class YandexBaseUseCase(errorHandler: ErrorHandler) :
-    BaseUseCase(errorHandler = errorHandler) {
+abstract class YandexBaseUseCase() : BaseUseCase() {
 
-    override val exceptions: Map<KClass<out Throwable>, Int> = mapOf()
+    //override val exceptions: Map<KClass<out Throwable>, Int> = mapOf()
 }

@@ -2,10 +2,9 @@ package dmitriy.losev.auth.domain.usecases
 
 import dmitriy.losev.auth.core.AuthenticationBaseUseCase
 import dmitriy.losev.auth.core.AuthenticationNavigationListener
-import dmitriy.losev.core.core.AuthenticationListener
-import dmitriy.losev.core.core.ErrorHandler
+import dmitriy.losev.core.AuthenticationListener
 
-class AuthenticationListenerUseCase(errorHandler: ErrorHandler) : AuthenticationBaseUseCase(errorHandler) {
+class AuthenticationListenerUseCase() : AuthenticationBaseUseCase() {
 
     fun getAuthenticationListener(
         authenticationNavigationListener: AuthenticationNavigationListener,

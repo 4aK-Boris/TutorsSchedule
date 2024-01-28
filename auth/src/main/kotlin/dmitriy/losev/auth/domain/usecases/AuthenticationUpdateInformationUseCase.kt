@@ -1,27 +1,53 @@
 package dmitriy.losev.auth.domain.usecases
 
-import com.google.firebase.auth.FirebaseUser
 import dmitriy.losev.auth.core.AuthenticationBaseUseCase
-import dmitriy.losev.core.core.ErrorHandler
-import dmitriy.losev.firebase.domain.models.UserDescription
-import dmitriy.losev.firebase.domain.usecases.FirebaseEmailVerificationUseCase
-import dmitriy.losev.firebase.domain.usecases.FirebaseUpdateAvatarUseCase
-import dmitriy.losev.firebase.domain.usecases.FirebaseUpdateDisplayNameUseCase
-import dmitriy.losev.firebase.domain.usecases.FirebaseUpdateEmailUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseEmailVerificationUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseGetFirstNameUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseGetLastNameUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseUpdateEmailUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseUpdateFirstNameUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseUpdateLastNameUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseUpdatePatronymicUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseUpdatePhoneNumberUseCase
 
 class AuthenticationUpdateInformationUseCase(
-    errorHandler: ErrorHandler,
-    private val firebaseUpdateAvatarUseCase: FirebaseUpdateAvatarUseCase,
-    private val firebaseUpdateDisplayNameUseCase: FirebaseUpdateDisplayNameUseCase,
+    private val firebaseUpdateFirstNameUseCase: FirebaseUpdateFirstNameUseCase,
+    private val firebaseUpdateLastNameUseCase: FirebaseUpdateLastNameUseCase,
+    private val firebaseUpdatePatronymicUseCase: FirebaseUpdatePatronymicUseCase,
+    private val firebaseUpdatePhoneNumberUseCase: FirebaseUpdatePhoneNumberUseCase,
     private val firebaseUpdateEmailUseCase: FirebaseUpdateEmailUseCase,
-    private val firebaseEmailVerificationUseCase: FirebaseEmailVerificationUseCase
-) : AuthenticationBaseUseCase(errorHandler) {
+    private val firebaseEmailVerificationUseCase: FirebaseEmailVerificationUseCase,
+    private val firebaseGetFirstNameUseCase: FirebaseGetFirstNameUseCase,
+    private val firebaseGetLastNameUseCase: FirebaseGetLastNameUseCase
+) : AuthenticationBaseUseCase() {
 
-    suspend fun updateInformation(user: FirebaseUser, userDescription: UserDescription) = safeReturnCall(
-        call1 = { firebaseUpdateAvatarUseCase.updateAvatarWithImageUri(user, userDescription.imageUri) },
-        call2 = { firebaseUpdateDisplayNameUseCase.updateDisplayName(user, userDescription.firstName, userDescription.lastName) },
-        call3 = { firebaseUpdateEmailUseCase.updateEmail(user, userDescription.email) }
-    ).processingResult {
-        firebaseEmailVerificationUseCase.sendVerificationMessage(user)
+    suspend fun updateInformation(firstName: String, lastName: String, patronymic: String, phoneNumber: String, email: String) {
+        launchFun(
+            f1 = { firebaseUpdateFirstNameUseCase.updateFirstName(firstName) },
+            f2 = { firebaseUpdateLastNameUseCase.updateLastName(lastName) },
+            f3 = { firebaseUpdatePatronymicUseCase.updatePatronymic(patronymic) },
+            f4 = { firebaseUpdatePhoneNumberUseCase.updatePhoneNumber(phoneNumber) },
+            f5 = { firebaseUpdateEmailUseCase.updateEmail(email) }
+        )
+        firebaseEmailVerificationUseCase.sendVerificationMessage()
+    }
+
+    suspend fun firstUpdateInformation(firstName: String, lastName: String) {
+        launchFun(
+            f1 = { firstUpdateFirstName(firstName) },
+            f2 = { firstUpdateLastName(lastName) }
+        )
+    }
+
+    private suspend fun firstUpdateFirstName(firstName: String) {
+        firebaseGetFirstNameUseCase.getFirstName().ifBlank {
+            firebaseUpdateFirstNameUseCase.updateFirstName(firstName)
+        }
+    }
+
+    private suspend fun firstUpdateLastName(lastName: String) {
+        firebaseGetLastNameUseCase.getLastName().ifBlank {
+            firebaseUpdateLastNameUseCase.updateLastName(lastName)
+        }
     }
 }

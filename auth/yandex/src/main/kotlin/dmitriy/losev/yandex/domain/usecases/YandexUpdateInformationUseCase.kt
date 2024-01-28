@@ -1,27 +1,29 @@
 package dmitriy.losev.yandex.domain.usecases
 
-import android.net.Uri
-import com.google.firebase.auth.FirebaseUser
-import dmitriy.losev.core.core.ErrorHandler
-import dmitriy.losev.firebase.domain.usecases.FirebaseEmailVerificationUseCase
-import dmitriy.losev.firebase.domain.usecases.FirebaseUpdateAvatarUseCase
-import dmitriy.losev.firebase.domain.usecases.FirebaseUpdateDisplayNameUseCase
-import dmitriy.losev.firebase.domain.usecases.FirebaseUpdateEmailUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseUpdateAvatarUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseUpdateEmailUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseUpdateFirstNameUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseUpdateLastNameUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseUpdatePatronymicUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseUpdatePhoneNumberUseCase
+import dmitriy.losev.yandex.core.EMPTY_STRING
 import dmitriy.losev.yandex.core.YandexBaseUseCase
 
 class YandexUpdateInformationUseCase(
-    errorHandler: ErrorHandler,
     private val firebaseUpdateAvatarUseCase: FirebaseUpdateAvatarUseCase,
-    private val firebaseUpdateDisplayNameUseCase: FirebaseUpdateDisplayNameUseCase,
+    private val firebaseUpdateFirstNameUseCase: FirebaseUpdateFirstNameUseCase,
+    private val firebaseUpdateLastNameUseCase: FirebaseUpdateLastNameUseCase,
+    private val firebaseUpdatePatronymicUseCase: FirebaseUpdatePatronymicUseCase,
+    private val firebaseUpdatePhoneNumberUseCase: FirebaseUpdatePhoneNumberUseCase,
     private val firebaseUpdateEmailUseCase: FirebaseUpdateEmailUseCase,
-    private val firebaseEmailVerificationUseCase: FirebaseEmailVerificationUseCase
-) : YandexBaseUseCase(errorHandler) {
+) : YandexBaseUseCase() {
 
-    suspend fun updateInformation(user: FirebaseUser, avatarUrl: String, firstName: String, lastName: String, email: String) = safeReturnCall(
-        call1 = { firebaseUpdateAvatarUseCase.updateAvatarWithImageUrl(user, Uri.parse(avatarUrl)) },
-        call2 = { firebaseUpdateDisplayNameUseCase.updateDisplayName(user, firstName, lastName) },
-        call3 = { firebaseUpdateEmailUseCase.updateEmail(user, email) }
-    ).processingResult {
-        firebaseEmailVerificationUseCase.sendVerificationMessage(user)
-    }
+    suspend fun updateInformation(avatarUrl: String, firstName: String, lastName: String, email: String) = launchFun(
+        f1 = { firebaseUpdateAvatarUseCase.updateAvatar(avatarUrl) },
+        f2 = { firebaseUpdateFirstNameUseCase.updateFirstName(firstName) },
+        f3 = { firebaseUpdateLastNameUseCase.updateLastName(lastName) },
+        f4 = { firebaseUpdatePatronymicUseCase.updatePatronymic(patronymic = EMPTY_STRING) },
+        f5 = { firebaseUpdatePhoneNumberUseCase.updatePhoneNumber(phoneNumber = EMPTY_STRING) },
+        f6 = { firebaseUpdateEmailUseCase.updateEmail(email) }
+    )
 }

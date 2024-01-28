@@ -1,31 +1,26 @@
 package dmitriy.losev.auth.presentation.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import dmitriy.losev.auth.R
 import dmitriy.losev.auth.core.AuthenticationNavigationListener
+import dmitriy.losev.auth.core.EMPTY_STRING
 import dmitriy.losev.auth.presentation.viewmodels.PasswordResetScreenViewModel
-import dmitriy.losev.core.presentation.ui.tutorsScheduleBackground
-import dmitriy.losev.core.presentation.ui.views.DefaultButton
-import dmitriy.losev.core.presentation.ui.views.DefaultTextField
+import dmitriy.losev.ui.views.LogoWithBackButton
+import dmitriy.losev.ui.views.Title1Text
+import dmitriy.losev.ui.views.VerticalSpacer
+import dmitriy.losev.ui.views.boxes.ColumnPrimaryWithLoader
+import dmitriy.losev.ui.views.buttons.PrimaryButton
+import dmitriy.losev.ui.views.textfields.EmailTextField
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -36,45 +31,49 @@ fun PasswordResetScreen(
 ) {
 
     LaunchedEffect(key1 = inputEmail) {
-        viewModel.onEmailChanged(email = inputEmail ?: "")
+        viewModel.onEmailChanged(email = inputEmail ?: EMPTY_STRING)
     }
 
     val email by viewModel.email.collectAsState()
 
-    val scrollState = rememberScrollState()
+    val emailTextFieldState by viewModel.emailTextFieldState.collectAsState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(state = scrollState)
-            .tutorsScheduleBackground(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    ColumnPrimaryWithLoader(verticalArrangement = Arrangement.SpaceBetween, viewModel = viewModel) {
 
-        Spacer(modifier = Modifier.height(height = 32.dp))
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        Image(
-            painter = painterResource(id = R.drawable.main_image),
-            contentDescription = stringResource(id = R.string.main_image),
-            modifier = Modifier.size(size = 256.dp)
-        )
+            LogoWithBackButton {
+                viewModel.back(authenticationNavigationListener)
+            }
 
-        Spacer(modifier = Modifier.height(height = 32.dp))
+            Title1Text(text = stringResource(id = R.string.password_recovery))
 
-        DefaultTextField(
-            text = email,
-            keyboardType = KeyboardType.Email,
-            imeAction = ImeAction.Send,
-            onTextChanged = viewModel::onEmailChanged,
-            placeHolder = stringResource(id = R.string.email)
-        )
+            EmailTextField(
+                title = stringResource(id = R.string.enter_email),
+                email = email,
+                onEmailChanged = viewModel::onEmailChanged,
+                textFieldState = emailTextFieldState,
+                clearTextFieldState = viewModel::clearEmailTextFieldState
+            )
+        }
 
-        Spacer(modifier = Modifier.height(height = 32.dp))
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        DefaultButton(text = stringResource(id = R.string.send_message)) {
-            viewModel.resetPassword(authenticationNavigationListener)
+            VerticalSpacer(height = 40.dp)
+
+            PrimaryButton(text = stringResource(id = R.string.further)) {
+                viewModel.resetPassword(authenticationNavigationListener)
+            }
+
+            VerticalSpacer(height = 120.dp)
         }
     }
-
 }

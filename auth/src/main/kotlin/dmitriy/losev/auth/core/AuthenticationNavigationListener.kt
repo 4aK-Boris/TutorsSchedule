@@ -1,16 +1,16 @@
 package dmitriy.losev.auth.core
 
-import dmitriy.losev.firebase.domain.models.UserDescription
-
 interface AuthenticationNavigationListener {
 
     suspend fun navigateToLoginScreen()
 
-    suspend fun navigateToDataScreen()
+    suspend fun navigateToRegistrationScreen()
 
-    suspend fun navigateToPasswordScreen(userDescription: UserDescription)
+    suspend fun navigateToPasswordScreen(firstName: String?, lastName: String?, patronymic: String?, email: String)
 
     suspend fun navigateToPasswordResetScreen(email: String?)
 
-   suspend fun navigateToProfileScreen()
+    suspend fun navigateToProfileScreen()
+
+    suspend fun back()
 }

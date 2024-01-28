@@ -1,22 +1,24 @@
 package dmitriy.losev.auth.domain.usecases
 
 import dmitriy.losev.auth.core.AuthenticationBaseUseCase
-import dmitriy.losev.core.core.ErrorHandler
-import dmitriy.losev.firebase.domain.models.UserDescription
-import dmitriy.losev.firebase.domain.usecases.FirebaseEmailRegistrationUseCase
+import dmitriy.losev.auth.core.EMPTY_STRING
+import dmitriy.losev.firebase.domain.usecases.auth.FirebaseEmailRegistrationUseCase
 
 class AuthenticationRegistrationUseCase(
-    errorHandler: ErrorHandler,
     private val authenticationPasswordUseCase: AuthenticationPasswordUseCase,
     private val authenticationUpdateInformationUseCase: AuthenticationUpdateInformationUseCase,
     private val firebaseEmailRegistrationUseCase: FirebaseEmailRegistrationUseCase
-) : AuthenticationBaseUseCase(errorHandler) {
+) : AuthenticationBaseUseCase() {
 
-    suspend fun registration(userDescription: UserDescription, password1: String, password2: String) = safeReturnCall {
-        authenticationPasswordUseCase.checkPassword(password1, password2).processingResult {
-            firebaseEmailRegistrationUseCase.registrationWithEmail(userDescription.email, password1).processingResult { user ->
-                authenticationUpdateInformationUseCase.updateInformation(user, userDescription)
-            }
-        }
+    suspend fun registration(firstName: String, lastName: String, patronymic: String, email: String, password1: String, password2: String) {
+        authenticationPasswordUseCase.checkPassword(password1, password2)
+        firebaseEmailRegistrationUseCase.registrationWithEmail(email, password1)
+        authenticationUpdateInformationUseCase.updateInformation(
+            firstName = firstName,
+            lastName = lastName,
+            patronymic = patronymic,
+            phoneNumber = EMPTY_STRING,
+            email = email
+        )
     }
 }

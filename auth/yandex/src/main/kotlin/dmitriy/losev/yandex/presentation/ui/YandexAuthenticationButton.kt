@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import dmitriy.losev.core.core.AuthenticationListener
-import dmitriy.losev.core.presentation.ui.views.AuthenticationButton
+import dmitriy.losev.core.AuthenticationListener
+import dmitriy.losev.ui.views.buttons.AuthenticationIconButton
 import dmitriy.losev.yandex.R
 import dmitriy.losev.yandex.presentation.viewmodels.YandexAuthenticationViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -25,11 +25,7 @@ fun YandexAuthenticationButton(
         viewModel.authWithYandexIntent(result, authenticationListener)
     }
 
-    AuthenticationButton(
-        modifier = modifier,
-        text = stringResource(id = R.string.yandex_login),
-        painter = painterResource(id = R.drawable.yandex_icon)
-    ) {
+    AuthenticationIconButton(modifier = modifier, icon = painterResource(id = R.drawable.yandex), contentDescription = stringResource(id = R.string.yandex_login)) {
         viewModel.authWithYandex(launcher, authenticationListener)
     }
 }
