@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_subject_screen_title">Создать предмет</string>
+    <string name="edit_subject_screen_title">Редактировать предмет</string>
+    <string name="subjects_screen_title">Предметы</string>
+
+    <string name="name">Название</string>
+    <string name="price">Стоимость</string>
+    <string name="have_not_price">Стоимость не указана</string>
+
+    <!--Exception messages-->
+    <string name="name_empty_exception_message">Название предмета не должно быть пустым</string>
+    <string name="user_not_authorization_exception_message">Вы не авторизованны, попробуйте авторизоваться ещё раз</string>
+    <string name="subject_is_not_loading_exception_message">Данные по предметы ещё не загружены из сети</string>
+</resources>
