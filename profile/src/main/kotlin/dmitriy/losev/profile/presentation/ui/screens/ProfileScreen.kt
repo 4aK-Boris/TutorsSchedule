@@ -1,17 +1,14 @@
 package dmitriy.losev.profile.presentation.ui.screens
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,122 +17,172 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dmitriy.losev.core.presentation.ui.tutorsScheduleBackground
-import dmitriy.losev.core.presentation.ui.views.DefaultButton
-import dmitriy.losev.core.presentation.ui.views.DefaultTextView
-import dmitriy.losev.core.theme.TutorsScheduleTheme
 import dmitriy.losev.profile.R
 import dmitriy.losev.profile.core.ProfileNavigationListener
-import dmitriy.losev.profile.presentation.ui.views.ProfileTopBar
+import dmitriy.losev.profile.presentation.ui.views.BlockWithIcon
+import dmitriy.losev.profile.presentation.ui.views.SettingsIconButton
+import dmitriy.losev.profile.presentation.ui.views.Subjects
 import dmitriy.losev.profile.presentation.viewmodels.ProfileScreenViewModel
+import dmitriy.losev.ui.theme.LocalTutorsScheduleColors
+import dmitriy.losev.ui.theme.LocalTutorsScheduleShapes
+import dmitriy.losev.ui.views.HorizontalSpacer
+import dmitriy.losev.ui.views.Title2ForWidgetText
+import dmitriy.losev.ui.views.Title2Text
+import dmitriy.losev.ui.views.VerticalSpacer
+import dmitriy.losev.ui.views.boxes.ColumnSecondaryWithLoader
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProfileScreen(
     profileNavigationListener: ProfileNavigationListener,
-    openDrawer: () -> Unit,
     viewModel: ProfileScreenViewModel = koinViewModel()
 ) {
+    val colors = LocalTutorsScheduleColors.current
 
-    val isAuthenticated by viewModel.isAuthenticated.collectAsState(initial = false)
+    val avatarBorderColor = colors.iconPrimary
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            ProfileTopBar(openDrawer, isAuthenticated) {
+    val avatarShape = LocalTutorsScheduleShapes.current.avatar
+
+    val avatar by viewModel.avatar.collectAsState(initial = null)
+    val displayName by viewModel.displayName.collectAsState()
+    val phoneNumber by viewModel.phoneNumber.collectAsState()
+    val email by viewModel.email.collectAsState()
+
+    val subjects by viewModel.subjects.collectAsState()
+
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.checkAuthAndLoadData(profileNavigationListener)
+    }
+
+    ColumnSecondaryWithLoader(viewModel = viewModel) {
+
+        VerticalSpacer(height = 24.dp)
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(avatar)
+                        .crossfade(enable = true)
+                        .build(),
+                    placeholder = painterResource(R.drawable.avatar),
+                    error = painterResource(R.drawable.avatar),
+                    fallback = painterResource(R.drawable.avatar),
+                    contentDescription = stringResource(R.string.avatar),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(size = 48.dp)
+                        .clip(avatarShape)
+                        .border(width = 2.dp, color = avatarBorderColor, shape = avatarShape)
+                )
+
+                HorizontalSpacer(width = 8.dp)
+
+                Title2Text(text = displayName, modifier = Modifier.width(width = screenWidth - 128.dp))
+            }
+
+            SettingsIconButton {
                 viewModel.navigateToEditProfileScreen(profileNavigationListener)
             }
         }
-    ) { paddingValues ->
-        ProfileScreenBody(
-            modifier = Modifier.padding(paddingValues),
-            profileNavigationListener = profileNavigationListener
-        )
-    }
-}
 
-@Composable
-fun ProfileScreenBody(
-    modifier: Modifier,
-    profileNavigationListener: ProfileNavigationListener,
-    viewModel: ProfileScreenViewModel = koinViewModel()
-) {
+        VerticalSpacer(height = 16.dp)
 
-    val uri by viewModel.avatarUri.collectAsState()
-    val displayName by viewModel.displayName.collectAsState()
-    val email by viewModel.email.collectAsState()
-    val isAuthenticated by viewModel.isAuthenticated.collectAsState(initial = false)
-
-    val buttonText = if (isAuthenticated) {
-        stringResource(id = R.string.exit)
-    } else {
-        stringResource(id = R.string.enter)
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.loadUserData()
-    }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .tutorsScheduleBackground(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(modifier = Modifier.height(height = 32.dp))
-
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(data = uri)
-                .crossfade(enable = true)
-                .build(),
-            error = painterResource(id = R.drawable.avatar_placeholder),
-            contentDescription = stringResource(id = R.string.avatar_content_description),
-            contentScale = ContentScale.Crop,
-            filterQuality = FilterQuality.High,
-            alignment = Alignment.Center,
+        Row(
             modifier = Modifier
-                .clip(shape = CircleShape)
-                .size(size = 200.dp),
-        )
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Title2Text(text = stringResource(id = R.string.phone))
 
-        Spacer(modifier = Modifier.height(height = 32.dp))
+            HorizontalSpacer(width = 12.dp)
 
-        if (isAuthenticated) {
-
-            DefaultTextView(
-                text = displayName ?: stringResource(id = R.string.default_display_name),
-                icon = Icons.Default.Person,
-                contentDescription = stringResource(id = R.string.first_name_and_last_name)
-            )
-
-            Spacer(modifier = Modifier.height(height = 16.dp))
-
-            DefaultTextView(
-                text = email ?: stringResource(id = R.string.default_email),
-                icon = Icons.Default.Email,
-                contentDescription = stringResource(id = R.string.email)
-            )
-
-        } else  {
-            Text(text = "Вы не авторизованы", style = TutorsScheduleTheme.typography.dialogTitle)
+            Title2ForWidgetText(text = phoneNumber)
         }
 
-        Spacer(modifier = Modifier.height(height = 16.dp))
+        VerticalSpacer(height = 20.dp)
 
-        DefaultButton(text = buttonText) {
-            viewModel.authentication(profileNavigationListener)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Title2Text(text = stringResource(id = R.string.email), modifier = Modifier.width(width = screenWidth - 244.dp))
+
+            HorizontalSpacer(width = 12.dp)
+
+            Title2ForWidgetText(text = email)
         }
 
-        Spacer(modifier = Modifier.height(height = 16.dp))
+        VerticalSpacer(height = 28.dp)
+
+        BlockWithIcon(title = stringResource(id = R.string.schedule_title), hint = stringResource(id = R.string.schedule_title_hint)) {
+
+        }
+
+        VerticalSpacer(height = 16.dp)
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .height(height = 120.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "Здесь что-то будет")
+        }
+
+        VerticalSpacer(height = 32.dp)
+
+        BlockWithIcon(title = stringResource(id = R.string.finance_title), hint = stringResource(id = R.string.finance_title_hint)) {
+
+        }
+
+        VerticalSpacer(height = 16.dp)
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .height(height = 160.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "Здесь что-то будет")
+        }
+
+        VerticalSpacer(height = 32.dp)
+
+        BlockWithIcon(title = stringResource(id = R.string.subjects_title), hint = stringResource(id = R.string.schedule_title_hint)) {
+            viewModel.navigateToSubjectsScreen(profileNavigationListener)
+        }
+
+        VerticalSpacer(height = 16.dp)
+
+        Subjects(subjects = subjects)
+
+        VerticalSpacer(height = 32.dp)
     }
 }
