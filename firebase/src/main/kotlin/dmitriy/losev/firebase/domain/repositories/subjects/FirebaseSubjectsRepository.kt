@@ -1,6 +1,6 @@
 package dmitriy.losev.firebase.domain.repositories.subjects
 
-import dmitriy.losev.firebase.domain.models.Subject
+import dmitriy.losev.core.models.Subject
 
 interface FirebaseSubjectsRepository {
 

@@ -7,7 +7,7 @@ import dmitriy.losev.firebase.core.FirebaseTask
 import dmitriy.losev.firebase.data.dto.ContactDTO
 import dmitriy.losev.firebase.data.mappers.ContactMapper
 import dmitriy.losev.firebase.data.repositories.FirebaseContactsRepositoryImpl
-import dmitriy.losev.firebase.domain.models.Contact
+import dmitriy.losev.core.models.Contact
 import io.mockk.Called
 import io.mockk.every
 import io.mockk.mockk

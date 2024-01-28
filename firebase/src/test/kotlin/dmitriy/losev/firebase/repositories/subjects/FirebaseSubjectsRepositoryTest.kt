@@ -7,7 +7,7 @@ import dmitriy.losev.firebase.core.SUBJECTS
 import dmitriy.losev.firebase.data.dto.SubjectDTO
 import dmitriy.losev.firebase.data.mappers.SubjectMapper
 import dmitriy.losev.firebase.data.repositories.subjects.FirebaseSubjectsRepositoryImpl
-import dmitriy.losev.firebase.domain.models.Subject
+import dmitriy.losev.core.models.Subject
 import io.mockk.Called
 import io.mockk.coVerifySequence
 import io.mockk.every

@@ -1,7 +1,7 @@
 package dmitriy.losev.firebase.core
 
 import androidx.test.platform.app.InstrumentationRegistry
-import dmitriy.losev.core.core.ResourcesManager
+import dmitriy.losev.core.ResourcesManager
 import dmitriy.losev.firebase.core.di.firebaseModule
 import org.junit.After
 import org.junit.Before

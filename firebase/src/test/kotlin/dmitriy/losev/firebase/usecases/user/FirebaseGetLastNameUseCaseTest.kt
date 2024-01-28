@@ -1,7 +1,7 @@
 package dmitriy.losev.firebase.usecases.user
 
 import com.google.firebase.auth.FirebaseUser
-import dmitriy.losev.firebase.domain.repositories.FirebaseNameRepository
+import dmitriy.losev.firebase.domain.repositories.FirebaseUserDataRepository
 import dmitriy.losev.firebase.domain.usecases.user.FirebaseGetDisplayNameUseCase
 import dmitriy.losev.firebase.domain.usecases.user.FirebaseGetLastNameUseCase
 import io.mockk.coEvery
@@ -17,23 +17,23 @@ class FirebaseGetLastNameUseCaseTest {
 
     private val user = mockk<FirebaseUser>()
 
-    private val firebaseNameRepository = mockk<FirebaseNameRepository>()
+    private val firebaseUserDataRepository = mockk<FirebaseUserDataRepository>()
     private val firebaseGetDisplayNameUseCase = mockk<FirebaseGetDisplayNameUseCase>()
 
-    private val firebaseGetLastNameUseCase = FirebaseGetLastNameUseCase(firebaseNameRepository, firebaseGetDisplayNameUseCase)
+    private val firebaseGetLastNameUseCase = FirebaseGetLastNameUseCase(firebaseUserDataRepository, firebaseGetDisplayNameUseCase)
 
     @ParameterizedTest
     @MethodSource("args")
     fun testGetLastNameWithoutUser(displayName: String?, lastName: String?): Unit = runBlocking {
 
         coEvery { firebaseGetDisplayNameUseCase.getDisplayName() } returns displayName
-        coEvery { firebaseNameRepository.getLastName(displayName) } returns lastName
+        coEvery { firebaseUserDataRepository.getLastName(displayName) } returns lastName
 
         val actualResult = firebaseGetLastNameUseCase.getLastName()
 
         coVerifySequence {
             firebaseGetDisplayNameUseCase.getDisplayName()
-            firebaseNameRepository.getLastName(displayName)
+            firebaseUserDataRepository.getLastName(displayName)
         }
 
         assertEquals(lastName, actualResult)
@@ -44,13 +44,13 @@ class FirebaseGetLastNameUseCaseTest {
     fun testGetLastNameWithUser(displayName: String?, lastName: String?): Unit = runBlocking {
 
         coEvery { firebaseGetDisplayNameUseCase.getDisplayName(user) } returns displayName
-        coEvery { firebaseNameRepository.getLastName(displayName) } returns lastName
+        coEvery { firebaseUserDataRepository.getLastName(displayName) } returns lastName
 
         val actualResult = firebaseGetLastNameUseCase.getLastName(user)
 
         coVerifySequence {
             firebaseGetDisplayNameUseCase.getDisplayName(user)
-            firebaseNameRepository.getLastName(displayName)
+            firebaseUserDataRepository.getLastName(displayName)
         }
 
         assertEquals(lastName, actualResult)

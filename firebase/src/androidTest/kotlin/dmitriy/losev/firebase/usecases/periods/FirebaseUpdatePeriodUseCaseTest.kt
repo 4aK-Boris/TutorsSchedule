@@ -1,8 +1,8 @@
 package dmitriy.losev.firebase.usecases.periods
 
 import dmitriy.losev.firebase.core.usecases.periods.BasePeriodsUseCaseTest
-import dmitriy.losev.firebase.domain.models.types.DayOfWeek
-import dmitriy.losev.firebase.domain.models.types.PeriodType
+import dmitriy.losev.core.models.types.DayOfWeek
+import dmitriy.losev.core.models.types.PeriodType
 import dmitriy.losev.firebase.domain.usecases.periods.FirebaseUpdatePeriodUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

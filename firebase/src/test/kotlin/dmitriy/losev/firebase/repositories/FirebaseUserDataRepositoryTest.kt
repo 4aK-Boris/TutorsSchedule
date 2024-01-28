@@ -1,15 +1,15 @@
 package dmitriy.losev.firebase.repositories
 
-import dmitriy.losev.firebase.data.repositories.FirebaseNameRepositoryImpl
+import dmitriy.losev.firebase.data.repositories.FirebaseUserDataRepositoryImpl
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.assertEquals
 
-class FirebaseNameRepositoryTest {
+class FirebaseUserDataRepositoryTest {
 
-    private val firebaseNameRepository = FirebaseNameRepositoryImpl()
+    private val firebaseNameRepository = FirebaseUserDataRepositoryImpl()
 
     @ParameterizedTest
     @MethodSource("firstNameArgs")

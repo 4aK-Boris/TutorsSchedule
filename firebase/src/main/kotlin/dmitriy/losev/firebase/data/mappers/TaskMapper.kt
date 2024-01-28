@@ -1,11 +1,11 @@
 package dmitriy.losev.firebase.data.mappers
 
-import dmitriy.losev.firebase.core.toNotNull
-import dmitriy.losev.firebase.core.toNullable
+import dmitriy.losev.core.models.types.LessonStatus
+import dmitriy.losev.core.models.types.PaidStatus
+import dmitriy.losev.core.toNotNull
+import dmitriy.losev.core.toNullable
 import dmitriy.losev.firebase.data.dto.TaskDTO
 import dmitriy.losev.firebase.domain.models.Task
-import dmitriy.losev.firebase.domain.models.types.LessonStatus
-import dmitriy.losev.firebase.domain.models.types.PaidStatus
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime

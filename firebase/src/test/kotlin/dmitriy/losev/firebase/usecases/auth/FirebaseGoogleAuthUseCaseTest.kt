@@ -9,7 +9,7 @@ import com.google.android.gms.auth.api.identity.SignInCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import dmitriy.losev.core.core.ResourcesManager
+import dmitriy.losev.core.ResourcesManager
 import dmitriy.losev.firebase.core.FirebaseTask
 import dmitriy.losev.firebase.domain.usecases.auth.FirebaseGoogleAuthUseCase
 import io.mockk.every

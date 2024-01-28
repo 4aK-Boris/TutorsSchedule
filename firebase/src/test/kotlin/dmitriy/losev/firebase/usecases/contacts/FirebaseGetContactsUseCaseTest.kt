@@ -1,6 +1,6 @@
 package dmitriy.losev.firebase.usecases.contacts
 
-import dmitriy.losev.firebase.domain.models.Contact
+import dmitriy.losev.core.models.Contact
 import dmitriy.losev.firebase.domain.repositories.FirebaseContactsRepository
 import dmitriy.losev.firebase.domain.usecases.contacts.FirebaseGetContactsUseCase
 import io.mockk.coEvery

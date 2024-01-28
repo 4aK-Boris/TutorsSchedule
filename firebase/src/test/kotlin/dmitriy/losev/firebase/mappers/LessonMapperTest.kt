@@ -3,7 +3,7 @@ package dmitriy.losev.firebase.mappers
 import dmitriy.losev.firebase.data.dto.LessonDTO
 import dmitriy.losev.firebase.data.mappers.LessonMapper
 import dmitriy.losev.firebase.domain.models.Lesson
-import dmitriy.losev.firebase.domain.models.types.LessonType
+import dmitriy.losev.core.models.types.LessonType
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource

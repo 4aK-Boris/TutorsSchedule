@@ -1,7 +1,7 @@
 package dmitriy.losev.firebase.usecases.lessons
 
 import dmitriy.losev.firebase.core.usecases.lessons.BaseLessonsUseCaseTest
-import dmitriy.losev.firebase.domain.models.types.LessonType
+import dmitriy.losev.core.models.types.LessonType
 import dmitriy.losev.firebase.domain.usecases.lessons.FirebaseUpdateLessonUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

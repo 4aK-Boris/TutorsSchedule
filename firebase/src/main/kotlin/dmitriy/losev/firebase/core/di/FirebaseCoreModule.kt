@@ -6,6 +6,8 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import dmitriy.losev.firebase.core.FIREBASE_DATABASE
+import dmitriy.losev.firebase.core.FIREBASE_STORAGE
 import org.koin.dsl.module
 
 val firebaseCoreModule = module {
@@ -15,11 +17,11 @@ val firebaseCoreModule = module {
     }
 
     single {
-        Firebase.storage
+        Firebase.storage(url = FIREBASE_STORAGE)
     }
 
     single {
-        Firebase.database
+        Firebase.database(url = FIREBASE_DATABASE)
     }
 
     single {

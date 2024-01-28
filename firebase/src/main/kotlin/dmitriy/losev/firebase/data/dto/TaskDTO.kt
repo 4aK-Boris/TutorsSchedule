@@ -1,8 +1,8 @@
 package dmitriy.losev.firebase.data.dto
 
 import com.google.firebase.database.IgnoreExtraProperties
-import dmitriy.losev.firebase.domain.models.types.LessonStatus
-import dmitriy.losev.firebase.domain.models.types.PaidStatus
+import dmitriy.losev.core.models.types.LessonStatus
+import dmitriy.losev.core.models.types.PaidStatus
 import java.time.ZoneId
 
 @IgnoreExtraProperties

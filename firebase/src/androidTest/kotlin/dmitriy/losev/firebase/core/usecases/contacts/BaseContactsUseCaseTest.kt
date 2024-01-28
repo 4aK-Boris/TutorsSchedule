@@ -5,7 +5,7 @@ import dmitriy.losev.firebase.core.BaseUseCaseTest
 import dmitriy.losev.firebase.core.CONTACTS
 import dmitriy.losev.firebase.data.dto.ContactDTO
 import dmitriy.losev.firebase.data.mappers.ContactMapper
-import dmitriy.losev.firebase.domain.models.Contact
+import dmitriy.losev.core.models.Contact
 import kotlinx.coroutines.tasks.await
 import org.koin.test.inject
 

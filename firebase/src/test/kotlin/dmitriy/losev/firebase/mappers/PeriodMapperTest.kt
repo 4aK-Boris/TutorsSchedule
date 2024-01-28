@@ -2,9 +2,9 @@ package dmitriy.losev.firebase.mappers
 
 import dmitriy.losev.firebase.data.dto.PeriodDTO
 import dmitriy.losev.firebase.data.mappers.PeriodMapper
-import dmitriy.losev.firebase.domain.models.types.DayOfWeek
+import dmitriy.losev.core.models.types.DayOfWeek
 import dmitriy.losev.firebase.domain.models.Period
-import dmitriy.losev.firebase.domain.models.types.PeriodType
+import dmitriy.losev.core.models.types.PeriodType
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource

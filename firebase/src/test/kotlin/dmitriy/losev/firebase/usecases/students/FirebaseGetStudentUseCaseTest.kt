@@ -2,7 +2,7 @@ package dmitriy.losev.firebase.usecases.students
 
 import com.google.firebase.auth.FirebaseUser
 import dmitriy.losev.firebase.core.exception.NullableStudentException
-import dmitriy.losev.firebase.domain.models.Student
+import dmitriy.losev.core.models.Student
 import dmitriy.losev.firebase.domain.repositories.students.FirebaseStudentsRepository
 import dmitriy.losev.firebase.domain.usecases.students.FirebaseGetStudentUseCase
 import dmitriy.losev.firebase.domain.usecases.user.FirebaseGetUserUseCase

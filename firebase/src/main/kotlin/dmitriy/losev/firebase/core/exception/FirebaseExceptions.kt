@@ -42,3 +42,4 @@ class FirebaseAuthUserCollisionException: BaseException(extraErrorCode = FIREBAS
 class FirebaseAuthRecentLoginRequiredException: BaseException(extraErrorCode = FIREBASE_AUTH_RECENT_LOGIN_REQUIRED_EXCEPTION_CODE)
 class FirebaseAuthWeakPasswordException: BaseException(extraErrorCode = FIREBASE_AUTH_WEAK_PASSWORD_EXCEPTION_CODE)
 class ApiException: BaseException(extraErrorCode = API_EXCEPTION_CODE)
+class FirebaseNetworkException: BaseException(extraErrorCode = FIREBASE_NETWORK_EXCEPTION_CODE)

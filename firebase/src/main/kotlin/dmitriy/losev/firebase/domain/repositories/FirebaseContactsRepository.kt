@@ -1,16 +1,18 @@
 package dmitriy.losev.firebase.domain.repositories
 
-import dmitriy.losev.firebase.domain.models.Contact
+import dmitriy.losev.core.models.Contact
 
 interface FirebaseContactsRepository {
 
-    suspend fun addContact(studentId: String, contact: Contact): String?
+    suspend fun addContact(teacherId: String, studentId: String, contact: Contact): String?
 
-    suspend fun updateContact(studentId: String, contactId: String, contact: Contact)
+    suspend fun updateContact(teacherId: String, studentId: String, contactId: String, contact: Contact)
 
-    suspend fun deleteContact(studentId: String, contactId: String)
+    suspend fun deleteContact(teacherId: String, studentId: String, contactId: String)
 
-    suspend fun getContact(studentId: String, contactId: String): Contact?
+    suspend fun deleteContacts(teacherId: String, studentId: String)
 
-    suspend fun getContacts(studentId: String): List<Contact>
+    suspend fun getContact(teacherId: String, studentId: String, contactId: String): Contact?
+
+    suspend fun getContacts(teacherId: String, studentId: String): List<Contact>
 }

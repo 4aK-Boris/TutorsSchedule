@@ -5,6 +5,8 @@ import com.google.firebase.database.IgnoreExtraProperties
 @IgnoreExtraProperties
 data class ContactDTO(
     val id: String? = null,
-    val name: String? = null,
+    val firstName: String? = null,
+    val lastName: String? = null,
+    val patronymic: String? = null,
     val phoneNumber: String? = null
 )

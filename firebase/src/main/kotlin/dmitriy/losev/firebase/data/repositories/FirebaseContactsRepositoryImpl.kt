@@ -1,45 +1,51 @@
 package dmitriy.losev.firebase.data.repositories
 
 import com.google.firebase.database.DatabaseReference
+import dmitriy.losev.core.models.Contact
 import dmitriy.losev.firebase.core.CONTACTS
 import dmitriy.losev.firebase.data.dto.ContactDTO
 import dmitriy.losev.firebase.data.mappers.ContactMapper
-import dmitriy.losev.firebase.domain.models.Contact
 import dmitriy.losev.firebase.domain.repositories.FirebaseContactsRepository
 import kotlinx.coroutines.tasks.await
 
 class FirebaseContactsRepositoryImpl(
-    reference: DatabaseReference,
+    private val reference: DatabaseReference,
     private val contactMapper: ContactMapper
 ) : FirebaseContactsRepository {
 
-    private val contacts by lazy { reference.child(CONTACTS) }
-
-    override suspend fun getContact(studentId: String, contactId: String): Contact? {
-        return contacts.child(studentId).child(contactId).get().await().getValue(ContactDTO::class.java)?.let { contactDTO ->
+    override suspend fun getContact(teacherId: String, studentId: String, contactId: String): Contact? {
+        return getContactsReference(teacherId, studentId).child(contactId).get().await().getValue(ContactDTO::class.java)?.let { contactDTO ->
             contactMapper.map(value = contactDTO)
         }
     }
 
-    override suspend fun addContact(studentId: String, contact: Contact): String? {
+    override suspend fun addContact(teacherId: String, studentId: String, contact: Contact): String? {
         val contactDTO = contactMapper.map(value = contact)
-        contacts.child(studentId).push().apply {
+        getContactsReference(teacherId, studentId).push().apply {
             setValue(contactDTO.copy(id = key)).await()
             return key
         }
     }
 
-    override suspend fun updateContact(studentId: String, contactId: String, contact: Contact) {
-        contacts.child(studentId).updateChildren(mapOf(contactId to contactMapper.map(value = contact))).await()
+    override suspend fun updateContact(teacherId: String, studentId: String, contactId: String, contact: Contact) {
+        getContactsReference(teacherId, studentId).updateChildren(mapOf(contactId to contactMapper.map(value = contact))).await()
     }
 
-    override suspend fun deleteContact(studentId: String, contactId: String) {
-        contacts.child(studentId).child(contactId).removeValue().await()
+    override suspend fun deleteContact(teacherId: String, studentId: String, contactId: String) {
+        getContactsReference(teacherId, studentId).child(contactId).removeValue().await()
     }
 
-    override suspend fun getContacts(studentId: String): List<Contact> {
-        return contacts.child(studentId).get().await().children.mapNotNull { dataSnapshot ->
+    override suspend fun deleteContacts(teacherId: String, studentId: String) {
+        getContactsReference(teacherId, studentId).removeValue().await()
+    }
+
+    override suspend fun getContacts(teacherId: String, studentId: String): List<Contact> {
+        return getContactsReference(teacherId, studentId).get().await().children.mapNotNull { dataSnapshot ->
             dataSnapshot.getValue(ContactDTO::class.java)?.let { contactMapper.map(value = it) }
         }
+    }
+
+    private fun getContactsReference(teacherId: String, studentId: String): DatabaseReference {
+        return reference.child(teacherId).child(CONTACTS).child(studentId)
     }
 }

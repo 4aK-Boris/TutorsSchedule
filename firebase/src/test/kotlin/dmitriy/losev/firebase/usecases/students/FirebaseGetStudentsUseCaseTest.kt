@@ -2,7 +2,7 @@ package dmitriy.losev.firebase.usecases.students
 
 import com.google.firebase.auth.FirebaseUser
 import dmitriy.losev.firebase.domain.repositories.students.FirebaseStudentsRepository
-import dmitriy.losev.firebase.domain.usecases.students.FirebaseGetSimpleStudentsUseCase
+import dmitriy.losev.firebase.domain.usecases.students.FirebaseGetStudentsUseCase
 import dmitriy.losev.firebase.domain.usecases.user.FirebaseGetUserUseCase
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
@@ -11,14 +11,14 @@ import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 
-class FirebaseGetSimpleStudentsUseCaseTest {
+class FirebaseGetStudentsUseCaseTest {
 
     private val user = mockk<FirebaseUser>()
 
     private val firebaseStudentsRepository = mockk<FirebaseStudentsRepository>(relaxed = true)
     private val firebaseGetUseCase = mockk<FirebaseGetUserUseCase>()
 
-    private val firebaseGetSimpleStudentsUseCase = FirebaseGetSimpleStudentsUseCase(firebaseStudentsRepository, firebaseGetUseCase)
+    private val firebaseGetStudentsUseCase = FirebaseGetStudentsUseCase(firebaseStudentsRepository, firebaseGetUseCase)
 
     @Test
     fun testGetSimpleStudents(): Unit = runBlocking {
@@ -26,11 +26,11 @@ class FirebaseGetSimpleStudentsUseCaseTest {
         coEvery { firebaseGetUseCase.getUserWithException() } returns user
         every { user.uid } returns TEACHER_ID
 
-        firebaseGetSimpleStudentsUseCase.getSimpleStudents()
+        firebaseGetStudentsUseCase.getStudents()
 
         coVerifySequence {
             firebaseGetUseCase.getUserWithException()
-            firebaseStudentsRepository.getSimpleStudents(TEACHER_ID)
+            firebaseStudentsRepository.getActiveStudents(TEACHER_ID)
         }
     }
 

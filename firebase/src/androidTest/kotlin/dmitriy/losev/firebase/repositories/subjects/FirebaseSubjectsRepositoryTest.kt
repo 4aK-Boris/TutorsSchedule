@@ -6,7 +6,7 @@ import dmitriy.losev.firebase.core.BaseRepositoryTest
 import dmitriy.losev.firebase.core.SUBJECTS
 import dmitriy.losev.firebase.data.dto.SubjectDTO
 import dmitriy.losev.firebase.data.mappers.SubjectMapper
-import dmitriy.losev.firebase.domain.models.Subject
+import dmitriy.losev.core.models.Subject
 import dmitriy.losev.firebase.domain.repositories.subjects.FirebaseSubjectsRepository
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await

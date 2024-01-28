@@ -1,7 +1,7 @@
 package dmitriy.losev.firebase.usecases.subjects
 
 import com.google.firebase.auth.FirebaseUser
-import dmitriy.losev.firebase.domain.models.Subject
+import dmitriy.losev.core.models.Subject
 import dmitriy.losev.firebase.domain.repositories.subjects.FirebaseSubjectsRepository
 import dmitriy.losev.firebase.domain.usecases.subjects.FirebaseAddSubjectUseCase
 import dmitriy.losev.firebase.domain.usecases.user.FirebaseGetUserUseCase

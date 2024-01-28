@@ -6,7 +6,7 @@ import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import dmitriy.losev.core.core.ResourcesManager
+import dmitriy.losev.core.ResourcesManager
 import dmitriy.losev.firebase.R
 import dmitriy.losev.firebase.core.FirebaseBaseUseCase
 import dmitriy.losev.firebase.core.exception.GoogleAuthIsNotSuccessException

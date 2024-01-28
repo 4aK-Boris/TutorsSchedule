@@ -3,8 +3,8 @@ package dmitriy.losev.firebase.mappers
 import dmitriy.losev.firebase.data.dto.TaskDTO
 import dmitriy.losev.firebase.data.mappers.TaskMapper
 import dmitriy.losev.firebase.domain.models.Task
-import dmitriy.losev.firebase.domain.models.types.LessonStatus
-import dmitriy.losev.firebase.domain.models.types.PaidStatus
+import dmitriy.losev.core.models.types.LessonStatus
+import dmitriy.losev.core.models.types.PaidStatus
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource

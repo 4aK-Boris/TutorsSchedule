@@ -7,8 +7,8 @@ import dmitriy.losev.firebase.core.TASKS
 import dmitriy.losev.firebase.data.dto.TaskDTO
 import dmitriy.losev.firebase.data.mappers.TaskMapper
 import dmitriy.losev.firebase.domain.models.Task
-import dmitriy.losev.firebase.domain.models.types.LessonStatus
-import dmitriy.losev.firebase.domain.models.types.PaidStatus
+import dmitriy.losev.core.models.types.LessonStatus
+import dmitriy.losev.core.models.types.PaidStatus
 import dmitriy.losev.firebase.domain.repositories.tasks.FirebaseTasksRepository
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
@@ -115,39 +115,35 @@ class FirebaseTasksRepositoryTest : BaseRepositoryTest() {
     }
 
     @Test
-    fun testGetTasksAfterTime(): Unit = runBlocking {
+    fun testGetCountTasks(): Unit = runBlocking {
 
-        val size = 10
-        val time =  ZonedDateTime.now().minusDays(1).toEpochSecond().toDouble()
-
-        repeat(size) { index ->
-            addTask(id = "$TASK_ID$index")
-        }
-
-        val actualResult = firebaseTasksRepository.getTasksAfterTime(userUID, time)
-
-        assertEquals(size, actualResult.size)
-
-        actualResult.forEachIndexed { index, manyTask ->
-            equalTasks(task.copy(id = "$TASK_ID$index"), manyTask)
-        }
-    }
-
-    @Test
-    fun testGetLimitTasksAfterTime(): Unit = runBlocking {
-
-        val size = 10
-        val count = 5
-        val time =  ZonedDateTime.now().minusDays(1).toEpochSecond().toDouble()
+        val size = 3
+        val count = 2
 
         repeat(size) { index ->
             addTask(id = "$TASK_ID$index")
         }
 
-        val actualResult = firebaseTasksRepository.getLimitTasksAfterTime(userUID, count, time)
+        val actualResult = firebaseTasksRepository.getTasks(teacherId = userUID, count = count)
 
         assertEquals(count, actualResult.size)
     }
+
+    @Test
+    fun testGetTimeTasks(): Unit = runBlocking {
+
+        val size = 3
+        val dateTime = ZonedDateTime.now().minusDays(2)
+
+        repeat(size) { index ->
+            addTask(id = "$TASK_ID$index", dateTime = ZonedDateTime.now().minusDays(index.toLong()))
+        }
+
+        val actualResult = firebaseTasksRepository.getTasks(teacherId = userUID, time = dateTime.toEpochSecond().toDouble())
+
+        assertEquals(2, actualResult.size)
+    }
+
 
 
     private fun equalTasks(expectedTask: Task, actualTask: Task?) {
@@ -172,6 +168,10 @@ class FirebaseTasksRepositoryTest : BaseRepositoryTest() {
 
     private suspend fun addTask(id: String) {
         taskReference.child(userUID).child(id).setValue(taskMapper.map(value = task.copy(id = id))).await()
+    }
+
+    private suspend fun addTask(id: String, dateTime: ZonedDateTime) {
+        taskReference.child(userUID).child(id).setValue(taskMapper.map(value = task.copy(id = id, dateTime = dateTime))).await()
     }
 
     private suspend fun deleteTasks() {

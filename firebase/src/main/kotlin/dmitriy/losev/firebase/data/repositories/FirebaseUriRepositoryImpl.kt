@@ -8,7 +8,7 @@ class FirebaseUriRepositoryImpl(
     private val uriMapper: UriMapper
 ): FirebaseUriRepository {
 
-    override fun convertUrlToUri(url: String): Uri {
+    override fun convertUrlToUri(url: String?): Uri {
         return uriMapper.map(url)
     }
 }

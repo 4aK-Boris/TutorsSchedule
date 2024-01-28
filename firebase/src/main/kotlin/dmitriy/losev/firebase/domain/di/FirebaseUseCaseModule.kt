@@ -7,7 +7,7 @@ import org.koin.dsl.module
 val firebaseUseCaseModule = module {
 
     includes(
-        firebaseGetSimpleStudentsUseCaseModule,
+        firebaseGetStudentsUseCaseModule,
         firebaseContactsUseCaseModule,
         firebaseAuthUseCaseModule,
         firebaseStorageUseCaseModule,

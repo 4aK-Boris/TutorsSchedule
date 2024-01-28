@@ -1,15 +1,15 @@
 package dmitriy.losev.firebase.usecases.students
 
 import dmitriy.losev.firebase.core.usecases.students.BaseStudentsUseCaseTest
-import dmitriy.losev.firebase.domain.usecases.students.FirebaseGetSimpleStudentsUseCase
+import dmitriy.losev.firebase.domain.usecases.students.FirebaseGetStudentsUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.koin.test.inject
 import kotlin.test.assertEquals
 
-class FirebaseGetSimpleStudentsUseCaseTest : BaseStudentsUseCaseTest() {
+class FirebaseGetStudentsUseCaseTest : BaseStudentsUseCaseTest() {
 
-    private val firebaseGetSimpleStudentsUseCase by inject<FirebaseGetSimpleStudentsUseCase>()
+    private val firebaseGetStudentsUseCase by inject<FirebaseGetStudentsUseCase>()
 
     override suspend fun setUp() {
         logIn()
@@ -26,7 +26,7 @@ class FirebaseGetSimpleStudentsUseCaseTest : BaseStudentsUseCaseTest() {
     @Test
     fun testGetSimpleStudents(): Unit = runBlocking {
 
-        val actualResult = firebaseGetSimpleStudentsUseCase.getSimpleStudents()
+        val actualResult = firebaseGetStudentsUseCase.getStudents()
 
         assertEquals(SIZE, actualResult.size)
 

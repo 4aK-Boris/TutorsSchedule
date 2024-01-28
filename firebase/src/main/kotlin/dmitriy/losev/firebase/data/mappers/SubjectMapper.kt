@@ -1,23 +1,26 @@
 package dmitriy.losev.firebase.data.mappers
 
-import dmitriy.losev.firebase.core.toNotNull
-import dmitriy.losev.firebase.core.toNullable
+import dmitriy.losev.core.models.Subject
+import dmitriy.losev.core.toNotNull
+import dmitriy.losev.core.toNotNullString
+import dmitriy.losev.core.toNullable
 import dmitriy.losev.firebase.data.dto.SubjectDTO
-import dmitriy.losev.firebase.domain.models.Subject
 
 class SubjectMapper {
 
     fun map(value: Subject): SubjectDTO {
         return SubjectDTO(
             id = value.id,
-            name = value.name.toNullable()
+            name = value.name.toNullable(),
+            price = value.price.toIntOrNull()
         )
     }
 
     fun map(value: SubjectDTO): Subject {
         return Subject(
-            id = value.id,
-            name = value.name.toNotNull()
+            id = value.id.toNotNull(),
+            name = value.name.toNotNull(),
+            price = value.price.toNotNullString()
         )
     }
 }

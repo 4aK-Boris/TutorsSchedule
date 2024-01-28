@@ -6,7 +6,7 @@ import dmitriy.losev.firebase.core.SUBJECTS
 import dmitriy.losev.firebase.core.exception.UserNotAuthorizationException
 import dmitriy.losev.firebase.data.dto.SubjectDTO
 import dmitriy.losev.firebase.data.mappers.SubjectMapper
-import dmitriy.losev.firebase.domain.models.Subject
+import dmitriy.losev.core.models.Subject
 import kotlinx.coroutines.tasks.await
 import org.koin.test.inject
 
@@ -54,7 +54,8 @@ abstract class BaseSubjectsUseCaseTest : BaseUseCaseTest() {
         const val SUBJECT_ID = "702yn476f32478n632584c320496732c42"
 
         const val NAME = "Математика ЕГЭ (профиль)"
+        const val PRICE = 1000
 
-        val subject = Subject(id = SUBJECT_ID, name = NAME)
+        val subject = Subject(id = SUBJECT_ID, name = NAME, price = PRICE)
     }
 }

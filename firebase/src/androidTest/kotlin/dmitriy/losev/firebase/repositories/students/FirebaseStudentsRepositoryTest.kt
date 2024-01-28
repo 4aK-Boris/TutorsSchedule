@@ -6,8 +6,8 @@ import dmitriy.losev.firebase.core.BaseRepositoryTest
 import dmitriy.losev.firebase.core.STUDENTS
 import dmitriy.losev.firebase.data.dto.StudentDTO
 import dmitriy.losev.firebase.data.mappers.StudentMapper
-import dmitriy.losev.firebase.domain.models.Student
-import dmitriy.losev.firebase.domain.models.types.StudentType
+import dmitriy.losev.core.models.Student
+import dmitriy.losev.core.models.types.StudentType
 import dmitriy.losev.firebase.domain.repositories.students.FirebaseStudentsRepository
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
@@ -71,14 +71,14 @@ class FirebaseStudentsRepositoryTest: BaseRepositoryTest() {
             addStudent(id = "$STUDENT_ID$index")
         }
 
-        val actualResult = firebaseStudentsRepository.getSimpleStudents(userUID)
+        val actualResult = firebaseStudentsRepository.getActiveStudents(userUID)
 
         assertEquals(size, actualResult.size)
 
         actualResult.forEachIndexed { index, simpleStudent ->
             assertEquals("$STUDENT_ID$index", simpleStudent.id)
             assertEquals(NAME, simpleStudent.name)
-            assertEquals(STUDENT_TYPE, simpleStudent.studentType)
+            assertEquals(STUDENT_TYPE, simpleStudent.isNew)
         }
     }
 
@@ -108,7 +108,7 @@ class FirebaseStudentsRepositoryTest: BaseRepositoryTest() {
         val newStudent = student.copy(
             firstName = NEW_FIRST_NAME,
             lastName = NEW_LAST_NAME,
-            nickName = NEW_NICK_NAME,
+            patronymic = NEW_NICK_NAME,
             name = NEW_NAME,
             phoneNumber = NEW_PHONE_NUMBER,
             address = NEW_ADDRESS,
@@ -182,7 +182,7 @@ class FirebaseStudentsRepositoryTest: BaseRepositoryTest() {
             id = STUDENT_ID,
             firstName = FIRST_NAME,
             lastName = LAST_NAME,
-            nickName = NICK_NAME,
+            patronymic = NICK_NAME,
             name = NAME,
             phoneNumber = PHONE_NUMBER,
             email = EMAIl,
