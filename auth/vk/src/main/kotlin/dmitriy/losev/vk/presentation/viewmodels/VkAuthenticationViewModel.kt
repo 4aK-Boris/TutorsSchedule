@@ -4,20 +4,17 @@ import android.app.Activity
 import android.content.Intent
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.result.ActivityResult
-import dmitriy.losev.core.core.AuthenticationListener
-import dmitriy.losev.core.core.BaseViewModel
-import dmitriy.losev.core.core.ErrorHandler
-import dmitriy.losev.core.core.runOnMain
+import dmitriy.losev.core.AuthenticationListener
+import dmitriy.losev.ui.core.BaseViewModel
+import dmitriy.losev.ui.core.runOnBackground
+import dmitriy.losev.ui.core.runOnMain
 import dmitriy.losev.vk.domain.usecases.VkAuthenticationUseCases
 import dmitriy.losev.vk.presentation.ui.VkActivity
 
-class VkAuthenticationViewModel(
-    errorHandler: ErrorHandler,
-    private val vkAuthenticationUseCases: VkAuthenticationUseCases
-) : BaseViewModel(errorHandler = errorHandler) {
+class VkAuthenticationViewModel(private val vkAuthenticationUseCases: VkAuthenticationUseCases) : BaseViewModel() {
 
-    fun authWithVk(launcher: ManagedActivityResultLauncher<Intent, ActivityResult>, authenticationListener: AuthenticationListener) = processing {
-        vkAuthenticationUseCases.authWithVk(launcher, authenticationListener)
+    fun authWithVk(launcher: ManagedActivityResultLauncher<Intent, ActivityResult>, authenticationListener: AuthenticationListener) = runOnBackground {
+        safeCall { vkAuthenticationUseCases.authWithVk(launcher, authenticationListener) }.processing()
     }
 
     fun authWithVkIntent(result: ActivityResult, authenticationListener: AuthenticationListener) = runOnMain {
@@ -28,11 +25,9 @@ class VkAuthenticationViewModel(
             if (token == null || uId == null) {
                 authenticationListener.onError()
             } else {
-                vkAuthenticationUseCases.authWithVk(
-                    userId = uId,
-                    token = token,
-                    email = email
-                ).processing(onError = authenticationListener::onError) {
+                safeCall {
+                    vkAuthenticationUseCases.authWithVk(userId = uId, token = token, email = email)
+                }.processing(onError = authenticationListener::onError) {
                     authenticationListener.onSuccess()
                 }
             }

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="dmitriy.losev.vk">
 
     <application>
         <activity
             android:name=".presentation.ui.VkActivity"
-            android:theme="@style/Vk.Theme"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/VkSuperappkit.Light.Transparent"
+            tools:replace="android:theme" />
     </application>
 
 </manifest>

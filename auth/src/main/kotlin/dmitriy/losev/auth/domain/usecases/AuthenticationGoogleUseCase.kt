@@ -6,35 +6,28 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.IntentSenderRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import dmitriy.losev.auth.core.AuthenticationBaseUseCase
-import dmitriy.losev.auth.core.AuthenticationNavigationListener
-import dmitriy.losev.core.core.ErrorHandler
-import dmitriy.losev.firebase.domain.usecases.FirebaseActivityAuthUseCase
-import dmitriy.losev.firebase.domain.usecases.FirebaseGoogleAuthUseCase
-import dmitriy.losev.firebase.domain.usecases.FirebaseUserUseCase
+import dmitriy.losev.auth.core.EMPTY_STRING
+import dmitriy.losev.firebase.domain.usecases.auth.FirebaseActivityAuthUseCase
+import dmitriy.losev.firebase.domain.usecases.auth.FirebaseGoogleAuthUseCase
+import dmitriy.losev.firebase.domain.usecases.user.FirebaseGetDisplayNameUseCase
 
 class AuthenticationGoogleUseCase(
-    errorHandler: ErrorHandler,
     private val firebaseGoogleAuthUseCase: FirebaseGoogleAuthUseCase,
     private val firebaseActivityAuthUseCase: FirebaseActivityAuthUseCase,
-    private val firebaseUserUseCase: FirebaseUserUseCase,
-    private val authenticationNavigationUseCases: AuthenticationNavigationUseCases
-) : AuthenticationBaseUseCase(errorHandler) {
+    private val firebaseGetDisplayNameUseCase: FirebaseGetDisplayNameUseCase,
+    private val authenticationUpdateInformationUseCase: AuthenticationUpdateInformationUseCase
+) : AuthenticationBaseUseCase() {
 
-    suspend fun authWithGoogle(client: SignInClient, launcher: ManagedActivityResultLauncher<IntentSenderRequest, ActivityResult>) = safeReturnCall {
-        firebaseGoogleAuthUseCase.authWithGoogle(client).processingResult { intentSender ->
-            firebaseActivityAuthUseCase.authWithActivity(intentSender, launcher)
-        }
+    suspend fun authWithGoogle(client: SignInClient, launcher: ManagedActivityResultLauncher<IntentSenderRequest, ActivityResult>) {
+        val intentSender = firebaseGoogleAuthUseCase.authWithGoogle(client)
+        firebaseActivityAuthUseCase.authWithActivity(intentSender, launcher)
     }
 
-    suspend fun authWithGoogleIntent(
-        intent: Intent?,
-        client: SignInClient,
-        authenticationNavigationListener: AuthenticationNavigationListener
-    ) = safeReturnCall {
-        firebaseGoogleAuthUseCase.authWithGoogleIntent(intent, client).processingResult {
-            firebaseUserUseCase.getUserWithException().processingResult {
-                authenticationNavigationUseCases.navigateToProfileScreen(authenticationNavigationListener)
-            }
-        }
+    suspend fun authWithGoogleIntent(intent: Intent?, client: SignInClient) {
+        firebaseGoogleAuthUseCase.authWithGoogleIntent(intent, client)
+        val displayName = firebaseGetDisplayNameUseCase.getDisplayName()?.split(' ')
+        val firstName = displayName?.firstOrNull() ?: EMPTY_STRING
+        val lastName = displayName?.lastOrNull() ?: EMPTY_STRING
+        authenticationUpdateInformationUseCase.firstUpdateInformation(firstName, lastName)
     }
 }

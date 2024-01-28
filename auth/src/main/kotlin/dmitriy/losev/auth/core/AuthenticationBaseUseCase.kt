@@ -1,6 +1,5 @@
 package dmitriy.losev.auth.core
 
-import dmitriy.losev.core.core.BaseUseCase
-import dmitriy.losev.core.core.ErrorHandler
+import dmitriy.losev.core.BaseUseCase
 
-abstract class AuthenticationBaseUseCase(errorHandler: ErrorHandler) : BaseUseCase(errorHandler = errorHandler)
+abstract class AuthenticationBaseUseCase : BaseUseCase()
