@@ -1,6 +1,5 @@
 package dmitriy.losev.tutorsschedule.core
 
-import dmitriy.losev.core.core.BaseUseCase
-import dmitriy.losev.core.core.ErrorHandler
+import dmitriy.losev.core.BaseUseCase
 
-abstract class AppBaseUseCase(errorHandler: ErrorHandler): BaseUseCase(errorHandler = errorHandler)
+abstract class AppBaseUseCase(): BaseUseCase()

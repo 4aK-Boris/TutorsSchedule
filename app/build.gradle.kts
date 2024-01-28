@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "dmitriy.losev.tutorsschedule"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -46,11 +46,13 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.4"
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompiler.get()
     }
-    packaging {
+    packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
         }
     }
 }
@@ -65,6 +67,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.ui.viewbinding)
     implementation(libs.material.icons)
+    implementation(libs.appcompat)
+    implementation(libs.material)
 
     implementation(libs.ui)
     implementation(libs.ui.graphics)
@@ -92,17 +96,17 @@ dependencies {
 
     implementation(project(":auth"))
     implementation(project(":profile"))
+    implementation(project(":subjects"))
     implementation(project(":students"))
     implementation(project(":core"))
     implementation(project(":firebase"))
     implementation(project(":network"))
     implementation(project(":exception"))
     implementation(project(":datastore"))
+    implementation(project(":database"))
+    implementation(project(":core:ui"))
 
-    implementation(libs.appcompat)
-    implementation(libs.material)
-
-    testImplementation(libs.junit.junit5)
+    //testImplementation(libs.junit.junit5)
 
     androidTestImplementation(libs.ui.test.junit4)
 

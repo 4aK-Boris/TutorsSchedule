@@ -2,10 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="DefaultTextViewPreview">
+      <entry key="CommentTextFieldPreviewWithLightTheme">
         <State />
       </entry>
-      <entry key="StudentItemPreview">
+      <entry key="DefaultTextFieldPreviewWithLightThemeAndDefaultState">
+        <State />
+      </entry>
+      <entry key="DefaultTextFieldPreviewWithLightThemeAndErrorState">
+        <State />
+      </entry>
+      <entry key="EditableTextPreviewWithDataAndLightTheme">
+        <State />
+      </entry>
+      <entry key="PasswordTextFieldPreviewWithLightTheme">
         <State>
           <targetSelectedWithDropDown>
             <Target>
@@ -18,24 +27,11 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2023-11-27T04:02:57.487777800Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-01-22T11:30:41.351910Z" />
         </State>
       </entry>
       <entry key="app">
-        <State>
-          <targetSelectedWithDropDown>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\nagib\.android\avd\Pixel_8_Pro_API_34.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2023-11-29T01:25:51.671416500Z" />
-        </State>
+        <State />
       </entry>
     </value>
   </component>
