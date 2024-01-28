@@ -4,4 +4,5 @@
     <string name="error_dialog_icon">Ошибка</string>
     <string name="error_dialog_title">Ошибка</string>
     <string name="error_dialog_confirm_button">Ок</string>
+    <string name="cross">Перейти</string>
 </resources>
