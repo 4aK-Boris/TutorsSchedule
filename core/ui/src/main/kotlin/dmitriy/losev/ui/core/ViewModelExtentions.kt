@@ -1,4 +1,4 @@
-package dmitriy.losev.core.core
+package dmitriy.losev.ui.core
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -10,8 +10,20 @@ fun BaseViewModel.runOnBackground(block: suspend () -> Unit): Job =
         block()
     }
 
+fun BaseViewModel.runOnBackgroundWithLoading(block: suspend () -> Unit): Job =
+    viewModelScope.launch(Dispatchers.Default) {
+        startLoading()
+        block()
+    }
+
 fun BaseViewModel.runOnIO(block: suspend () -> Unit): Job =
     viewModelScope.launch(Dispatchers.IO) {
+        block()
+    }
+
+fun BaseViewModel.runOnIOWithLoading(block: suspend () -> Unit): Job =
+    viewModelScope.launch(Dispatchers.IO) {
+        startLoading()
         block()
     }
 
