@@ -1,355 +1,276 @@
 package dmitriy.losev.profile.presentation.viewmodels
 
 import android.net.Uri
-import com.google.firebase.auth.FirebaseUser
-import dmitriy.losev.core.core.BaseViewModel
-import dmitriy.losev.core.core.ErrorHandler
-import dmitriy.losev.core.core.runOnBackground
-import dmitriy.losev.core.core.runOnMain
-import dmitriy.losev.core.domain.usecases.ToastUseCase
-import dmitriy.losev.firebase.core.exception.FIREBASE_AUTH_RECENT_LOGIN_REQUIRED_EXCEPTION_CODE
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.MultiplePermissionsState
 import dmitriy.losev.profile.R
-import dmitriy.losev.profile.core.ButtonBackgroundState
-import dmitriy.losev.profile.core.ButtonState
+import dmitriy.losev.profile.core.DEFAULT_DISPLAY_NAME
+import dmitriy.losev.profile.core.DEFAULT_EMAIL
+import dmitriy.losev.profile.core.EMPTY_STRING
 import dmitriy.losev.profile.core.ProfileNavigationListener
 import dmitriy.losev.profile.core.exception.EMAIL_VALIDATION_EXCEPTION_CODE
 import dmitriy.losev.profile.core.exception.EMPTY_EMAIL_EXCEPTION_CODE
 import dmitriy.losev.profile.core.exception.USER_AVAILABLE_EXCEPTION_CODE
+import dmitriy.losev.profile.domain.models.FullUserData
+import dmitriy.losev.profile.domain.usecases.ProfileAuthUseCase
+import dmitriy.losev.profile.domain.usecases.ProfileConvertUriUseCase
 import dmitriy.losev.profile.domain.usecases.ProfileDeleteAccountUseCase
 import dmitriy.losev.profile.domain.usecases.ProfileEmailVerificationUseCase
+import dmitriy.losev.profile.domain.usecases.ProfileLogOutUseCase
 import dmitriy.losev.profile.domain.usecases.ProfileNavigationUseCases
-import dmitriy.losev.profile.domain.usecases.ProfileUpdateAllUseCase
-import dmitriy.losev.profile.domain.usecases.ProfileUpdateAvatarUseCase
-import dmitriy.losev.profile.domain.usecases.ProfileUpdateDisplayNameUseCase
-import dmitriy.losev.profile.domain.usecases.ProfileUpdateEmailUseCase
-import dmitriy.losev.profile.domain.usecases.ProfileUserDataUseCase
-import dmitriy.losev.profile.domain.usecases.ProfileUserUseCase
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
+import dmitriy.losev.profile.domain.usecases.ProfilePhotoPickerUseCase
+import dmitriy.losev.profile.domain.usecases.data.ProfileGetAvatarFromCacheUseCase
+import dmitriy.losev.profile.domain.usecases.data.ProfileGetAvatarFromInternetUseCase
+import dmitriy.losev.profile.domain.usecases.data.ProfileGetUserDataUseCase
+import dmitriy.losev.profile.domain.usecases.data.ProfileUpdateUserDataUseCase
+import dmitriy.losev.ui.core.BaseViewModel
+import dmitriy.losev.ui.core.runOnBackground
+import dmitriy.losev.ui.core.runOnBackgroundWithLoading
+import dmitriy.losev.ui.core.runOnIO
+import dmitriy.losev.ui.core.runOnIOWithLoading
+import dmitriy.losev.ui.core.runOnMain
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.mapLatest
 
-@OptIn(ExperimentalCoroutinesApi::class)
+
 class EditProfileScreenViewModel(
-    errorHandler: ErrorHandler,
-    private val profileEmailVerificationUseCase: ProfileEmailVerificationUseCase,
-    private val profileUpdateDisplayNameUseCase: ProfileUpdateDisplayNameUseCase,
-    private val profileUpdateAvatarUseCase: ProfileUpdateAvatarUseCase,
-    private val profileUpdateAllUseCase: ProfileUpdateAllUseCase,
-    private val profileUserUseCase: ProfileUserUseCase,
-    private val profileUserDataUseCase: ProfileUserDataUseCase,
-    private val profileUpdateEmailUseCase: ProfileUpdateEmailUseCase,
-    private val profileDeleteAccountUseCase: ProfileDeleteAccountUseCase,
     private val profileNavigationUseCases: ProfileNavigationUseCases,
-    private val toastUseCase: ToastUseCase
-) : BaseViewModel(errorHandler = errorHandler) {
+    private val profileLogOutUseCase: ProfileLogOutUseCase,
+    private val profileGetUserDataUseCase: ProfileGetUserDataUseCase,
+    private val profileDeleteAccountUseCase: ProfileDeleteAccountUseCase,
+    private val profileEmailVerificationUseCase: ProfileEmailVerificationUseCase,
+    private val profileUpdateUserDataUseCase: ProfileUpdateUserDataUseCase,
+    private val profilePhotoPickerUseCase: ProfilePhotoPickerUseCase,
+    private val profileConvertUriUseCase: ProfileConvertUriUseCase,
+    private val profileGetAvatarFromCacheUseCase: ProfileGetAvatarFromCacheUseCase,
+    private val profileGetAvatarFromInternetUseCase: ProfileGetAvatarFromInternetUseCase,
+    private val profileAuthUseCase: ProfileAuthUseCase
+) : BaseViewModel() {
 
-    private val _user = MutableStateFlow<FirebaseUser?>(value = null)
+    private var fullUserData: FullUserData? = null
+
     private val _avatarUri = MutableStateFlow<Uri?>(value = null)
-    private val _firstName = MutableStateFlow(value = "")
-    private val _lastName = MutableStateFlow(value = "")
-    private val _email = MutableStateFlow(value = "")
-    private val _provider = MutableStateFlow<String?>(value = null)
+    private val _avatar = MutableStateFlow<ByteArray?>(value = null)
+    private val _displayName = MutableStateFlow(value = DEFAULT_DISPLAY_NAME)
+    private val _email = MutableStateFlow(value = EMPTY_STRING)
+    private val _phoneNumber = MutableStateFlow(value = EMPTY_STRING)
+    private val _firstName = MutableStateFlow(value = EMPTY_STRING)
+    private val _lastName = MutableStateFlow(value = EMPTY_STRING)
+    private val _patronymic = MutableStateFlow(value = EMPTY_STRING)
+
+    private val _popUpDeleteVisible = MutableStateFlow(value = false)
+    private val _popUpExitVisible = MutableStateFlow(value = false)
+    private val _popUpEmailVisible = MutableStateFlow(value = false)
+    private val _popUpPhotoVisible = MutableStateFlow(value = false)
+
+    private val _hasEmailChanged = MutableStateFlow(value = false)
     private val _isEmailVerified = MutableStateFlow(value = false)
-    private val _emailTimer = MutableStateFlow(value = 0)
-    private val _emailConfirmDialogState = MutableStateFlow(value = false)
-    private val _deleteAccountDialogState = MutableStateFlow(value = false)
-    private val _cancelDialogState = MutableStateFlow(value = false)
+    private val _hasPasswordChanged = MutableStateFlow(value = false)
 
-    private val _buttonBackgroundState = MutableStateFlow(value = ButtonBackgroundState.DEFAULT)
-    private val _firstNameButtonBackgroundState = MutableStateFlow(value = ButtonState.DEFAULT)
-    private val _lastNameButtonBackgroundState = MutableStateFlow(value = ButtonState.DEFAULT)
-    private val _emailButtonBackgroundState = MutableStateFlow(value = ButtonState.DEFAULT)
+    val avatar = combine(_avatarUri, _avatar) { avatarUri, avatar ->
+        avatarUri ?: avatar
+    }
 
-    private var oldAvatarUri = _avatarUri.value
-    private var oldFirstName = _firstName.value
-    private var oldLastName = _lastName.value
-    private var oldEmail = _email.value
-
-    val avatarUri = _avatarUri.asStateFlow()
+    val displayName = _displayName.asStateFlow()
+    val email = _email.asStateFlow()
     val firstName = _firstName.asStateFlow()
     val lastName = _lastName.asStateFlow()
-    val email = _email.asStateFlow()
-    val emailTimer = _emailTimer.asStateFlow()
-    val emailConfirmDialogState = _emailConfirmDialogState.asStateFlow()
-    val deleteAccountDialogState = _deleteAccountDialogState.asStateFlow()
-    val cancelDialogState = _cancelDialogState.asStateFlow()
+    val patronymic = _patronymic.asStateFlow()
+    val phoneNumber = _phoneNumber.asStateFlow()
 
-    val buttonState = _buttonBackgroundState.asStateFlow()
-    val firstNameButtonState = _firstNameButtonBackgroundState.asStateFlow()
-    val lastNameButtonState = _lastNameButtonBackgroundState.asStateFlow()
-    val emailButtonState = _emailButtonBackgroundState.asStateFlow()
+    val popUpDeleteVisible = _popUpDeleteVisible.asStateFlow()
+    val popUpExitVisible = _popUpExitVisible.asStateFlow()
+    val popUpEmailVisible = _popUpEmailVisible.asStateFlow()
+    val popUpPhotoVisible = _popUpPhotoVisible.asStateFlow()
 
-    val isAvatarChanged = _avatarUri.mapLatest { uri ->
-        uri != oldAvatarUri
-    }
-
-    val isFirstNameChanged = _firstName.mapLatest { firstName ->
-        firstName != oldFirstName
-    }
-
-    val isLastNameChanged = _lastName.mapLatest { lastName ->
-        lastName != oldLastName
-    }
-
-    val isEmailChanged = _email.mapLatest { email ->
-        email != oldEmail
-    }
-
-    private val hasChanges = combine(
-        isAvatarChanged,
-        isFirstNameChanged,
-        isLastNameChanged,
-        isEmailChanged
-    ) { isAvatarChanged, isFirstNameChanged, isLastNameChanged, isEmailChanged ->
-        !isAvatarChanged && !isFirstNameChanged && !isLastNameChanged && !isEmailChanged
-    }
-
-    val hasDelayExpired = _emailTimer.mapLatest { seconds ->
-        seconds == 0
-    }
-
-    val hasNeedEmailVerified = _isEmailVerified.mapLatest { isEmailVerified ->
-        oldEmail.isNotBlank() && !isEmailVerified
-    }
-
-    val changePassword = _provider.mapLatest { provider ->
-        provider == PASSWORD_PROVIDER
-    }
-
-    fun openEmailConfirmDialog() {
-        _emailConfirmDialogState.value = true
-    }
-
-    fun closeEmailConfirmDialog() {
-        _emailConfirmDialogState.value = false
-    }
-
-    fun openDeleteAccountDialog() {
-        _deleteAccountDialogState.value = true
-    }
-
-    fun closeDeleteAccountDialog() {
-        _deleteAccountDialogState.value = false
-    }
-
-    fun openCanselDialog() {
-        _cancelDialogState.value = true
-    }
-
-    fun closeCanselDialog() {
-        _cancelDialogState.value = false
-    }
-
-    fun onUriChanged(uri: Uri?) {
-        _avatarUri.value = uri
-    }
+    val hasEmailChanged = _hasEmailChanged.asStateFlow()
+    val isEmailVerified = _isEmailVerified.asStateFlow()
+    val hasPasswordChanged = _hasPasswordChanged.asStateFlow()
 
     fun onFirstNameChanged(firstName: String) {
         _firstName.value = firstName
-        _firstNameButtonBackgroundState.value = ButtonState.DEFAULT
     }
 
     fun onLastNameChanged(lastName: String) {
         _lastName.value = lastName
-        _lastNameButtonBackgroundState.value = ButtonState.DEFAULT
     }
 
-    fun onEmailChanged(email: String) {
-        _email.value = email
-        _emailButtonBackgroundState.value = ButtonState.DEFAULT
+    fun onPatronymicChanged(patronymic: String) {
+        _patronymic.value = patronymic
     }
 
-    private fun onUriUpdate(uri: Uri?) {
-        _avatarUri.value = uri
-        oldAvatarUri = uri
+    fun onPhoneNumberChanged(phoneNumber: String) {
+        _phoneNumber.value = phoneNumber
     }
 
-    private fun onFirstNameUpdate(firstName: String?) {
-        firstName?.let {
-            _firstName.value = firstName
-            oldFirstName = firstName
+    fun onAvatarUriChanged(avatarUri: Uri?) {
+        _avatarUri.value = avatarUri
+    }
+
+    fun onAvatarUriChanged(avatarUri: String?) = runOnIO {
+        safeNullableCall { profileConvertUriUseCase.convertStringToUri(avatarUri) }.processing { uri ->
+            onAvatarUriChanged(uri)
         }
     }
 
-    private fun onLastNameUpdate(lastName: String?) {
-        lastName?.let {
-            _lastName.value = lastName
-            oldLastName = lastName
+    fun back(profileNavigationListener: ProfileNavigationListener) = runOnMain {
+        profileNavigationUseCases.back(profileNavigationListener)
+    }
+
+    fun showDeletePopUp() {
+        _popUpDeleteVisible.value = true
+    }
+
+    fun closeDeletePopUp() {
+        _popUpDeleteVisible.value = false
+    }
+
+    fun showExitPopUp() {
+        _popUpExitVisible.value = true
+    }
+
+    fun closeExitPopUp() {
+        _popUpExitVisible.value = false
+    }
+
+    fun showEmailPopUp() {
+        _popUpEmailVisible.value = true
+    }
+
+    fun closeEmailPopUp() {
+        _popUpEmailVisible.value = false
+    }
+
+    fun showPhotoPopUp() {
+        _popUpPhotoVisible.value = true
+    }
+
+    fun closePhotoPopUp() {
+        _popUpPhotoVisible.value = false
+    }
+
+    fun sendMail() = runOnBackground {
+        safeCall { profileEmailVerificationUseCase.sendEmailVerification() }.processing {
+            closeEmailPopUp()
         }
     }
 
-    private fun onEmailUpdate(email: String?) {
-        email?.let {
-            _email.value = email
-            oldEmail = email
+    fun onEmailEditClick(profileNavigationListener: ProfileNavigationListener) = runOnBackground {
+        if (_isEmailVerified.value) {
+            profileNavigationUseCases.navigateToChangeEmailScreen(profileNavigationListener)
+        } else {
+            showEmailPopUp()
         }
     }
 
-    fun updateFirstName() = runOnBackground {
-        _user.value?.let { user ->
-            val firstname = _firstName.value
-            profileUpdateDisplayNameUseCase.updateDisplayName(
-                user = user,
-                firstName = firstname,
-                lastName = oldLastName
-            ).processing(
-                onError = {
-                    _firstNameButtonBackgroundState.value = ButtonState.ERROR
-                },
-                onSuccess = {
-                    oldFirstName = firstname
-                    _firstNameButtonBackgroundState.value = ButtonState.SUCCESS
-                }
-            )
-        }
-    }
-
-    fun updateLastName() = runOnBackground {
-        _user.value?.let { user ->
-            val lastname = _lastName.value
-            profileUpdateDisplayNameUseCase.updateDisplayName(
-                user = user,
-                firstName = oldFirstName,
-                lastName = lastname
-            ).processing(
-                onError = {
-                    _lastNameButtonBackgroundState.value = ButtonState.ERROR
-                },
-                onSuccess = {
-                    oldLastName = lastname
-                    _lastNameButtonBackgroundState.value = ButtonState.SUCCESS
-                }
-            )
-        }
-    }
-
-    fun updateEmail() = runOnBackground {
-        _user.value?.let { user ->
-            val email = _email.value
-            profileUpdateEmailUseCase.updateEmail(user, email).processing(
-                onError = {
-                    _emailButtonBackgroundState.value = ButtonState.ERROR
-                },
-                onSuccess = {
-                    oldEmail = email
-                    _emailButtonBackgroundState.value = ButtonState.SUCCESS
-                }
-            )
-        }
-    }
-
-    fun loadUserData(profileNavigationListener: ProfileNavigationListener) = runOnBackground {
-        profileUserUseCase.getUserWithException().processing(
-            onError = {
-                navigateToProfileScreen(profileNavigationListener)
-            }
-        ) { user ->
-            _user.value = user
-            profileUserDataUseCase.getUserData(user).processing { userData ->
-                onUriUpdate(userData.avatarUri)
-                onFirstNameUpdate(userData.firstName)
-                onLastNameUpdate(userData.lastName)
-                onEmailUpdate(userData.email)
-                _provider.value = userData.provider
-                _isEmailVerified.value = userData.isEmailVerified
-            }
-        }
-    }
-
-    fun sendEmailVerification() = runOnBackground {
-        _user.value?.let { user ->
-            profileEmailVerificationUseCase.sendEmailVerification(user).processing {
-                repeat(times = EMAIL_TIMER_DELAY) { delay ->
-                    _emailTimer.value = EMAIL_TIMER_DELAY - delay
-                    delay(1000L)
-                }
-                _emailTimer.value = 0
-            }
-        }
+    fun onPasswordEditClick(profileNavigationListener: ProfileNavigationListener) = runOnMain {
+        profileNavigationUseCases.navigateToChangePasswordScreen(profileNavigationListener)
     }
 
     fun deleteAccount(profileNavigationListener: ProfileNavigationListener) = runOnBackground {
-        _user.value?.let { user ->
-            profileDeleteAccountUseCase.deleteAccount(user).processing(
-                onError = ::closeDeleteAccountDialog
-            ) {
-                closeDeleteAccountDialog()
-                navigateToProfileScreen(profileNavigationListener)
-            }
+        safeCall { profileDeleteAccountUseCase.deleteAccount() }.processing {
+            profileNavigationUseCases.navigateToAuthenticationScreen(profileNavigationListener)
         }
     }
 
-    fun saveChanges(profileNavigationListener: ProfileNavigationListener) = runOnBackground {
-        _user.value?.let { user ->
-            val avatarUri = _avatarUri.value
-            val firstName = _firstName.value
-            val lastName = _lastName.value
-            val email = _email.value
-            isEmailChanged.collectLatest { isEmailChanged ->
-                if (isEmailChanged) {
-                    profileUpdateAllUseCase.updateAll(user, avatarUri, firstName, lastName, email)
-                        .processing {
-                            toastUseCase.showToast(id = R.string.confirm_toast_text)
-                            navigateToProfileScreen(profileNavigationListener)
-                        }
-                } else {
-                    profileUpdateAvatarUseCase.updateAvatar(user, avatarUri, oldAvatarUri).processing {
-                        profileUpdateDisplayNameUseCase.updateDisplayName(user, firstName, lastName)
-                            .processing {
-                                profileNavigationUseCases.navigateToProfileScreen(
-                                    profileNavigationListener
-                                ).processing()
-                            }
-
-                    }
-                }
-            }
+    fun saveChanges(profileNavigationListener: ProfileNavigationListener) = runOnBackgroundWithLoading {
+        val avatarUri = _avatarUri.value
+        val firstName = _firstName.value
+        val lastName = _lastName.value
+        val patronymic = _patronymic.value
+        val phoneNumber = _phoneNumber.value
+        safeCall { profileUpdateUserDataUseCase.updateUserData(
+            oldAvatarUri = fullUserData?.avatarUri,
+            newAvatarUri = avatarUri,
+            firstName = firstName,
+            lastName = lastName,
+            patronymic = patronymic,
+            phoneNumber = phoneNumber
+        ) }.processingLoading {
+            profileNavigationUseCases.back(profileNavigationListener)
         }
     }
 
-    fun cansel(profileNavigationListener: ProfileNavigationListener) = runOnBackground {
-        hasChanges.collectLatest { hasChanges ->
-            if (hasChanges) {
-                navigateToProfileScreen(profileNavigationListener)
+    fun loadUserData(profileNavigationListener: ProfileNavigationListener) = runOnIOWithLoading {
+        safeCall { profileAuthUseCase.isAuth() }.processing { isAuth ->
+            if (isAuth) {
+                safeCall {
+                    profileGetUserDataUseCase.getFullUserData(onCacheLoading = ::onDataLoadingFromCache, onFirebaseLoading = ::onDataLoadingFromFirebase)
+                }.processing()
             } else {
-                openCanselDialog()
+                stopLoading()
+                profileNavigationUseCases.navigateToAuthenticationScreen(profileNavigationListener)
             }
         }
     }
 
-    fun noSaveChanges(profileNavigationListener: ProfileNavigationListener) = runOnBackground {
-        closeCanselDialog()
-        navigateToProfileScreen(profileNavigationListener)
+    fun logOut(profileNavigationListener: ProfileNavigationListener) = runOnBackground {
+        closeExitPopUp()
+        safeCall { profileLogOutUseCase.logOut() }.processing {
+            profileNavigationUseCases.navigateToAuthenticationScreen(profileNavigationListener)
+        }
     }
 
-    private fun navigateToProfileScreen(profileNavigationListener: ProfileNavigationListener) =
-        runOnMain {
-            profileNavigationUseCases.navigateToProfileScreen(profileNavigationListener)
-                .processing()
-        }
+    fun navigateToSettingsScreen(profileNavigationListener: ProfileNavigationListener) = runOnMain {
+        profileNavigationUseCases.navigateToSettingsScreen(profileNavigationListener)
+    }
 
-    fun navigateToChangePasswordScreen(profileNavigationListener: ProfileNavigationListener) =
-        runOnMain {
-            profileNavigationUseCases.navigateToChangePasswordScreen(profileNavigationListener)
-                .processing()
+    fun pickPhoto(launcher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>) = runOnMain {
+        closePhotoPopUp()
+        profilePhotoPickerUseCase.launch(launcher)
+    }
+
+    @OptIn(ExperimentalPermissionsApi::class)
+    fun createPhoto(profileNavigationListener: ProfileNavigationListener, permissionState: MultiplePermissionsState) = runOnMain {
+        if (permissionState.allPermissionsGranted) {
+            closePhotoPopUp()
+            profileNavigationUseCases.navigateToCameraScreen(profileNavigationListener)
+        } else {
+            permissionState.launchMultiplePermissionRequest()
         }
+    }
+
+    private fun onDataLoadingFromCache(fullUserData: FullUserData?) = runOnIO {
+        fullUserData?.let {
+            onDataLoading(fullUserData)
+            safeNullableCall { profileGetAvatarFromCacheUseCase.getAvatar() }.processing { avatar ->
+                _avatar.value = avatar
+            }
+        }
+    }
+
+    private fun onDataLoadingFromFirebase(fullUserData: FullUserData) = runOnIO {
+        onDataLoading(fullUserData)
+        safeNullableCall { profileGetAvatarFromInternetUseCase.getAvatar(fullUserData.avatarUri) }.processing { avatar ->
+            if (_avatar.value?.contentEquals(avatar)?.not() != false) {
+                _avatar.value = avatar
+            }
+        }
+    }
+
+    private fun onDataLoading(fullUserData: FullUserData) {
+        stopLoading()
+        if (this.fullUserData != fullUserData) {
+            _displayName.value = fullUserData.displayName ?: DEFAULT_DISPLAY_NAME
+            _email.value = fullUserData.email ?: DEFAULT_EMAIL
+            _phoneNumber.value = fullUserData.phoneNumber ?: EMPTY_STRING
+            _firstName.value = fullUserData.firstName
+            _lastName.value = fullUserData.lastName
+            _patronymic.value = fullUserData.patronymic
+            _hasEmailChanged.value = fullUserData.hasEmailAndPasswordChanged
+            _hasPasswordChanged.value = fullUserData.hasEmailAndPasswordChanged
+            _isEmailVerified.value = fullUserData.isEmailVerified
+            this.fullUserData = fullUserData
+        }
+    }
 
     override val errorMap: Map<Int, Int>
         get() = mapOf(
-            FIREBASE_AUTH_RECENT_LOGIN_REQUIRED_EXCEPTION_CODE to R.string.firebase_auth_exception_message_in_edit_profile_screen,
             EMPTY_EMAIL_EXCEPTION_CODE to R.string.empty_email_exception_message,
             EMAIL_VALIDATION_EXCEPTION_CODE to R.string.email_validation_exception_message,
             USER_AVAILABLE_EXCEPTION_CODE to R.string.user_available_exception
         )
-
-    companion object {
-
-        private const val EMAIL_TIMER_DELAY = 60
-
-        private const val PASSWORD_PROVIDER = "password"
-    }
 }

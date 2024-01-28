@@ -14,6 +14,7 @@ val profileModule = module {
         profileViewModelModule,
         profileRepositoryModule,
         profileNetworkModule,
-        profileMapperModule
+        profileMapperModule,
+        cameraModule
     )
 }

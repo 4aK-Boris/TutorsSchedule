@@ -9,7 +9,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -71,12 +71,21 @@ dependencies {
     implementation(libs.firebase.storage.ktx)
     implementation(libs.firebase.auth.ktx)
 
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.extensions)
+
     implementation(project(":core"))
+    implementation(project(":core:ui"))
     implementation(project(":firebase"))
     implementation(project(":exception"))
     implementation(project(":network"))
+    implementation(project(":datastore"))
+    implementation(project(":database"))
 
-    testImplementation(libs.junit.junit5)
+    //testImplementation(libs.junit.junit5)
 
     androidTestImplementation(libs.ui.test.junit4)
 }
