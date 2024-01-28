@@ -7,27 +7,21 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import dmitriy.losev.core.core.BaseUseCase
-import dmitriy.losev.core.core.ErrorHandler
-import dmitriy.losev.firebase.core.exception.API_EXCEPTION_CODE
-import dmitriy.losev.firebase.core.exception.FIREBASE_AUTH_INVALID_CREDENTIALS_EXCEPTION_CODE
-import dmitriy.losev.firebase.core.exception.FIREBASE_AUTH_INVALID_USER_EXCEPTION_CODE
-import dmitriy.losev.firebase.core.exception.FIREBASE_AUTH_RECENT_LOGIN_REQUIRED_EXCEPTION_CODE
-import dmitriy.losev.firebase.core.exception.FIREBASE_AUTH_USER_COLLISION_EXCEPTION_CODE
-import dmitriy.losev.firebase.core.exception.FIREBASE_TOO_MANY_REQUESTS_EXCEPTION_CODE
-import dmitriy.losev.firebase.core.exception.UNSUPPORTED_API_CALL_EXCEPTION
+import dmitriy.losev.exception.BaseException
 import kotlin.reflect.KClass
 
-abstract class FirebaseBaseUseCase(errorHandler: ErrorHandler) :
-    BaseUseCase(errorHandler = errorHandler) {
+abstract class FirebaseBaseUseCase : BaseUseCase() {
 
-    override val exceptions: Map<KClass<out Throwable>, Int> = mapOf(
-        FirebaseAuthInvalidUserException::class to FIREBASE_AUTH_INVALID_USER_EXCEPTION_CODE,
-        FirebaseAuthInvalidCredentialsException::class to FIREBASE_AUTH_INVALID_CREDENTIALS_EXCEPTION_CODE,
-        FirebaseTooManyRequestsException::class to FIREBASE_TOO_MANY_REQUESTS_EXCEPTION_CODE,
-        UnsupportedApiCallException::class to UNSUPPORTED_API_CALL_EXCEPTION,
-        FirebaseAuthUserCollisionException::class to FIREBASE_AUTH_USER_COLLISION_EXCEPTION_CODE,
-        FirebaseAuthRecentLoginRequiredException::class to FIREBASE_AUTH_RECENT_LOGIN_REQUIRED_EXCEPTION_CODE,
-        ApiException::class to API_EXCEPTION_CODE
+    override val exceptions: Map<KClass<out Throwable>, BaseException> = mapOf(
+        FirebaseAuthInvalidUserException::class to dmitriy.losev.firebase.core.exception.FirebaseAuthInvalidUserException(),
+        FirebaseAuthInvalidCredentialsException::class to dmitriy.losev.firebase.core.exception.FirebaseAuthInvalidCredentialsException(),
+        FirebaseTooManyRequestsException::class to dmitriy.losev.firebase.core.exception.FirebaseTooManyRequestsException(),
+        UnsupportedApiCallException::class to dmitriy.losev.firebase.core.exception.UnsupportedApiCallException(),
+        FirebaseAuthUserCollisionException::class to dmitriy.losev.firebase.core.exception.FirebaseAuthUserCollisionException(),
+        FirebaseAuthRecentLoginRequiredException::class to dmitriy.losev.firebase.core.exception.FirebaseAuthRecentLoginRequiredException(),
+        FirebaseAuthWeakPasswordException::class to dmitriy.losev.firebase.core.exception.FirebaseAuthWeakPasswordException(),
+        ApiException::class to dmitriy.losev.firebase.core.exception.ApiException()
     )
 }
