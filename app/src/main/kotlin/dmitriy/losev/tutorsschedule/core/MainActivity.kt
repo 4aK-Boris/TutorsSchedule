@@ -7,9 +7,9 @@ import com.google.android.gms.auth.api.identity.Identity
 import com.vk.auth.api.models.AuthResult
 import com.vk.auth.main.VkClientAuthCallback
 import com.vk.auth.main.VkClientAuthLib
-import dmitriy.losev.core.core.BaseActivity
-import dmitriy.losev.core.core.BaseViewModel
+import dmitriy.losev.ui.core.BaseViewModel
 import dmitriy.losev.tutorsschedule.presentation.ui.MainScreen
+import dmitriy.losev.ui.core.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -26,10 +26,9 @@ class MainActivity : BaseActivity() {
 
     @Composable
     override fun UI(modifier: Modifier) {
+        val client = Identity.getSignInClient(this.applicationContext)
 
-        val client = Identity.getSignInClient(this)
-
-        MainScreen(modifier = modifier, client = client)
+        MainScreen(client = client)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +42,5 @@ class MainActivity : BaseActivity() {
 
         super.onDestroy()
     }
-
 }
 

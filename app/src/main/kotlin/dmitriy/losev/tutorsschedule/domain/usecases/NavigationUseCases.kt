@@ -1,24 +1,22 @@
 package dmitriy.losev.tutorsschedule.domain.usecases
 
 import androidx.navigation.NavController
-import dmitriy.losev.core.core.switchOnMain
-import dmitriy.losev.tutorsschedule.presentation.navigation.Screens
+import dmitriy.losev.core.BaseUseCase
+import dmitriy.losev.core.switchOnMain
 
-class NavigationUseCases {
-    suspend fun navigateProfileScreen(navController: NavController) = switchOnMain {
-        navController.navigate(route = Screens.ProfileScreen.route)
+class NavigationUseCases : BaseUseCase() {
+
+    suspend fun back(navController: NavController): Unit = switchOnMain {
+        navController.popBackStack()
     }
 
-    suspend fun navigateToAuthenticationsScreen(navController: NavController) = switchOnMain {
-        navController.navigate(route = Screens.AuthenticationScreen.route)
+    suspend fun clearScreen(navController: NavController, count: Int = 50): Unit = switchOnMain {
+        repeat(count) {
+            back(navController)
+        }
     }
 
-    suspend fun navigateToDestination(navController: NavController, route: String) = switchOnMain {
-        navController.navigate(route = route)
+    suspend fun removeScreen(navController: NavController, route: String) = switchOnMain {
+        navController.clearBackStack(route)
     }
-
-    suspend fun clearAuthenticationScreen(navController: NavController) = switchOnMain {
-        navController.clearBackStack(Screens.AuthenticationScreen.route)
-    }
-
 }

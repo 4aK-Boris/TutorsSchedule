@@ -1,6 +1,5 @@
 package dmitriy.losev.tutorsschedule.core
 
-import dmitriy.losev.core.core.BaseViewModel
-import dmitriy.losev.core.core.ErrorHandler
+import dmitriy.losev.ui.core.BaseViewModel
 
-class MainViewModel(errorHandler: ErrorHandler): BaseViewModel(errorHandler = errorHandler)
+class MainViewModel: BaseViewModel()

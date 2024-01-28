@@ -12,7 +12,8 @@ import dmitriy.losev.profile.core.ProfileNavigationListener
 import dmitriy.losev.profile.presentation.ui.navigation.profileNavigation
 import dmitriy.losev.students.core.StudentsNavigationListener
 import dmitriy.losev.students.presentation.ui.navigation.studentsNavigation
-import dmitriy.losev.tutorsschedule.presentation.ui.screens.CalendarScreen
+import dmitriy.losev.subjects.core.SubjectsNavigationListener
+import dmitriy.losev.subjects.presentation.ui.navigation.subjectsNavigation
 import dmitriy.losev.tutorsschedule.presentation.ui.screens.FinanceScreen
 
 
@@ -21,11 +22,11 @@ fun Navigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     profileNavigationListener: ProfileNavigationListener,
+    subjectsNavigationListener: SubjectsNavigationListener,
     studentsNavigationListener: StudentsNavigationListener,
     authenticationNavigationListener: AuthenticationNavigationListener,
     client: SignInClient,
-    startDestination: String = Screens.CalendarScreen.route,
-    openDrawer: () -> Unit,
+    startDestination: String = Screens.AuthenticationScreen.route,
 ) {
     NavHost(
         modifier = modifier,
@@ -42,7 +43,7 @@ fun Navigation(
         composable(
             route = Screens.CalendarScreen.route
         ) {
-           CalendarScreen(openDrawer)
+           //CalendarScreen(openDrawer)
         }
 
         composable(
@@ -53,14 +54,17 @@ fun Navigation(
 
         profileNavigation(
             profileNavigationListener = profileNavigationListener,
-            route = Screens.ProfileScreen.route,
-            openDrawer = openDrawer
+            route = Screens.ProfileScreen.route
+        )
+
+        subjectsNavigation(
+            subjectsNavigationListener = subjectsNavigationListener,
+            route = Screens.SubjectsScreen.route
         )
 
         studentsNavigation(
             studentsNavigationListener = studentsNavigationListener,
-            route = Screens.StudentsScreen.route,
-            openDrawer = openDrawer
+            route = Screens.StudentsScreen.route
         )
     }
 }

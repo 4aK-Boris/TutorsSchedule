@@ -45,4 +45,11 @@ sealed interface Screens {
 
         override val route = name
     }
+
+    data object SubjectsScreen: Screens {
+
+        override val name = "subject_screen"
+
+        override val route = name
+    }
 }
