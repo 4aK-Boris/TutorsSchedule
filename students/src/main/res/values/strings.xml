@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_student_screen_title">Добавить ученика</string>
+    <string name="update_student_screen_title">Редактировать ученика</string>
+    <string name="student_screen_title">Профиль ученика</string>
+    <string name="add_contact_screen_title">Добавить доп. контакт</string>
+    <string name="update_contact_screen_title">Редактировать доп. контакт</string>
+    <string name="contact_screen_title">Дополнительный контакт</string>
+
+    <string name="first_name_title">Имя</string>
+    <string name="last_name_title">Фамилия</string>
+    <string name="patronymic_title">Отчество</string>
+    <string name="phone_number_title">Телефон</string>
+    <string name="email_title">Почта</string>
+    <string name="skype_title">Skype</string>
+    <string name="discord_title">Discord</string>
+    <string name="comment_title">Комментарий к ученику</string>
+    <string name="additional_contacts_title">Дополнительные контакты</string>
+    <string name="upcoming_lessons_title">Ближайшие занятия</string>
+    <string name="student_groups_title">Группы ученика</string>
+
+    <string name="add_contact">Добавить контакт</string>
+
+    <string name="go_back">Вернуться назад</string>
+    <string name="nick_name">Прозвище</string>
+    <string name="address">Адрес</string>
+    <string name="comment">Комментарий</string>
+    <string name="menu">Меню</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
+    <string name="save_changes">Сохранить зименения</string>
+    <string name="contacts">Контакты</string>
+    <string name="back_pressed_dialog_title">Сохранить изменения?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="send_email_message">Отправить письмл по электронной почте</string>
+    <string name="choose_email_client">Выберите приложение для отправки письма</string>
+    <string name="call">Позвонить</string>
+    <string name="open_telegram">Открыть Telegram</string>
+    <string name="open_whats_app">Открыть WhatsApp</string>
+    <string name="open_viber">Открыть Viber</string>
+    <string name="open_skype">Открыть Skype</string>
+    <string name="find_place">Найти адрес</string>
+    <string name="send_sms">Отправить SMS</string>
+    <string name="student_groups">Группы ученика</string>
+    <string name="student_lessons">Занятия ученика</string>
+    <string name="student_finance">Финансы ученика</string>
+    <string name="student_schedule">Расписание ученика</string>
+    <string name="delete_student">Удалить ученика</string>
+    <string name="add_balance">Пополнить баланс</string>
+    <string name="move_to_the_archive">Перенести в архив</string>
+    <string name="student_data_title">Данные ученика</string>
+    <string name="student_indicators_title">Показатели ученика</string>
+    <string name="delete_dialog_title">Удалить ученика?</string>
+    <string name="delete_dialog_body">Будут удалены все данные связанные с учеником, востановать данные будет невозможно!</string>
+    <string name="delete_dialog_dismiss_button_text">Оставить</string>
+    <string name="delete_dialog_confirm_button_text">Удалить</string>
+    <string name="archive_dialog_title">Перенести в архив?</string>
+    <string name="archive_dialog_body">Все запланированные занятия с учеником будут отменены!</string>
+    <string name="archive_dialog_dismiss_button_text">Оставить</string>
+    <string name="archive_dialog_confirm_button_text">Перенести</string>
+    <string name="full_name">ФИО</string>
+    <string name="return_from_archive">Вернуть из архива</string>
+    <string name="move_to_archive">Переместить в архив</string>
+    <string name="enter">Авторизоваться</string>
+
+    <!--Сообщения об ошибках -->
+    <string name="student_is_not_loading_exception_message">Данные ученика не загрузились, попробйте ещё раз</string>
+    <string name="contact_is_not_loading_exception_message">Данные контакта ученика не загрузились, попробйте ещё раз</string>
+    <string name="empty_phone_number_exception_message">Телефон ученика не указан</string>
+    <string name="empty_phone_number_exception_message2">Номер телефона не указан</string>
+    <string name="empty_email_exception_message">Почта ученика не указана</string>
+    <string name="empty_skype_exception_message">Skype ученика не указана</string>
+    <string name="empty_discord_exception_message">Discord ученика не указана</string>
+    <string name="whats_app_application_is_not_installed_exception_message">Приложение Whats App не установлено</string>
+    <string name="skype_application_is_not_installed_exception_message">Приложение Skype не установлено</string>
+    <string name="viber_application_is_not_installed_exception_message">Приложение Viber не установлено</string>
+    <string name="telegram_application_is_not_installed_exception_message">Приложение Telegram не установлено</string>
+    <string name="empty_first_name_exception_message">Введите имя дополнительного контакта</string>
+    <string name="phone_number_validation_exception_message">Введённый номер телефона не является номером телефона</string>
+    <string name="email_validation_exception_message">Введённый адрес электронной почты не является таковым</string>
+ </resources>
