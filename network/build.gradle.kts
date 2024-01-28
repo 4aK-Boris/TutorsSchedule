@@ -19,5 +19,5 @@ dependencies {
     implementation(project(":exception"))
 
     testImplementation(libs.koin.test)
-    testImplementation(libs.junit.junit5)
+    //testImplementation(libs.junit.junit5)
 }
