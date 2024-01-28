@@ -1,0 +1,18 @@
+package dmitriy.losev.students.core.exception
+
+import dmitriy.losev.exception.BaseException
+
+internal class PhoneNumberValidationException : BaseException(extraErrorCode = PHONE_NUMBER_VALIDATION_EXCEPTION_CODE)
+internal class EmailValidationException : BaseException(extraErrorCode = EMAIL_VALIDATION_EXCEPTION_CODE)
+internal class GetStudentException : BaseException(extraErrorCode = GET_STUDENT_EXCEPTION_CODE)
+internal class EmptyPhoneNumberException : BaseException(extraErrorCode = EMPTY_PHONE_NUMBER_EXCEPTION_CODE)
+internal class StudentIsNotLoadingException: BaseException(extraErrorCode = STUDENT_IS_NOT_LOADING_EXCEPTION_CODE)
+internal class ContactIsNotLoadingException: BaseException(extraErrorCode = CONTACT_IS_NOT_LOADING_EXCEPTION_CODE)
+internal class EmptySkypeException: BaseException(extraErrorCode = EMPTY_SKYPE_EXCEPTION_CODE)
+internal class EmptyDiscordException: BaseException(extraErrorCode = EMPTY_DISCORD_EXCEPTION_CODE)
+internal class EmptyEmailException: BaseException(extraErrorCode = EMPTY_EMAIL_EXCEPTION_CODE)
+internal class WhatsAppApplicationIsNotInstalledException: BaseException(extraErrorCode = WHATS_APP_APPLICATION_IS_NOT_INSTALLED_EXCEPTION_CODE)
+internal class ViberApplicationIsNotInstalledException: BaseException(extraErrorCode = VIBER_APPLICATION_IS_NOT_INSTALLED_EXCEPTION_CODE)
+internal class SkypeApplicationIsNotInstalledException: BaseException(extraErrorCode = SKYPE_APPLICATION_IS_NOT_INSTALLED_EXCEPTION_CODE)
+internal class TelegramApplicationIsNotInstalledException: BaseException(extraErrorCode = TELEGRAM_APPLICATION_IS_NOT_INSTALLED_EXCEPTION_CODE)
+internal class EmptyFirstNameException: BaseException(extraErrorCode = EMPTY_FIRST_NAME_EXCEPTION_CODE)
