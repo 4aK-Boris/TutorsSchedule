@@ -20,11 +20,11 @@ class FirebaseGetAllGroupTasksUseCaseTest {
 
         val tasks = listOf(TASK_ID, TASK_ID, TASK_ID)
 
-        coEvery { firebaseGroupTasksRepository.getAllTasks(GROUP_ID) } returns tasks
+        coEvery { firebaseGroupTasksRepository.getTasks(GROUP_ID) } returns tasks
 
         val actualResult = firebaseGetAllGroupTasksUseCase.getAllTasks(GROUP_ID)
 
-        coVerify { firebaseGroupTasksRepository.getAllTasks(GROUP_ID) }
+        coVerify { firebaseGroupTasksRepository.getTasks(GROUP_ID) }
 
         assertContentEquals(tasks, actualResult)
     }

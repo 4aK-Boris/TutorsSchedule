@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dmitriy.losev.students.R
 import dmitriy.losev.students.core.StudentsNavigationListener
-import dmitriy.losev.students.presentation.ui.views.AddContactButton
+import dmitriy.losev.students.presentation.ui.views.AddButton
 import dmitriy.losev.students.presentation.ui.views.ContactsView
 import dmitriy.losev.students.presentation.ui.views.StudentMenuItem
 import dmitriy.losev.students.presentation.viewmodels.students.StudentScreenViewModel
@@ -107,7 +107,10 @@ fun StudentScreen(
 
             VerticalSpacer(height = 24.dp)
 
-            StudentMenuItem(title = stringResource(id = R.string.student_groups_title), onClick = {  }, onMenuClick = {  })
+            StudentMenuItem(
+                title = stringResource(id = R.string.student_groups_title),
+                onMenuClick = { viewModel.navigateToStudentsAndGroupsScreen(studentsNavigationListener, studentId) }
+            )
 
             VerticalSpacer(height = 24.dp)
 
@@ -119,7 +122,7 @@ fun StudentScreen(
 
             VerticalSpacer(height = 24.dp)
 
-            AddContactButton {
+            AddButton(title = stringResource(id = R.string.add_contact)) {
                 viewModel.navigateToAddContactScreen(studentsNavigationListener, studentId)
             }
 

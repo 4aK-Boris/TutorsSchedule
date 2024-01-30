@@ -17,8 +17,8 @@ import dmitriy.losev.ui.R
 import dmitriy.losev.ui.theme.TutorsScheduleTheme
 import dmitriy.losev.ui.views.Title1Text
 import dmitriy.losev.ui.views.VerticalSpacer
-import dmitriy.losev.ui.views.buttons.CriticalButton
 import dmitriy.losev.ui.views.buttons.PrimaryButton
+import dmitriy.losev.ui.views.buttons.SecondaryButton
 
 @Composable
 fun ArchiveStudentPopUp(visible: Boolean, close: () -> Unit, move: () -> Unit) {
@@ -35,7 +35,7 @@ fun ArchiveStudentPopUp(visible: Boolean, close: () -> Unit, move: () -> Unit) {
 
         VerticalSpacer(height = 16.dp)
 
-        CriticalButton(text = stringResource(id = R.string.move_to_archive), onClick = move)
+        SecondaryButton(text = stringResource(id = R.string.move_to_archive), onClick = move)
 
         VerticalSpacer(height = 40.dp)
     }

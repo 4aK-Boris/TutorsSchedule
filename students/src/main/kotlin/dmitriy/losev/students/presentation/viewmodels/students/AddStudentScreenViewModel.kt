@@ -6,8 +6,8 @@ import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.result.ActivityResult
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
+import dmitriy.losev.core.EMPTY_STRING
 import dmitriy.losev.students.R
-import dmitriy.losev.students.core.EMPTY_STRING
 import dmitriy.losev.students.core.StudentsNavigationListener
 import dmitriy.losev.students.core.exception.EMAIL_VALIDATION_EXCEPTION_CODE
 import dmitriy.losev.students.core.exception.EMPTY_FIRST_NAME_EXCEPTION_CODE

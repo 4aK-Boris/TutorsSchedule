@@ -7,6 +7,8 @@ import dmitriy.losev.students.domain.usecases.student.ConvertStudentToActiveStud
 import dmitriy.losev.students.domain.usecases.student.ConvertStudentToArchiveStudentUseCase
 import dmitriy.losev.students.domain.usecases.student.DeleteStudentUseCase
 import dmitriy.losev.students.domain.usecases.student.GetFilterStudentsUseCase
+import dmitriy.losev.students.domain.usecases.student.GetStudentContactsUseCase
+import dmitriy.losev.students.domain.usecases.student.GetStudentNamesUseCase
 import dmitriy.losev.students.domain.usecases.student.GetStudentUseCase
 import dmitriy.losev.students.domain.usecases.student.GetStudentsUseCase
 import dmitriy.losev.students.domain.usecases.student.StudentBringBackFromArchiveUseCase
@@ -40,4 +42,8 @@ val studentsGetStudentUseCaseModule = module {
     factoryOf(::CheckStudentUseCase)
 
     factoryOf(::GetFilterStudentsUseCase)
+
+    factoryOf(::GetStudentContactsUseCase)
+
+    factoryOf(::GetStudentNamesUseCase)
 }

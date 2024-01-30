@@ -1,11 +1,11 @@
 package dmitriy.losev.students.domain.usecases.contact
 
+import dmitriy.losev.core.EMPTY_STRING
 import dmitriy.losev.core.cache.DatabaseLoader
 import dmitriy.losev.core.models.Contact
 import dmitriy.losev.core.trimAndFirstCharToUpperCase
 import dmitriy.losev.database.domain.usecases.contacts.DatabaseAddContactUseCase
 import dmitriy.losev.firebase.domain.usecases.contacts.FirebaseAddContactUseCase
-import dmitriy.losev.students.core.EMPTY_STRING
 import dmitriy.losev.students.core.StudentsBaseUseCase
 import dmitriy.losev.students.domain.usecases.StudentsCheckNameUseCase
 import dmitriy.losev.students.domain.usecases.StudentsCheckPhoneNumberUseCase

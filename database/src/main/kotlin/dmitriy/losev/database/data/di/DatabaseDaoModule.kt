@@ -16,4 +16,12 @@ val databaseDaoModule = module {
     factory {
         get<TeacherTaskDatabase>().studentDao()
     }
+
+    factory {
+        get<TeacherTaskDatabase>().groupDao()
+    }
+
+    factory {
+        get<TeacherTaskDatabase>().studentGroupCrossRefDao()
+    }
 }

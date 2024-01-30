@@ -7,7 +7,7 @@ import dmitriy.losev.firebase.core.GROUPS
 import dmitriy.losev.firebase.data.dto.GroupDTO
 import dmitriy.losev.firebase.data.mappers.GroupMapper
 import dmitriy.losev.firebase.data.repositories.groups.FirebaseGroupsRepositoryImpl
-import dmitriy.losev.firebase.domain.models.Group
+import dmitriy.losev.core.models.Group
 import io.mockk.Called
 import io.mockk.every
 import io.mockk.mockk

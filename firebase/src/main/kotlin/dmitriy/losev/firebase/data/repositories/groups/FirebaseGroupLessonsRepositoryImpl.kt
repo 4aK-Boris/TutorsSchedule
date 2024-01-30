@@ -6,24 +6,27 @@ import dmitriy.losev.firebase.core.LESSONS
 import dmitriy.losev.firebase.domain.repositories.groups.FirebaseGroupLessonsRepository
 import kotlinx.coroutines.tasks.await
 
-class FirebaseGroupLessonsRepositoryImpl(reference: DatabaseReference): FirebaseGroupLessonsRepository {
+class FirebaseGroupLessonsRepositoryImpl(private val reference: DatabaseReference) : FirebaseGroupLessonsRepository {
 
-    private val groupLessons by lazy { reference.child(GROUPS) }
-    override suspend fun getAllLessons(groupId: String): List<String> {
-        return groupLessons.child(groupId).child(LESSONS).get().await().children
+    override suspend fun getAllLessons(teacherId: String, groupId: String): List<String> {
+        return getGroupLessonsReference(teacherId, groupId).get().await().children
             .filter { dataSnapshot -> dataSnapshot.getValue(Boolean::class.java) == true }
             .mapNotNull { dataSnapshot -> dataSnapshot.key }
     }
 
-    override suspend fun addLesson(groupId: String, lessonId: String) {
-        groupLessons.child(groupId).child(LESSONS).child(lessonId).setValue(true).await()
+    override suspend fun addLesson(teacherId: String, groupId: String, lessonId: String) {
+        getGroupLessonsReference(teacherId, groupId).child(lessonId).setValue(true).await()
     }
 
-    override suspend fun removeLesson(groupId: String, lessonId: String) {
-        groupLessons.child(groupId).child(LESSONS).child(lessonId).removeValue().await()
+    override suspend fun removeLesson(teacherId: String, groupId: String, lessonId: String) {
+        getGroupLessonsReference(teacherId, groupId).child(lessonId).removeValue().await()
     }
 
-    override suspend fun removeAllLessons(groupId: String) {
-        groupLessons.child(groupId).child(LESSONS).removeValue().await()
+    override suspend fun removeAllLessons(teacherId: String, groupId: String) {
+        getGroupLessonsReference(teacherId, groupId).removeValue().await()
+    }
+
+    private fun getGroupLessonsReference(teacherId: String, groupId: String): DatabaseReference {
+        return reference.child(teacherId).child(GROUPS).child(groupId).child(LESSONS)
     }
 }

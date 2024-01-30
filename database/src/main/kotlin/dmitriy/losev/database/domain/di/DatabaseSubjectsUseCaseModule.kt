@@ -2,6 +2,7 @@ package dmitriy.losev.database.domain.di
 
 import dmitriy.losev.database.domain.usecases.subjects.DatabaseAddSubjectUseCase
 import dmitriy.losev.database.domain.usecases.subjects.DatabaseDeleteSubjectUseCase
+import dmitriy.losev.database.domain.usecases.subjects.DatabaseDeleteSubjectsUseCase
 import dmitriy.losev.database.domain.usecases.subjects.DatabaseGetSubjectUseCase
 import dmitriy.losev.database.domain.usecases.subjects.DatabaseGetSubjectsUseCase
 import dmitriy.losev.database.domain.usecases.subjects.DatabaseSaveSubjectUseCase
@@ -25,4 +26,6 @@ val databaseSubjectsUseCaseModule = module {
     factoryOf(::DatabaseGetSubjectsUseCase)
 
     factoryOf(::DatabaseSaveSubjectUseCase)
+
+    factoryOf(::DatabaseDeleteSubjectsUseCase)
 }

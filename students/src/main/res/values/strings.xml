@@ -6,6 +6,10 @@
     <string name="add_contact_screen_title">Добавить доп. контакт</string>
     <string name="update_contact_screen_title">Редактировать доп. контакт</string>
     <string name="contact_screen_title">Дополнительный контакт</string>
+    <string name="choose_students_screen_title">Добавить учеников</string>
+    <string name="add_group_screen_title">Новый профиль группы</string>
+    <string name="update_group_screen_title">Редактировать профиль группы</string>
+    <string name="group_screen_title">Профиль группы</string>
 
     <string name="first_name_title">Имя</string>
     <string name="last_name_title">Фамилия</string>
@@ -18,8 +22,12 @@
     <string name="additional_contacts_title">Дополнительные контакты</string>
     <string name="upcoming_lessons_title">Ближайшие занятия</string>
     <string name="student_groups_title">Группы ученика</string>
+    <string name="name_title">Название</string>
+    <string name="students_title">Ученики</string>
 
     <string name="add_contact">Добавить контакт</string>
+    <string name="add_students">Добавить учеников</string>
+    <string name="add_students2">Добавьте учеников</string>
 
     <string name="go_back">Вернуться назад</string>
     <string name="nick_name">Прозвище</string>
@@ -79,4 +87,7 @@
     <string name="empty_first_name_exception_message">Введите имя дополнительного контакта</string>
     <string name="phone_number_validation_exception_message">Введённый номер телефона не является номером телефона</string>
     <string name="email_validation_exception_message">Введённый адрес электронной почты не является таковым</string>
+    <string name="empty_name_exception_message">Название группы не должно быть пустым</string>
+    <string name="empty_students_exception_message">Вы не выбрали ни одного ученика</string>
+    <string name="group_is_not_loading_exception_message">Данные группы не загрузились, попробйте ещё раз</string>
  </resources>

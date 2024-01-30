@@ -3,6 +3,7 @@ package dmitriy.losev.students.presentation.ui.navigation
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import dmitriy.losev.core.EMPTY_STRING
 
 sealed interface StudentsScreens {
 
@@ -13,11 +14,37 @@ sealed interface StudentsScreens {
     val arguments: List<NamedNavArgument>
         get() = emptyList()
 
-    data object StudentsScreen: StudentsScreens {
+    data object StudentsAndGroupsScreen: StudentsScreens {
 
-        override val name = "main_students_screen"
+        const val IS_STUDENTS = "is_students"
+        const val STUDENT_ID = "student_id"
+        const val GROUP_ID = "group_id"
 
-        override val route = name
+        override val name = "students_and_groups_screen"
+
+        override val route = "$name/{$IS_STUDENTS}/?$STUDENT_ID={$STUDENT_ID}/?$GROUP_ID={$GROUP_ID}"
+
+        override val arguments = listOf(
+            navArgument(name = IS_STUDENTS) {
+                type = NavType.BoolType
+                nullable = false
+                defaultValue = true
+            },
+            navArgument(name = STUDENT_ID) {
+                type = NavType.StringType
+                nullable = true
+                defaultValue = null
+            },
+            navArgument(name = GROUP_ID) {
+                type = NavType.StringType
+                nullable = true
+                defaultValue = null
+            }
+        )
+
+        fun createRoute(isStudents: Boolean, studentId: String?, groupId: String?): String {
+            return "$name/$isStudents/?$STUDENT_ID=$studentId/?$GROUP_ID=$groupId"
+        }
     }
 
     data object AddStudentScreen: StudentsScreens {
@@ -25,6 +52,68 @@ sealed interface StudentsScreens {
         override val name = "add_student_screen"
 
         override val route = name
+    }
+
+    data object ChooseStudentsScreen: StudentsScreens {
+
+        const val GROUP_ID = "group_id"
+
+        override val name = "choose_students_screen"
+
+        override val route = "$name?$GROUP_ID={$GROUP_ID}"
+
+        override val arguments = listOf(
+            navArgument(name = GROUP_ID) {
+                type = NavType.StringType
+                nullable = true
+                defaultValue = EMPTY_STRING
+            }
+        )
+
+        fun createRoute(groupId: String?): String {
+            return "$name?$GROUP_ID=$groupId"
+        }
+    }
+
+    data object GroupScreen: StudentsScreens {
+
+        const val GROUP_ID = "group_id"
+
+        override val name = "group_screen"
+
+        override val route = "$name/{$GROUP_ID}"
+
+        override val arguments = listOf(
+            navArgument(name = GROUP_ID) { type = NavType.StringType }
+        )
+
+        fun createRoute(groupId: String): String {
+            return "$name/$groupId"
+        }
+    }
+
+    data object AddGroupScreen: StudentsScreens {
+
+        override val name = "add_group_screen"
+
+        override val route = name
+    }
+
+    data object UpdateGroupScreen: StudentsScreens {
+
+        const val GROUP_ID = "group_id"
+
+        override val name = "update_group_screen"
+
+        override val route = "$name/{$GROUP_ID}"
+
+        override val arguments = listOf(
+            navArgument(name = GROUP_ID) { type = NavType.StringType }
+        )
+
+        fun createRoute(groupId: String): String {
+            return "$name/$groupId"
+        }
     }
 
     data object UpdateStudentScreen: StudentsScreens {

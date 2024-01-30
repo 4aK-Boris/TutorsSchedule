@@ -2,11 +2,11 @@ package dmitriy.losev.firebase.domain.repositories.groups
 
 interface FirebaseGroupStudentsRepository {
 
-    suspend fun getAllStudents(groupId: String): List<String>
+    suspend fun getStudents(teacherId: String, groupId: String): List<String>
 
-    suspend fun addStudent(groupId: String, studentId: String)
+    suspend fun addStudent(teacherId: String, groupId: String, studentId: String)
 
-    suspend fun removeStudent(groupId: String, studentId: String)
+    suspend fun removeStudent(teacherId: String, groupId: String, studentId: String)
 
-    suspend fun removeAllStudents(groupId: String)
+    suspend fun removeStudents(teacherId: String, groupId: String)
 }

@@ -18,7 +18,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import dmitriy.losev.students.R
 import dmitriy.losev.students.core.StudentsNavigationListener
-import dmitriy.losev.students.presentation.ui.views.AddContactButton
+import dmitriy.losev.students.presentation.ui.views.AddButton
 import dmitriy.losev.students.presentation.ui.views.ContactsView
 import dmitriy.losev.students.presentation.viewmodels.students.UpdateStudentScreenViewModel
 import dmitriy.losev.ui.views.TitleWithSaveIcon
@@ -184,7 +184,7 @@ fun UpdateStudentScreen(
 
             VerticalSpacer(height = 24.dp)
 
-            AddContactButton {
+            AddButton(title = stringResource(id = R.string.add_contact)) {
                 viewModel.navigateToAddContactScreen(studentsNavigationListener, studentId)
             }
 

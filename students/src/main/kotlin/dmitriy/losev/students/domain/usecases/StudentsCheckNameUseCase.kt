@@ -8,4 +8,8 @@ class StudentsCheckNameUseCase(private val nameRepository: NameRepository): Stud
     suspend fun checkFirstName(firstName: String) {
         nameRepository.checkFirstName(firstName)
     }
+
+    suspend fun checkName(name: String) {
+        nameRepository.checkName(name)
+    }
 }

@@ -4,7 +4,6 @@ import dmitriy.losev.database.domain.usecases.contacts.DatabaseAddContactUseCase
 import dmitriy.losev.database.domain.usecases.contacts.DatabaseDeleteContactUseCase
 import dmitriy.losev.database.domain.usecases.contacts.DatabaseDeleteContactsUseCase
 import dmitriy.losev.database.domain.usecases.contacts.DatabaseGetContactUseCase
-import dmitriy.losev.database.domain.usecases.contacts.DatabaseGetContactsUseCase
 import dmitriy.losev.database.domain.usecases.contacts.DatabaseSaveContactUseCase
 import dmitriy.losev.database.domain.usecases.contacts.DatabaseSaveContactsUseCase
 import dmitriy.losev.database.domain.usecases.contacts.DatabaseUpdateContactUseCase
@@ -19,13 +18,11 @@ val databaseContactsUseCaseModule = module {
 
     factoryOf(::DatabaseDeleteContactUseCase)
 
-    factoryOf(::DatabaseDeleteContactsUseCase)
-
     factoryOf(::DatabaseSaveContactsUseCase)
 
     factoryOf(::DatabaseGetContactUseCase)
 
-    factoryOf(::DatabaseGetContactsUseCase)
-
     factoryOf(::DatabaseSaveContactUseCase)
+
+    factoryOf(::DatabaseDeleteContactsUseCase)
 }

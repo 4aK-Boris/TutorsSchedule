@@ -3,12 +3,14 @@ package dmitriy.losev.firebase.domain.di
 import dmitriy.losev.firebase.domain.usecases.students.FirebaseAddStudentUseCase
 import dmitriy.losev.firebase.domain.usecases.students.FirebaseDeleteFullStudentUseCase
 import dmitriy.losev.firebase.domain.usecases.students.FirebaseDeleteStudentUseCase
-import dmitriy.losev.firebase.domain.usecases.students.FirebaseGetStudentsUseCase
+import dmitriy.losev.firebase.domain.usecases.students.FirebaseGetStudentNamesUseCase
 import dmitriy.losev.firebase.domain.usecases.students.FirebaseGetStudentUseCase
+import dmitriy.losev.firebase.domain.usecases.students.FirebaseGetStudentsUseCase
 import dmitriy.losev.firebase.domain.usecases.students.FirebaseUpdateStudentUseCase
 import dmitriy.losev.firebase.domain.usecases.students.groups.FirebaseAddStudentGroupUseCase
-import dmitriy.losev.firebase.domain.usecases.students.groups.FirebaseGetAllStudentGroupsUseCase
 import dmitriy.losev.firebase.domain.usecases.students.groups.FirebaseGetLimitStudentGroupsUseCase
+import dmitriy.losev.firebase.domain.usecases.students.groups.FirebaseGetStudentGroupIdsUseCase
+import dmitriy.losev.firebase.domain.usecases.students.groups.FirebaseGetStudentGroupsUseCase
 import dmitriy.losev.firebase.domain.usecases.students.groups.FirebaseRemoveAllStudentGroupsUseCase
 import dmitriy.losev.firebase.domain.usecases.students.groups.FirebaseRemoveStudentGroupUseCase
 import dmitriy.losev.firebase.domain.usecases.students.lessons.FirebaseAddStudentLessonUseCase
@@ -38,17 +40,21 @@ val firebaseGetStudentsUseCaseModule = module {
 
     factoryOf(::FirebaseDeleteFullStudentUseCase)
 
+    factoryOf(::FirebaseGetStudentNamesUseCase)
+
     //groups
 
     factoryOf(::FirebaseAddStudentGroupUseCase)
 
-    factoryOf(::FirebaseGetAllStudentGroupsUseCase)
+    factoryOf(::FirebaseGetStudentGroupIdsUseCase)
 
     factoryOf(::FirebaseRemoveAllStudentGroupsUseCase)
 
     factoryOf(::FirebaseRemoveStudentGroupUseCase)
 
     factoryOf(::FirebaseGetLimitStudentGroupsUseCase)
+
+    factoryOf(::FirebaseGetStudentGroupsUseCase)
 
     //lessons
 

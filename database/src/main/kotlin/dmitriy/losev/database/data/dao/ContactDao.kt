@@ -12,26 +12,26 @@ import dmitriy.losev.database.data.entity.ContactEntity
 interface ContactDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addContact(contact: ContactEntity)
+    suspend fun addContact(contact: ContactEntity)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateContact(contact: ContactEntity)
+    suspend fun updateContact(contact: ContactEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveContact(contact: ContactEntity)
+    suspend fun saveContact(contact: ContactEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveContacts(contacts: List<ContactEntity>)
+    suspend fun saveContacts(contacts: List<ContactEntity>)
 
     @Delete
-    fun deleteContact(contact: ContactEntity)
+    suspend fun deleteContact(contact: ContactEntity)
 
     @Delete
-    fun deleteContacts(contacts: List<ContactEntity>)
+    suspend fun deleteContacts(contacts: List<ContactEntity>)
 
-    @Query("SELECT * FROM contacts WHERE student_id = :studentId AND id = :contactId")
-    fun getContact(studentId: String, contactId: String): ContactEntity?
+    @Query("SELECT * FROM contacts WHERE student_id = :studentId AND contact_id = :contactId")
+    suspend fun getContact(studentId: String, contactId: String): ContactEntity?
 
     @Query("SELECT * FROM contacts WHERE student_id = :studentId")
-    fun getContacts(studentId: String): List<ContactEntity>
+    suspend fun getContacts(studentId: String): List<ContactEntity>
 }

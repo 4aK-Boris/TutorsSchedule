@@ -6,10 +6,10 @@ import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.result.ActivityResult
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
+import dmitriy.losev.core.EMPTY_STRING
 import dmitriy.losev.core.models.Contact
 import dmitriy.losev.core.models.Student
 import dmitriy.losev.students.R
-import dmitriy.losev.students.core.EMPTY_STRING
 import dmitriy.losev.students.core.StudentsNavigationListener
 import dmitriy.losev.students.core.exception.CONTACT_IS_NOT_LOADING_EXCEPTION_CODE
 import dmitriy.losev.students.core.exception.ContactIsNotLoadingException
@@ -20,9 +20,9 @@ import dmitriy.losev.students.core.exception.STUDENT_IS_NOT_LOADING_EXCEPTION_CO
 import dmitriy.losev.students.core.exception.StudentIsNotLoadingException
 import dmitriy.losev.students.domain.usecases.StudentsNavigationUseCases
 import dmitriy.losev.students.domain.usecases.contact.DeleteContactUseCase
-import dmitriy.losev.students.domain.usecases.contact.GetContactsUseCase
 import dmitriy.losev.students.domain.usecases.contacts.ClearPhoneNumberUseCase
 import dmitriy.losev.students.domain.usecases.contacts.PickContactUseCase
+import dmitriy.losev.students.domain.usecases.student.GetStudentContactsUseCase
 import dmitriy.losev.students.domain.usecases.student.GetStudentUseCase
 import dmitriy.losev.students.domain.usecases.student.UpdateStudentUseCase
 import dmitriy.losev.ui.core.BaseViewModel
@@ -39,7 +39,7 @@ class UpdateStudentScreenViewModel(
     private val clearPhoneNumberUseCase: ClearPhoneNumberUseCase,
     private val updateStudentUseCase: UpdateStudentUseCase,
     private val getStudentUseCase: GetStudentUseCase,
-    private val getContactsUseCase: GetContactsUseCase,
+    private val getStudentContactsUseCase: GetStudentContactsUseCase,
     private val deleteContactUseCase: DeleteContactUseCase
 ) : BaseViewModel() {
 
@@ -209,7 +209,7 @@ class UpdateStudentScreenViewModel(
     }
 
     private fun loadContacts(studentId: String) = runOnIO {
-        safeCall { getContactsUseCase.getContacts(studentId, ::onContactsLoading) }
+        safeCall { getStudentContactsUseCase.getStudentContacts(studentId, ::onContactsLoading) }
     }
 
     private fun onStudentFirebaseLoading(student: Student) {

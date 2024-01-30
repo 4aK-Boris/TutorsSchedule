@@ -11,6 +11,14 @@ class MainStudentsScreenViewModel: BaseViewModel() {
 
     val screenState = _screenState.asStateFlow()
 
+    fun setState(isStudents: Boolean) {
+        if (isStudents) {
+            onScreenStateChanged(screenState = ScreenState.STUDENTS)
+        } else {
+            onScreenStateChanged(screenState = ScreenState.GROUPS)
+        }
+    }
+
     fun onScreenStateChanged(screenState: ScreenState) {
         _screenState.value = screenState
     }

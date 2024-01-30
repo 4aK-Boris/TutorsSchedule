@@ -1,6 +1,7 @@
 package dmitriy.losev.firebase.domain.di
 
 import dmitriy.losev.firebase.domain.usecases.groups.FirebaseAddGroupUseCase
+import dmitriy.losev.firebase.domain.usecases.groups.FirebaseDeleteFullGroupUseCase
 import dmitriy.losev.firebase.domain.usecases.groups.FirebaseDeleteGroupUseCase
 import dmitriy.losev.firebase.domain.usecases.groups.FirebaseGetGroupUseCase
 import dmitriy.losev.firebase.domain.usecases.groups.FirebaseGetGroupsUseCase
@@ -10,9 +11,13 @@ import dmitriy.losev.firebase.domain.usecases.groups.lessons.FirebaseGetAllGroup
 import dmitriy.losev.firebase.domain.usecases.groups.lessons.FirebaseRemoveAllGroupLessonsUseCase
 import dmitriy.losev.firebase.domain.usecases.groups.lessons.FirebaseRemoveGroupLessonUseCase
 import dmitriy.losev.firebase.domain.usecases.groups.students.FirebaseAddGroupStudentUseCase
-import dmitriy.losev.firebase.domain.usecases.groups.students.FirebaseGetAllGroupStudentsUseCase
-import dmitriy.losev.firebase.domain.usecases.groups.students.FirebaseRemoveAllGroupStudentsUseCase
+import dmitriy.losev.firebase.domain.usecases.groups.students.FirebaseAddGroupStudentsUseCase
+import dmitriy.losev.firebase.domain.usecases.groups.students.FirebaseDeleteGroupStudentsUseCase
+import dmitriy.losev.firebase.domain.usecases.groups.students.FirebaseGetGroupStudentIdsUseCase
+import dmitriy.losev.firebase.domain.usecases.groups.students.FirebaseGetGroupStudentNamesUseCase
+import dmitriy.losev.firebase.domain.usecases.groups.students.FirebaseGetGroupStudentsUseCase
 import dmitriy.losev.firebase.domain.usecases.groups.students.FirebaseRemoveGroupStudentUseCase
+import dmitriy.losev.firebase.domain.usecases.groups.students.FirebaseRemoveGroupStudentsUseCase
 import dmitriy.losev.firebase.domain.usecases.groups.tasks.FirebaseAddGroupTaskUseCase
 import dmitriy.losev.firebase.domain.usecases.groups.tasks.FirebaseGetAllGroupTasksUseCase
 import dmitriy.losev.firebase.domain.usecases.groups.tasks.FirebaseRemoveAllGroupTasksUseCase
@@ -34,15 +39,25 @@ val firebaseGroupsUseCaseModule = module {
 
     factoryOf(::FirebaseUpdateGroupUseCase)
 
+    factoryOf(::FirebaseDeleteFullGroupUseCase)
+
     //student
 
     factoryOf(::FirebaseAddGroupStudentUseCase)
 
-    factoryOf(::FirebaseGetAllGroupStudentsUseCase)
+    factoryOf(::FirebaseGetGroupStudentIdsUseCase)
 
-    factoryOf(::FirebaseRemoveAllGroupStudentsUseCase)
+    factoryOf(::FirebaseRemoveGroupStudentsUseCase)
 
     factoryOf(::FirebaseRemoveGroupStudentUseCase)
+
+    factoryOf(::FirebaseAddGroupStudentsUseCase)
+
+    factoryOf(::FirebaseDeleteGroupStudentsUseCase)
+
+    factoryOf(::FirebaseGetGroupStudentNamesUseCase)
+
+    factoryOf(::FirebaseGetGroupStudentsUseCase)
 
     //lessons
 

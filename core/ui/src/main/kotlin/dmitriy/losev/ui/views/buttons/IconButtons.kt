@@ -195,6 +195,28 @@ fun ContactIconButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     )
 }
 
+@Composable
+fun CheckIconButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    IconButtonWithoutBackground(
+        modifier = modifier,
+        icon = painterResource(id = R.drawable.check),
+        contentDescription = stringResource(id = R.string.check),
+        onClick = onClick,
+        shape = CircleShape
+    )
+}
+
+@Composable
+fun SecondaryEditIconButton(modifier: Modifier = Modifier, enabled: Boolean = true, onClick: () -> Unit) {
+    SecondaryIconButton(
+        icon = painterResource(id = R.drawable.edit_secondary),
+        contentDescription = stringResource(id = R.string.edit),
+        onClick = onClick,
+        enabled = enabled,
+        shape = RoundedCornerShape(size = 6.dp)
+    )
+}
+
 @Preview
 @Composable
 private fun ButtonBackPreview() {

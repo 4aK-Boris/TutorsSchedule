@@ -5,8 +5,13 @@ import dmitriy.losev.students.core.StudentsNavigationListener
 
 class StudentsNavigationUseCases: StudentsBaseUseCase() {
 
-    suspend fun navigateToStudentsScreen(studentsNavigationListener: StudentsNavigationListener) {
-        studentsNavigationListener.navigateToStudentsScreen()
+    suspend fun navigateToStudentsAndGroupsScreen(
+        studentsNavigationListener: StudentsNavigationListener,
+        isStudents: Boolean = true,
+        studentId: String? = null,
+        groupId: String? = null
+    ) {
+        studentsNavigationListener.navigateToStudentsAndGroupsScreen(isStudents, studentId, groupId)
     }
 
     suspend fun navigateToStudentScreen(studentsNavigationListener: StudentsNavigationListener, studentId: String) {
@@ -29,8 +34,24 @@ class StudentsNavigationUseCases: StudentsBaseUseCase() {
         studentsNavigationListener.navigateToAddContactScreen(studentId)
     }
 
-    suspend fun navigateToUpdateContactScreen(studentsNavigationListener: StudentsNavigationListener, studentId: String, contactId: String){
+    suspend fun navigateToUpdateContactScreen(studentsNavigationListener: StudentsNavigationListener, studentId: String, contactId: String) {
         studentsNavigationListener.navigateToUpdateContactScreen(studentId, contactId)
+    }
+
+    suspend fun navigateToAddGroupScreen(studentsNavigationListener: StudentsNavigationListener) {
+        studentsNavigationListener.navigateToAddGroupScreen()
+    }
+
+    suspend fun navigateToUpdateGroupScreen(studentsNavigationListener: StudentsNavigationListener, groupId: String) {
+        studentsNavigationListener.navigateToUpdateGroupScreen(groupId)
+    }
+
+    suspend fun navigateToGroupScreen(studentsNavigationListener: StudentsNavigationListener, groupId: String) {
+        studentsNavigationListener.navigateToGroupScreen(groupId)
+    }
+
+    suspend fun navigateToChooseStudentsScreen(studentsNavigationListener: StudentsNavigationListener, groupId: String? = null) {
+        studentsNavigationListener.navigateToChooseStudentsScreen(groupId)
     }
 
     suspend fun navigateToAuthenticationScreen(studentsNavigationListener: StudentsNavigationListener) {

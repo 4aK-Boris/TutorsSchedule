@@ -25,27 +25,18 @@ class ContactsRepositoryImpl(
         contactDao.saveContact(contactEntity)
     }
 
-    override suspend fun saveContacts(studentId: String, contacts: List<Contact>) {
-        val contactEntities = contacts.map { contact -> contactMapper.map(studentId = studentId, value = contact) }
-        contactDao.saveContacts(contactEntities)
-    }
-
     override suspend fun deleteContact(studentId: String, contactId: String) {
         contactDao.getContact(studentId, contactId)?.let { contactEntity ->
             contactDao.deleteContact(contactEntity)
         }
     }
 
-    override suspend fun deleteContacts(studentId: String) {
-        val contactEntities = contactDao.getContacts(studentId)
+    override suspend fun deleteContacts(studentId: String, contacts: List<Contact>) {
+        val contactEntities = contacts.map { contact -> contactMapper.map(studentId = studentId, value = contact) }
         contactDao.deleteContacts(contactEntities)
     }
 
     override suspend fun getContact(studentId: String, contactId: String): Contact? {
         return contactMapper.map(value = contactDao.getContact(studentId, contactId))
-    }
-
-    override suspend fun getContacts(studentId: String): List<Contact> {
-        return contactDao.getContacts(studentId).mapNotNull { contactEntity -> contactMapper.map(value = contactEntity) }
     }
 }

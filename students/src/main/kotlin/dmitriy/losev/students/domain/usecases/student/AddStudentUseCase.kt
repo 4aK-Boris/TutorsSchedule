@@ -1,12 +1,12 @@
 package dmitriy.losev.students.domain.usecases.student
 
+import dmitriy.losev.core.EMPTY_STRING
 import dmitriy.losev.core.cache.DatabaseLoader
 import dmitriy.losev.core.models.Student
 import dmitriy.losev.core.models.types.StudentType
 import dmitriy.losev.core.trimAndFirstCharToUpperCase
 import dmitriy.losev.database.domain.usecases.students.DatabaseAddStudentUseCase
 import dmitriy.losev.firebase.domain.usecases.students.FirebaseAddStudentUseCase
-import dmitriy.losev.students.core.EMPTY_STRING
 import dmitriy.losev.students.core.StudentsBaseUseCase
 
 class AddStudentUseCase(

@@ -1,7 +1,7 @@
 package dmitriy.losev.firebase.usecases.groups.students
 
 import dmitriy.losev.firebase.core.usecases.groups.BaseGroupStudentsUseCaseTest
-import dmitriy.losev.firebase.domain.usecases.groups.students.FirebaseGetAllGroupStudentsUseCase
+import dmitriy.losev.firebase.domain.usecases.groups.students.FirebaseGetGroupStudentIdsUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.koin.test.inject
@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 
 class FirebaseGetAllGroupStudentsUseCaseTest: BaseGroupStudentsUseCaseTest() {
 
-    private val firebaseGetAllGroupStudentsUseCase by inject<FirebaseGetAllGroupStudentsUseCase>()
+    private val firebaseGetGroupStudentIdsUseCase by inject<FirebaseGetGroupStudentIdsUseCase>()
 
     override suspend fun setUp() {
         logIn()
@@ -27,7 +27,7 @@ class FirebaseGetAllGroupStudentsUseCaseTest: BaseGroupStudentsUseCaseTest() {
 
         addStudents(count = count)
 
-        val actualResult = firebaseGetAllGroupStudentsUseCase.getAllStudents(GROUP_ID)
+        val actualResult = firebaseGetGroupStudentIdsUseCase.getGroupStudentIds(GROUP_ID)
 
         assertEquals(count, actualResult.size)
 

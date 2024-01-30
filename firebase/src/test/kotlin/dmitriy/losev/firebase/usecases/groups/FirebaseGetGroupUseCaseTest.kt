@@ -2,7 +2,7 @@ package dmitriy.losev.firebase.usecases.groups
 
 import com.google.firebase.auth.FirebaseUser
 import dmitriy.losev.firebase.core.exception.NullableGroupException
-import dmitriy.losev.firebase.domain.models.Group
+import dmitriy.losev.core.models.Group
 import dmitriy.losev.firebase.domain.repositories.groups.FirebaseGroupsRepository
 import dmitriy.losev.firebase.domain.usecases.groups.FirebaseGetGroupUseCase
 import dmitriy.losev.firebase.domain.usecases.user.FirebaseGetUserUseCase

@@ -1,8 +1,8 @@
 package dmitriy.losev.students.presentation.viewmodels.students
 
+import dmitriy.losev.core.EMPTY_STRING
 import dmitriy.losev.core.models.Student
 import dmitriy.losev.students.R
-import dmitriy.losev.students.core.EMPTY_STRING
 import dmitriy.losev.students.core.StudentsAndGroupsState
 import dmitriy.losev.students.core.StudentsNavigationListener
 import dmitriy.losev.students.core.exception.EMPTY_DISCORD_EXCEPTION_CODE
@@ -122,8 +122,9 @@ class StudentsScreenViewModel(
         studentsNavigationUseCases.navigateToStudentScreen(studentsNavigationListener, studentId)
     }
 
-    fun loadStudents() = runOnIOWithLoading {
-        safeCall { getStudentsUseCase.getStudents(::onFirebaseLoading, ::onDatabaseLoading) }.processing()
+    fun loadStudents(groupId: String?) = runOnIOWithLoading {
+        println(groupId)
+        safeCall { getStudentsUseCase.getStudents(groupId, ::onFirebaseLoading, ::onDatabaseLoading) }.processing()
     }
 
     fun openMenuStudentPopUp(studentId: String) = runOnIOWithLoading {

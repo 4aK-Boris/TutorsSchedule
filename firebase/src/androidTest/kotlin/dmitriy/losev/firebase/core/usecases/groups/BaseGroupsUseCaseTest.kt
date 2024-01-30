@@ -6,7 +6,7 @@ import dmitriy.losev.firebase.core.GROUPS
 import dmitriy.losev.firebase.core.exception.UserNotAuthorizationException
 import dmitriy.losev.firebase.data.dto.GroupDTO
 import dmitriy.losev.firebase.data.mappers.GroupMapper
-import dmitriy.losev.firebase.domain.models.Group
+import dmitriy.losev.core.models.Group
 import kotlinx.coroutines.tasks.await
 import org.koin.test.inject
 

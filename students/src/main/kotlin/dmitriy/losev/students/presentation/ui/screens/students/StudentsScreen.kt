@@ -1,10 +1,12 @@
 package dmitriy.losev.students.presentation.ui.screens.students
 
-import androidx.compose.foundation.background
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
@@ -13,13 +15,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import dmitriy.losev.core.models.types.StudentType
 import dmitriy.losev.students.core.StudentsAndGroupsState
 import dmitriy.losev.students.core.StudentsNavigationListener
+import dmitriy.losev.students.presentation.ui.views.AnimatedBodyHorizontal
 import dmitriy.losev.students.presentation.ui.views.ScreenTopBar
 import dmitriy.losev.students.presentation.ui.views.StudentCard
 import dmitriy.losev.students.presentation.viewmodels.students.StudentsScreenViewModel
-import dmitriy.losev.ui.theme.LocalTutorsScheduleColors
 import dmitriy.losev.ui.views.Loader
 import dmitriy.losev.ui.views.buttons.FloatingAddIconButton
 import dmitriy.losev.ui.views.popups.ArchiveStudentPopUp
@@ -28,6 +31,7 @@ import dmitriy.losev.ui.views.popups.DeleteStudentPopUp
 import dmitriy.losev.ui.views.popups.MenuStudentPopUp
 import dmitriy.losev.ui.views.popups.MessagePopUp
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun StudentsScreen(studentsNavigationListener: StudentsNavigationListener, viewModel: StudentsScreenViewModel) {
 
@@ -46,8 +50,6 @@ fun StudentsScreen(studentsNavigationListener: StudentsNavigationListener, viewM
     val filterText by viewModel.filterText.collectAsState()
 
     val isLoading by viewModel.isLoading.collectAsState()
-
-    val backgroundColor = LocalTutorsScheduleColors.current.backgroundSecondary
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -69,33 +71,32 @@ fun StudentsScreen(studentsNavigationListener: StudentsNavigationListener, viewM
         }
     ) { paddingValues ->
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues = paddingValues)
-                .background(color = backgroundColor),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            if (studentsAndGroupsState == StudentsAndGroupsState.ACTIVE) {
-                itemsIndexed(items = activeStudents) { index, student ->
-                    StudentCard(
-                        name = student.name,
-                        isNew = student.isNew,
-                        position = index + 1,
-                        openPopUp = { viewModel.openMenuStudentPopUp(studentId = student.id) },
-                        onClick = { viewModel.navigateToStudentScreen(studentsNavigationListener, student.id) }
-                    )
+        AnimatedBodyHorizontal(
+            modifier = Modifier.padding(paddingValues = paddingValues),
+            state = studentsAndGroupsState == StudentsAndGroupsState.ACTIVE
+        ) { state ->
+
+            if (state) {
+
+                StudentsLazyColumn {
+                    itemsIndexed(items = activeStudents) { index, student ->
+                        StudentCard(name = student.name,
+                            isNew = student.isNew,
+                            position = index + 1,
+                            openPopUp = { viewModel.openMenuStudentPopUp(studentId = student.id) },
+                            onClick = { viewModel.navigateToStudentScreen(studentsNavigationListener, student.id) })
+                    }
                 }
             } else {
-                itemsIndexed(items = archiveStudents) { index, student ->
-                    StudentCard(
-                        name = student.name,
-                        position = index + 1,
-                        isArchive = true,
-                        openPopUp = { viewModel.openMenuStudentPopUp(studentId = student.id) },
-                        onClick = { viewModel.navigateToStudentScreen(studentsNavigationListener, student.id) }
-                    )
+
+                StudentsLazyColumn {
+                    itemsIndexed(items = archiveStudents) { index, student ->
+                        StudentCard(name = student.name,
+                            position = index + 1,
+                            isArchive = true,
+                            openPopUp = { viewModel.openMenuStudentPopUp(studentId = student.id) },
+                            onClick = { viewModel.navigateToStudentScreen(studentsNavigationListener, student.id) })
+                    }
                 }
             }
         }
@@ -153,4 +154,16 @@ fun StudentsScreen(studentsNavigationListener: StudentsNavigationListener, viewM
         close = viewModel::closeArchiveStudentPopUp,
         move = viewModel::moveToArchive
     )
+}
+
+@Composable
+private fun StudentsLazyColumn(items: LazyListScope.() -> Unit) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        contentPadding = PaddingValues(vertical = 8.dp)
+    ) {
+        items()
+    }
 }

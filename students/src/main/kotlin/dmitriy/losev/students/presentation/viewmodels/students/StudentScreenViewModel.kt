@@ -1,9 +1,9 @@
 package dmitriy.losev.students.presentation.viewmodels.students
 
+import dmitriy.losev.core.EMPTY_STRING
 import dmitriy.losev.core.models.Contact
 import dmitriy.losev.core.models.Student
 import dmitriy.losev.students.R
-import dmitriy.losev.students.core.EMPTY_STRING
 import dmitriy.losev.students.core.StudentsNavigationListener
 import dmitriy.losev.students.core.exception.CONTACT_IS_NOT_LOADING_EXCEPTION_CODE
 import dmitriy.losev.students.core.exception.ContactIsNotLoadingException
@@ -14,12 +14,12 @@ import dmitriy.losev.students.core.exception.WHATS_APP_APPLICATION_IS_NOT_INSTAL
 import dmitriy.losev.students.domain.usecases.StudentsCheckPhoneNumberUseCase
 import dmitriy.losev.students.domain.usecases.StudentsNavigationUseCases
 import dmitriy.losev.students.domain.usecases.contact.DeleteContactUseCase
-import dmitriy.losev.students.domain.usecases.contact.GetContactsUseCase
 import dmitriy.losev.students.domain.usecases.contacts.CallPhoneUseCase
 import dmitriy.losev.students.domain.usecases.contacts.SmsUseCase
 import dmitriy.losev.students.domain.usecases.contacts.TelegramUseCase
 import dmitriy.losev.students.domain.usecases.contacts.ViberAppUseCase
 import dmitriy.losev.students.domain.usecases.contacts.WhatsAppUseCase
+import dmitriy.losev.students.domain.usecases.student.GetStudentContactsUseCase
 import dmitriy.losev.students.domain.usecases.student.GetStudentUseCase
 import dmitriy.losev.ui.core.BaseViewModel
 import dmitriy.losev.ui.core.runOnIO
@@ -32,7 +32,7 @@ import kotlinx.coroutines.flow.asStateFlow
 class StudentScreenViewModel(
     private val studentsNavigationUseCases: StudentsNavigationUseCases,
     private val getStudentUseCase: GetStudentUseCase,
-    private val getContactsUseCase: GetContactsUseCase,
+    private val getStudentContactsUseCase: GetStudentContactsUseCase,
     private val deleteContactUseCase: DeleteContactUseCase,
     private val callPhoneUseCase: CallPhoneUseCase,
     private val viberAppUseCase: ViberAppUseCase,
@@ -220,6 +220,10 @@ class StudentScreenViewModel(
         studentsNavigationUseCases.navigateToAddContactScreen(studentsNavigationListener, studentId)
     }
 
+    fun navigateToStudentsAndGroupsScreen(studentsNavigationListener: StudentsNavigationListener, studentId: String) = runOnMain {
+        studentsNavigationUseCases.navigateToStudentsAndGroupsScreen(studentsNavigationListener, isStudents = false, studentId = studentId)
+    }
+
     fun navigateToUpdateContactScreen(studentsNavigationListener: StudentsNavigationListener, studentId: String) = runOnMain {
         closeContactPopUp()
         checkContactForNullable { contact ->
@@ -241,7 +245,7 @@ class StudentScreenViewModel(
     }
 
     private fun loadContacts(studentId: String) = runOnIO {
-        safeCall { getContactsUseCase.getContacts(studentId, ::onContactsLoading) }
+        safeCall { getStudentContactsUseCase.getStudentContacts(studentId, ::onContactsLoading) }
     }
 
     private fun onStudentFirebaseLoading(student: Student) {

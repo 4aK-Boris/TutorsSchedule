@@ -35,7 +35,7 @@ class FirebaseGroupStudentsRepositoryTest : BaseRepositoryTest() {
 
         addStudents(count = count)
 
-        val actualResult = firebaseGroupStudentsRepository.getAllStudents(GROUP_ID)
+        val actualResult = firebaseGroupStudentsRepository.getStudents(GROUP_ID)
 
         assertEquals(count, actualResult.size)
 
@@ -85,7 +85,7 @@ class FirebaseGroupStudentsRepositoryTest : BaseRepositoryTest() {
 
         assertTrue(hasStudents)
 
-        firebaseGroupStudentsRepository.removeAllStudents(GROUP_ID)
+        firebaseGroupStudentsRepository.removeStudents(GROUP_ID)
 
         hasStudents = hasStudents()
 

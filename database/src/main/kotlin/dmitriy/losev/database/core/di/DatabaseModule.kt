@@ -5,7 +5,7 @@ import dmitriy.losev.database.core.DATABASE_NAME
 import dmitriy.losev.database.core.TeacherTaskDatabase
 import dmitriy.losev.database.data.di.databaseDaoModule
 import dmitriy.losev.database.data.di.databaseMapperModule
-import dmitriy.losev.database.data.di.databaseRepositoryModule
+import dmitriy.losev.database.data.di.repositories.databaseRepositoryModule
 import dmitriy.losev.database.domain.di.databaseUseCaseModule
 import org.koin.dsl.module
 
