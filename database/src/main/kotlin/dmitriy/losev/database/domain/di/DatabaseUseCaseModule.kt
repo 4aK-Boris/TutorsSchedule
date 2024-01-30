@@ -7,6 +7,7 @@ val databaseUseCaseModule = module {
     includes(
         databaseSubjectsUseCaseModule,
         databaseStudentsUseCaseModule,
-        databaseContactsUseCaseModule
+        databaseContactsUseCaseModule,
+        databaseGroupsUseCaseModule
     )
 }

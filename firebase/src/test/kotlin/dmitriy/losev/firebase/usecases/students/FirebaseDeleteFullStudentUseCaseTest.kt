@@ -4,7 +4,7 @@ import dmitriy.losev.firebase.domain.usecases.groups.students.FirebaseRemoveGrou
 import dmitriy.losev.firebase.domain.usecases.lessons.FirebaseDeleteFullLessonUseCase
 import dmitriy.losev.firebase.domain.usecases.students.FirebaseDeleteFullStudentUseCase
 import dmitriy.losev.firebase.domain.usecases.students.FirebaseDeleteStudentUseCase
-import dmitriy.losev.firebase.domain.usecases.students.groups.FirebaseGetAllStudentGroupsUseCase
+import dmitriy.losev.firebase.domain.usecases.students.groups.FirebaseGetStudentGroupIdsUseCase
 import dmitriy.losev.firebase.domain.usecases.students.lessons.FirebaseGetAllStudentLessonsUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test
 class FirebaseDeleteFullStudentUseCaseTest {
 
     private val firebaseGetAllStudentLessonsUseCase = mockk<FirebaseGetAllStudentLessonsUseCase>()
-    private val firebaseGetAllStudentGroupsUseCase = mockk<FirebaseGetAllStudentGroupsUseCase>()
+    private val firebaseGetStudentGroupIdsUseCase = mockk<FirebaseGetStudentGroupIdsUseCase>()
     private val firebaseDeleteStudentUseCase = mockk<FirebaseDeleteStudentUseCase>(relaxed = true)
     private val firebaseDeleteFullLessonUseCase = mockk<FirebaseDeleteFullLessonUseCase>(relaxed = true)
     private val firebaseRemoveGroupStudentUseCase = mockk<FirebaseRemoveGroupStudentUseCase>(relaxed = true)
@@ -25,7 +25,7 @@ class FirebaseDeleteFullStudentUseCaseTest {
 
     private val firebaseDeleteFullStudentUseCase = FirebaseDeleteFullStudentUseCase(
         firebaseGetAllStudentLessonsUseCase,
-        firebaseGetAllStudentGroupsUseCase,
+        firebaseGetStudentGroupIdsUseCase,
         firebaseDeleteStudentUseCase,
         firebaseDeleteFullLessonUseCase,
         firebaseRemoveGroupStudentUseCase
@@ -34,12 +34,12 @@ class FirebaseDeleteFullStudentUseCaseTest {
     @Test
     fun testDeleteFullStudent() = runBlocking {
 
-        coEvery { firebaseGetAllStudentGroupsUseCase.getAllGroups(STUDENT_ID) } returns groups
+        coEvery { firebaseGetStudentGroupIdsUseCase.getGroupIds(STUDENT_ID) } returns groups
         coEvery { firebaseGetAllStudentLessonsUseCase.getAllLessons(STUDENT_ID) } returns lessons
 
         firebaseDeleteFullStudentUseCase.deleteFullStudent(STUDENT_ID)
 
-        coVerify { firebaseGetAllStudentGroupsUseCase.getAllGroups(STUDENT_ID) }
+        coVerify { firebaseGetStudentGroupIdsUseCase.getGroupIds(STUDENT_ID) }
         coVerify { firebaseGetAllStudentLessonsUseCase.getAllLessons(STUDENT_ID) }
         coVerify(exactly = SIZE) { firebaseRemoveGroupStudentUseCase.removeStudent(GROUP_ID, STUDENT_ID) }
         coVerify(exactly = SIZE) { firebaseDeleteFullLessonUseCase.deleteFullLesson(LESSON_ID) }

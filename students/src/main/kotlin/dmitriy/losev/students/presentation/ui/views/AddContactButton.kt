@@ -9,15 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dmitriy.losev.students.R
 import dmitriy.losev.ui.theme.LocalTutorsScheduleColors
 import dmitriy.losev.ui.views.Title2Text
 import dmitriy.losev.ui.views.buttons.FloatingAddIconButton
 
 @Composable
-fun AddContactButton(onClick: () -> Unit) {
+internal fun AddButton(title: String, onClick: () -> Unit) {
 
     val backgroundColor = LocalTutorsScheduleColors.current.backgroundPrimary
 
@@ -33,7 +31,7 @@ fun AddContactButton(onClick: () -> Unit) {
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
         ) {
-            Title2Text(text = stringResource(id = R.string.add_contact), modifier = Modifier.align(alignment = Alignment.CenterStart))
+            Title2Text(text = title, modifier = Modifier.align(alignment = Alignment.CenterStart))
 
             FloatingAddIconButton(onClick = onClick, modifier = Modifier.align(alignment = Alignment.CenterEnd))
         }

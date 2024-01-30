@@ -35,7 +35,7 @@ class FirebaseStudentGroupsRepositoryTest : BaseRepositoryTest() {
 
         addGroups(count = count)
 
-        val actualResult = firebaseStudentGroupsRepository.getAllGroups(STUDENT_ID)
+        val actualResult = firebaseStudentGroupsRepository.getGroups(STUDENT_ID)
 
         assertEquals(count, actualResult.size)
 

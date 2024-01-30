@@ -57,7 +57,7 @@ class FirebaseGroupTasksRepositoryTest {
         every { dataSnapshotResult.getValue(Boolean::class.java) } returns true
         every { dataSnapshotResult.key } returns TASK_ID
 
-        val actualResult = firebaseGroupTaskRepository.getAllTasks(GROUP_ID)
+        val actualResult = firebaseGroupTaskRepository.getTasks(GROUP_ID)
 
         verifyOrder {
             reference.child(GROUPS)
@@ -116,7 +116,7 @@ class FirebaseGroupTasksRepositoryTest {
 
         every { tasksReference.removeValue() } returns task
 
-        firebaseGroupTaskRepository.removeAllTasks(GROUP_ID)
+        firebaseGroupTaskRepository.removeTasks(GROUP_ID)
 
         verifySequence {
             reference.child(GROUPS)

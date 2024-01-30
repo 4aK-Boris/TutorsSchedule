@@ -16,4 +16,8 @@ val studentModule = module {
         studentsRepositoryModule,
         studentsConverterModule
     )
+
+    single {
+        StudentsHandler()
+    }
 }

@@ -1,6 +1,7 @@
 package dmitriy.losev.firebase.domain.repositories.students
 
 import dmitriy.losev.core.models.Student
+import dmitriy.losev.core.models.StudentName
 
 interface FirebaseStudentsRepository {
 
@@ -13,4 +14,6 @@ interface FirebaseStudentsRepository {
     suspend fun deleteStudent(teacherId: String, studentId: String)
 
     suspend fun getStudents(teacherId: String): List<Student>
+
+    suspend fun getStudentNames(teacherId: String): List<StudentName>
 }

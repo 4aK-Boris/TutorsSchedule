@@ -18,7 +18,7 @@ class FirebaseRemoveAllGroupTasksUseCaseTest {
 
         firebaseRemoveAllGroupTasksUseCase.removeAllTasks(GROUP_ID)
 
-        coVerify { firebaseGroupTasksRepository.removeAllTasks(GROUP_ID) }
+        coVerify { firebaseGroupTasksRepository.removeTasks(GROUP_ID) }
     }
 
     companion object {

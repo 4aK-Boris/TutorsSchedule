@@ -11,23 +11,26 @@ import dmitriy.losev.database.data.entity.SubjectEntity
 interface SubjectDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addSubject(subject: SubjectEntity)
+    suspend fun addSubject(subject: SubjectEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun updateSubject(subject: SubjectEntity)
+    suspend fun updateSubject(subject: SubjectEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveSubject(subject: SubjectEntity)
+    suspend fun saveSubject(subject: SubjectEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveSubjects(subjects: List<SubjectEntity>)
+    suspend fun saveSubjects(subjects: List<SubjectEntity>)
 
     @Delete
-    fun deleteSubject(subject: SubjectEntity)
+    suspend fun deleteSubject(subject: SubjectEntity)
 
-    @Query("SELECT * FROM subjects WHERE id = :subjectId")
-    fun getSubject(subjectId: String): SubjectEntity?
+    @Delete
+    suspend fun deleteSubjects(subjects: List<SubjectEntity>)
+
+    @Query("SELECT * FROM subjects WHERE subject_id = :subjectId")
+    suspend fun getSubject(subjectId: String): SubjectEntity?
 
     @Query("SELECT * FROM subjects")
-    fun getSubjects(): List<SubjectEntity>
+    suspend fun getSubjects(): List<SubjectEntity>
 }

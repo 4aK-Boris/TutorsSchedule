@@ -1,6 +1,6 @@
 package dmitriy.losev.firebase.domain.repositories.groups
 
-import dmitriy.losev.firebase.domain.models.Group
+import dmitriy.losev.core.models.Group
 
 interface FirebaseGroupsRepository {
 

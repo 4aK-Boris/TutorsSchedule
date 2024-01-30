@@ -16,3 +16,6 @@ internal class ViberApplicationIsNotInstalledException: BaseException(extraError
 internal class SkypeApplicationIsNotInstalledException: BaseException(extraErrorCode = SKYPE_APPLICATION_IS_NOT_INSTALLED_EXCEPTION_CODE)
 internal class TelegramApplicationIsNotInstalledException: BaseException(extraErrorCode = TELEGRAM_APPLICATION_IS_NOT_INSTALLED_EXCEPTION_CODE)
 internal class EmptyFirstNameException: BaseException(extraErrorCode = EMPTY_FIRST_NAME_EXCEPTION_CODE)
+internal class EmptyNameException : BaseException(extraErrorCode = EMPTY_NAME_EXCEPTION_CODE)
+internal class EmptyStudentsException : BaseException(extraErrorCode = EMPTY_STUDENTS_EXCEPTION_CODE)
+internal class GroupIsNotLoadingException : BaseException(extraErrorCode = GROUP_IS_NOT_LOADING_EXCEPTION_CODE)

@@ -11,20 +11,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dmitriy.losev.ui.R
 import dmitriy.losev.ui.core.EMAIL_FIELD_HINT
 import dmitriy.losev.ui.core.EMAIL_FIELD_TEXT
 import dmitriy.losev.ui.core.EMAIL_FIELD_TITLE
@@ -33,7 +29,7 @@ import dmitriy.losev.ui.theme.LocalTutorsScheduleColors
 import dmitriy.losev.ui.theme.LocalTutorsScheduleShapes
 import dmitriy.losev.ui.theme.LocalTutorsScheduleTypography
 import dmitriy.losev.ui.theme.TutorsScheduleTheme
-import dmitriy.losev.ui.views.buttons.SecondaryIconButton
+import dmitriy.losev.ui.views.buttons.SecondaryEditIconButton
 
 @Composable
 fun Title1Text(text: String, modifier: Modifier = Modifier) {
@@ -48,7 +44,7 @@ fun Title2Text(modifier: Modifier = Modifier, text: String) {
     val style = LocalTutorsScheduleTypography.current.title2
     val color = LocalTutorsScheduleColors.current.textPrimary
 
-    Text(modifier = modifier, text = text, style = style, color = color, maxLines = 3)
+    Text(modifier = modifier, text = text, style = style, color = color, maxLines = 3, overflow = TextOverflow.Ellipsis)
 }
 
 @Composable
@@ -150,13 +146,7 @@ fun EditableText(title: String, text: String, hint: String, iconEnabled: Boolean
 
             Title2Text(text = title)
 
-            SecondaryIconButton(
-                icon = painterResource(id = R.drawable.edit_secondary),
-                contentDescription = stringResource(id = R.string.edit),
-                onClick = onClick,
-                enabled = iconEnabled,
-                shape = RoundedCornerShape(size = 6.dp)
-            )
+            SecondaryEditIconButton(enabled = iconEnabled, onClick = onClick)
         }
 
         VerticalSpacer(height = 12.dp)

@@ -6,24 +6,27 @@ import dmitriy.losev.firebase.core.TASKS
 import dmitriy.losev.firebase.domain.repositories.groups.FirebaseGroupTasksRepository
 import kotlinx.coroutines.tasks.await
 
-class FirebaseGroupTasksRepositoryImpl(reference: DatabaseReference): FirebaseGroupTasksRepository {
-    
-    private val groupTasks by lazy { reference.child(GROUPS) }
-    override suspend fun getAllTasks(groupId: String): List<String> {
-        return groupTasks.child(groupId).child(TASKS).get().await().children
+class FirebaseGroupTasksRepositoryImpl(private val reference: DatabaseReference): FirebaseGroupTasksRepository {
+
+    override suspend fun getTasks(teacherId: String, groupId: String): List<String> {
+        return getGroupTasksReference(teacherId, groupId).get().await().children
             .filter { dataSnapshot -> dataSnapshot.getValue(Boolean::class.java) == true }
             .mapNotNull { dataSnapshot -> dataSnapshot.key }
     }
 
-    override suspend fun addTask(groupId: String, taskId: String) {
-        groupTasks.child(groupId).child(TASKS).child(taskId).setValue(true).await()
+    override suspend fun addTask(teacherId: String, groupId: String, taskId: String) {
+        getGroupTasksReference(teacherId, groupId).child(taskId).setValue(true).await()
     }
 
-    override suspend fun removeTask(groupId: String, taskId: String) {
-        groupTasks.child(groupId).child(TASKS).child(taskId).removeValue().await()
+    override suspend fun removeTask(teacherId: String, groupId: String, taskId: String) {
+        getGroupTasksReference(teacherId, groupId).child(taskId).removeValue().await()
     }
 
-    override suspend fun removeAllTasks(groupId: String) {
-        groupTasks.child(groupId).child(TASKS).removeValue().await()
+    override suspend fun removeTasks(teacherId: String, groupId: String) {
+        getGroupTasksReference(teacherId, groupId).removeValue().await()
+    }
+
+    private fun getGroupTasksReference(teacherId: String, groupId: String): DatabaseReference {
+        return reference.child(teacherId).child(GROUPS).child(groupId).child(TASKS)
     }
 }

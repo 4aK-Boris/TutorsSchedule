@@ -57,7 +57,7 @@ class FirebaseStudentGroupsRepositoryTest {
         every { dataSnapshotResult.getValue(Boolean::class.java) } returns true
         every { dataSnapshotResult.key } returns GROUP_ID
 
-        val actualResult = firebaseStudentGroupRepository.getAllGroups(STUDENT_ID)
+        val actualResult = firebaseStudentGroupRepository.getGroups(STUDENT_ID)
 
         verifyOrder {
             reference.child(STUDENTS)

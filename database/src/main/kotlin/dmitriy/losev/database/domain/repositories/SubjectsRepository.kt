@@ -14,6 +14,8 @@ interface SubjectsRepository {
 
     suspend fun deleteSubject(subjectId: String)
 
+    suspend fun deleteSubjects(subjects: List<Subject>)
+
     suspend fun getSubject(subjectId: String): Subject?
 
     suspend fun getSubjects(): List<Subject>

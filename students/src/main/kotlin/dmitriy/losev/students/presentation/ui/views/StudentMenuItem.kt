@@ -15,7 +15,7 @@ import dmitriy.losev.ui.views.Title2Text
 import dmitriy.losev.ui.views.buttons.MoreIconButton
 
 @Composable
-fun StudentMenuItem(title: String, onClick: () -> Unit, onMenuClick: () -> Unit) {
+fun StudentMenuItem(title: String, onClick: () -> Unit = { }, onMenuClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

@@ -1,8 +1,8 @@
 package dmitriy.losev.students.presentation.viewmodels.contact
 
+import dmitriy.losev.core.EMPTY_STRING
 import dmitriy.losev.core.models.Contact
 import dmitriy.losev.students.R
-import dmitriy.losev.students.core.EMPTY_STRING
 import dmitriy.losev.students.core.StudentsNavigationListener
 import dmitriy.losev.students.core.exception.EMPTY_PHONE_NUMBER_EXCEPTION_CODE
 import dmitriy.losev.students.core.exception.SKYPE_APPLICATION_IS_NOT_INSTALLED_EXCEPTION_CODE

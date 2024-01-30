@@ -1,9 +1,9 @@
 package dmitriy.losev.database.domain.usecases.students
 
 import dmitriy.losev.database.core.DatabaseBaseUseCase
-import dmitriy.losev.database.domain.repositories.StudentsRepository
+import dmitriy.losev.database.domain.repositories.students.StudentsRepository
 
-class DatabaseDeleteStudentUseCase(private val studentsRepository: StudentsRepository, ): DatabaseBaseUseCase() {
+class DatabaseDeleteStudentUseCase(private val studentsRepository: StudentsRepository): DatabaseBaseUseCase() {
 
     suspend fun deleteStudent(studentId: String) {
         studentsRepository.deleteStudent(studentId)

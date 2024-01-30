@@ -6,29 +6,39 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import dmitriy.losev.database.data.dto.StudentNameDTO
 import dmitriy.losev.database.data.entity.StudentEntity
 
 @Dao
 interface StudentDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addStudent(student: StudentEntity)
+    suspend fun addStudent(student: StudentEntity)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateStudent(student: StudentEntity)
+    suspend fun updateStudent(student: StudentEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveStudent(student: StudentEntity)
+    suspend fun saveStudent(student: StudentEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveStudents(students: List<StudentEntity>)
+    suspend fun saveStudents(students: List<StudentEntity>)
 
     @Delete
-    fun deleteStudent(student: StudentEntity)
+    suspend fun deleteStudent(student: StudentEntity)
 
-    @Query("SELECT * FROM students WHERE id = :studentId")
-    fun getStudent(studentId: String): StudentEntity?
+    @Delete
+    suspend fun deleteStudents(students: List<StudentEntity>)
+
+    @Query("SELECT * FROM students WHERE student_id = :studentId")
+    suspend fun getStudent(studentId: String): StudentEntity?
 
     @Query("SELECT * FROM students")
-    fun getStudents(): List<StudentEntity>
+    suspend fun getStudents(): List<StudentEntity>
+
+    @Query("SELECT student_id, first_name, last_name, patronymic FROM students WHERE student_type = 'active' OR student_type = 'new'")
+    suspend fun getStudentNames(): List<StudentNameDTO>
+
+    @Query("SELECT student_id, first_name, last_name, patronymic FROM students WHERE student_id in (:studentIds)")
+    suspend fun getStudentNames(studentIds: List<String>): List<StudentNameDTO>
 }

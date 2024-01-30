@@ -2,7 +2,7 @@ package dmitriy.losev.firebase.mappers
 
 import dmitriy.losev.firebase.data.dto.GroupDTO
 import dmitriy.losev.firebase.data.mappers.GroupMapper
-import dmitriy.losev.firebase.domain.models.Group
+import dmitriy.losev.core.models.Group
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.params.ParameterizedTest

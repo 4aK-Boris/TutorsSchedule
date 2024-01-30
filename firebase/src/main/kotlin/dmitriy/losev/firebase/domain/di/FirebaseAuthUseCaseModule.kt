@@ -2,6 +2,7 @@ package dmitriy.losev.firebase.domain.di
 
 import dmitriy.losev.firebase.domain.usecases.auth.FirebaseActivityAuthUseCase
 import dmitriy.losev.firebase.domain.usecases.auth.FirebaseAuthUseCase
+import dmitriy.losev.firebase.domain.usecases.auth.FirebaseConfiguringDatabaseUseCase
 import dmitriy.losev.firebase.domain.usecases.auth.FirebaseEmailAuthUseCase
 import dmitriy.losev.firebase.domain.usecases.auth.FirebaseEmailRegistrationUseCase
 import dmitriy.losev.firebase.domain.usecases.auth.FirebaseGoogleAuthUseCase
@@ -28,4 +29,6 @@ val firebaseAuthUseCaseModule = module {
     factoryOf(::FirebaseProviderUseCase)
 
     factoryOf(::FirebaseTokenAuthUseCase)
+
+    factoryOf(::FirebaseConfiguringDatabaseUseCase)
 }

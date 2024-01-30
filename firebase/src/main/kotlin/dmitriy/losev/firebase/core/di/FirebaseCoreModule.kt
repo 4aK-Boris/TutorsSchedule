@@ -12,23 +12,23 @@ import org.koin.dsl.module
 
 val firebaseCoreModule = module {
 
-    single {
+    single(createdAtStart = true) {
         Firebase.auth
     }
 
-    single {
+    single(createdAtStart = true)  {
         Firebase.storage(url = FIREBASE_STORAGE)
     }
 
-    single {
+    single(createdAtStart = true)  {
         Firebase.database(url = FIREBASE_DATABASE)
     }
 
-    single {
+    single  {
         get<FirebaseDatabase>().reference
     }
 
-    single {
+    single  {
         get<FirebaseStorage>().reference
     }
 }

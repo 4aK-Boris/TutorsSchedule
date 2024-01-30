@@ -9,6 +9,7 @@ import dmitriy.losev.firebase.data.mappers.PeriodMapper
 import dmitriy.losev.firebase.data.mappers.PhoneNumberMapper
 import dmitriy.losev.firebase.data.mappers.SimpleStudentMapper
 import dmitriy.losev.firebase.data.mappers.StudentMapper
+import dmitriy.losev.firebase.data.mappers.StudentNameMapper
 import dmitriy.losev.firebase.data.mappers.SubjectMapper
 import dmitriy.losev.firebase.data.mappers.TaskMapper
 import dmitriy.losev.firebase.data.mappers.UriMapper
@@ -40,4 +41,6 @@ val firebaseMapperModule = module {
     factoryOf(::PeriodMapper)
 
     factoryOf(::PhoneNumberMapper)
+
+    factoryOf(::StudentNameMapper)
 }

@@ -35,7 +35,7 @@ class FirebaseGroupTasksRepositoryTest : BaseRepositoryTest() {
 
         addTasks(count = count)
 
-        val actualResult = firebaseGroupTasksRepository.getAllTasks(GROUP_ID)
+        val actualResult = firebaseGroupTasksRepository.getTasks(GROUP_ID)
 
         assertEquals(count, actualResult.size)
 
@@ -85,7 +85,7 @@ class FirebaseGroupTasksRepositoryTest : BaseRepositoryTest() {
 
         assertTrue(hasTasks)
 
-        firebaseGroupTasksRepository.removeAllTasks(GROUP_ID)
+        firebaseGroupTasksRepository.removeTasks(GROUP_ID)
 
         hasTasks = hasTasks()
 

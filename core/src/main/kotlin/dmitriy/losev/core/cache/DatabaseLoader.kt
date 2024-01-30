@@ -25,10 +25,11 @@ interface DatabaseLoader {
         }
     }
 
-    suspend fun <T : BaseModel> loadAllData(
+    suspend fun <T> loadAllData(
         loadFromFirebase: suspend () -> List<T>,
         loadFromDatabase: suspend () -> List<T>,
         saveToDatabase: suspend (List<T>) -> Unit,
+        deleteFromDatabase: suspend (List<T>) -> Unit,
         onFirebaseLoading: (List<T>) -> Unit,
         onDatabaseLoading: (List<T>) -> Unit
     ): Unit = coroutineScope {
@@ -37,20 +38,52 @@ interface DatabaseLoader {
         val databaseData = databaseJob.await()
         onDatabaseLoading(databaseData)
         val firebaseData = firebaseJob.await()
-        if (firebaseData != databaseData) {
+        if (firebaseData != databaseData || firebaseData.isEmpty()) {
             onFirebaseLoading(firebaseData)
-            saveToDatabase(firebaseData)
+            val firebaseSet = firebaseData.toSet()
+            val databaseSet = databaseData.toSet()
+            val saveData = firebaseSet.minus(databaseSet)
+            val deleteData = databaseSet.minus(firebaseSet)
+            saveToDatabase(saveData.toList())
+            deleteFromDatabase(deleteData.toList())
+        }
+    }
+
+    suspend fun <T : BaseModel> loadAllDataWithoutSave(
+        loadFromFirebase: suspend () -> List<T>,
+        loadFromDatabase: suspend () -> List<T>,
+        onFirebaseLoading: (List<T>) -> Unit,
+        onDatabaseLoading: (List<T>) -> Unit
+    ): Unit = coroutineScope {
+        val firebaseJob = asyncOnIO { loadFromFirebase() }
+        val databaseJob = asyncOnIO { loadFromDatabase() }
+        val databaseData = databaseJob.await()
+        onDatabaseLoading(databaseData)
+        val firebaseData = firebaseJob.await()
+        if (firebaseData != databaseData || firebaseData.isEmpty()) {
+            onFirebaseLoading(firebaseData)
         }
     }
 
     suspend fun <T : BaseModel> addData(
         data: T,
         addToFirebase: suspend (T) -> String,
-        addToDatabase: suspend (T) -> Unit,
-    ): Unit = coroutineScope {
+        addToDatabase: suspend (T) -> Unit
+    ): String = coroutineScope {
         val id = addToFirebase(data)
         data.id = id
         addToDatabase(data)
+        return@coroutineScope id
+    }
+
+    suspend fun addData(
+        addToFirebase: suspend () -> Unit,
+        addToDatabase: suspend () -> Unit
+    ): Unit = coroutineScope {
+        val firebaseJob = launchOnIO { addToFirebase() }
+        val databaseJob = launchOnIO { addToDatabase() }
+        databaseJob.join()
+        firebaseJob.join()
     }
 
     suspend fun <T : BaseModel> updateData(

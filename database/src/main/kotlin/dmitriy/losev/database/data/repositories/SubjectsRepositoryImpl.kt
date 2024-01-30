@@ -36,6 +36,11 @@ class SubjectsRepositoryImpl(
         }
     }
 
+    override suspend fun deleteSubjects(subjects: List<Subject>) {
+        val subjectEntities = subjects.map { subject -> subjectMapper.map(value = subject) }
+        subjectDao.deleteSubjects(subjectEntities)
+    }
+
     override suspend fun getSubject(subjectId: String): Subject? {
         return subjectMapper.map(value = subjectDao.getSubject(subjectId))
     }

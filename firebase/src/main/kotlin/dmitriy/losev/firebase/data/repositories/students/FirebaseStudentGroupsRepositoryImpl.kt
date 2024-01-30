@@ -6,31 +6,34 @@ import dmitriy.losev.firebase.core.STUDENTS
 import dmitriy.losev.firebase.domain.repositories.students.FirebaseStudentGroupsRepository
 import kotlinx.coroutines.tasks.await
 
-class FirebaseStudentGroupsRepositoryImpl(reference: DatabaseReference) : FirebaseStudentGroupsRepository {
+class FirebaseStudentGroupsRepositoryImpl(private val reference: DatabaseReference) : FirebaseStudentGroupsRepository {
 
-    private val students by lazy { reference.child(STUDENTS) }
-    override suspend fun getAllGroups(studentId: String): List<String> {
-        return students.child(studentId).child(GROUPS).get().await().children
+    override suspend fun getGroups(teacherId: String, studentId: String): List<String> {
+        return getStudentGroupsReference(teacherId, studentId).get().await().children
             .filter { dataSnapshot -> dataSnapshot.getValue(Boolean::class.java) == true }
             .mapNotNull { dataSnapshot -> dataSnapshot.key }
 
     }
 
-    override suspend fun getLimitGroups(studentId: String, count: Int): List<String> {
-        return students.child(studentId).child(GROUPS).limitToFirst(count).get().await().children
+    override suspend fun getLimitGroups(teacherId: String, studentId: String, count: Int): List<String> {
+        return getStudentGroupsReference(teacherId, studentId).limitToFirst(count).get().await().children
             .filter { dataSnapshot -> dataSnapshot.getValue(Boolean::class.java) == true }
             .mapNotNull { dataSnapshot -> dataSnapshot.key }
     }
 
-    override suspend fun addGroup(studentId: String, groupId: String) {
-        students.child(studentId).child(GROUPS).child(groupId).setValue(true)
+    override suspend fun addGroup(teacherId: String, studentId: String, groupId: String) {
+        getStudentGroupsReference(teacherId, studentId).child(groupId).setValue(true)
     }
 
-    override suspend fun removeGroup(studentId: String, groupId: String) {
-        students.child(studentId).child(GROUPS).child(groupId).removeValue()
+    override suspend fun removeGroup(teacherId: String, studentId: String, groupId: String) {
+        getStudentGroupsReference(teacherId, studentId).child(groupId).removeValue()
     }
 
-    override suspend fun removeAllGroups(studentId: String) {
-        students.child(studentId).child(GROUPS).removeValue()
+    override suspend fun removeAllGroups(teacherId: String, studentId: String) {
+        getStudentGroupsReference(teacherId, studentId).removeValue()
+    }
+
+    private fun getStudentGroupsReference(teacherId: String, studentId: String): DatabaseReference {
+        return reference.child(teacherId).child(STUDENTS).child(studentId).child(GROUPS)
     }
 }

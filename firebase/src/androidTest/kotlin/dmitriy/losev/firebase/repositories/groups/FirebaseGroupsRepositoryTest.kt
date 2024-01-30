@@ -6,7 +6,7 @@ import dmitriy.losev.firebase.core.BaseRepositoryTest
 import dmitriy.losev.firebase.core.GROUPS
 import dmitriy.losev.firebase.data.dto.GroupDTO
 import dmitriy.losev.firebase.data.mappers.GroupMapper
-import dmitriy.losev.firebase.domain.models.Group
+import dmitriy.losev.core.models.Group
 import dmitriy.losev.firebase.domain.repositories.groups.FirebaseGroupsRepository
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await

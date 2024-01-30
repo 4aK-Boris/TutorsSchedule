@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.storage.ktx)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.appcheck.debug)
 
     implementation(project(":core"))
     implementation(project(":exception"))
